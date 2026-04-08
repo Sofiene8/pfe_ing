@@ -1,0 +1,63 @@
+{if $id=='City'}
+<input id="{$id}" type="text" value="{$value}" class="stateSelection form-control " name="{if $complexField}{$complexField}[{$id}][{$complexStep}]{elseif $parentID}{$parentID}[{$id}]{else}{$id}{/if}"  onkeypress="getcitiesList(this);" />
+
+
+{else}
+<input id="{$id}" type="text" value="{$value}" class="form-control " name="{if $complexField}{$complexField}[{$id}][{$complexStep}]{elseif $parentID}{$parentID}[{$id}]{else}{$id}{/if}" />
+{/if}
+{javascript}
+<script type="text/javascript">
+function getcitiesList(id) {
+
+    // Auto complete
+    var options = {
+        minLength: 0,
+        source: function( request, response ) {
+            var city_name = $(id).val();
+			var state_sid =$("#state option:selected").val();
+			
+			//var state_sid = $('#state').value;
+			//alert("gggggggggg"+state_sid);
+		/*	 $.post('', {
+                'action': 'autocompleteCities',
+                'city_name': city_name,
+                'state_sid':state_sid,
+            },*/
+       $.ajax( {
+         
+          method: 'post',
+          dataType: "json",
+          data: {
+		   'action': 'autocompleteCities',
+            term: request.term,
+            'city_name':city_name,
+			'state_sid':state_sid,
+          },
+          success: function( data ) {
+		  
+            response( data );
+
+          }
+        });
+      },
+       focus: function( event, ui ) {
+		    $(this).parent().parent().find(".city_hidden_value").val(ui.item.value); 
+           $(this).val(ui.item.label);
+           return false;
+       },
+       select: function( event, ui ) {
+            $(this).parent().parent().find(".city_hidden_value").val(ui.item.value); 
+            $(this).val(ui.item.label);
+
+            $(this).unbind("change");
+            return false;
+       }
+   }
+
+   $('body').on('keypress.autocomplete', '.stateSelection', function() {
+       $(this).autocomplete(options);
+   });
+
+}
+</script>
+{/javascript}

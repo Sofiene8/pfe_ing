@@ -1,0 +1,89 @@
+.dashboard {
+    .panel {
+        margin: 5px 0 25px 0;
+        max-width: 350px;
+    }
+
+    .panel-body {
+        padding: 16px 0;
+        font-size: 20px;
+    }
+}
+
+.tab-pane.active {
+    display: block;
+}
+.tab-pane {
+    display: none;
+}
+.tab-pane .box {
+    margin-bottom: 15px;
+}
+.tab-pane a {
+    text-decoration: none;
+}
+
+.widget-panel {
+    padding: 40px 20px;
+    border-radius: 4px;
+    position: relative;
+    margin-bottom: 20px;
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.06),0 1px 0 0 rgba(0,0,0,0.02);
+    background: #fff;
+}
+
+.widget-style-2 {
+    padding-left: 30px;
+    height: 170px;
+
+    h2 {
+        font-weight: 600;
+        font-size: 36px;
+    }
+
+    .icon-img,
+    i {
+        font-size: 64px;
+        float: right;
+        padding: 35px 35px 15px 0;
+        margin-top: -25px;
+        margin-right: -20px;
+    }
+
+    .icon-img {
+        img {
+            position: relative;
+            top: -13px;
+            max-width: 68px;
+            width: 68px;
+            height: 85px;
+            left: 7px;
+        }
+    }
+
+    .fa-usd {
+        color: #009688;
+        position: relative;
+        left: -15px;
+    }
+
+    .fa-briefcase {
+        color: #ad86df;
+    }
+
+    .fa-paper-plane-o {
+        color: #a1a1a1;
+    }
+
+    .ion-ios7-email {
+        color: #344860;
+        font-size: 78px;
+        left: -2px;
+    }
+
+    .fa-user {
+        color: #3f51b5;
+        position: relative;
+        margin-right: -10px;
+    }
+}

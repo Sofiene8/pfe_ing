@@ -1,0 +1,19 @@
+<?php
+
+$protocol = 'http://';
+if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+    $protocol = 'https://';
+return array(
+    'HTTPHOST' => '',
+    'BASEURL' => '/tanitV7',
+    'DBHOST' => 'localhost',
+    'DBNAME' => 'tanitV7',
+    'DBUSER' => 'tanitV7',
+    'DBPASSWORD' => 'Jl4@i76f',
+    'DBADAPTER' => 'Pdo_Mysql',
+    'MYSQL_CHARSET' => 'utf8',
+    'SITE_URL' => $protocol . $_SERVER['HTTP_HOST'] . '/tanitV7',
+    'USER_SITE_URL' => $protocol . $_SERVER['HTTP_HOST'] . '/tanitV7',
+    'ADMIN_SITE_URL' => $protocol . $_SERVER['HTTP_HOST'] . '/tanitV7/admin',
+    'IGNORE_INSTALLER' => true,
+);

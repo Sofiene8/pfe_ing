@@ -1,0 +1,326 @@
+.banner {
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+
+    > div {
+        display: inline-block;
+    }
+
+    &--bottom,
+    &--top {
+        text-align: center;
+        padding: 0 15px;
+        min-height: 90px;
+        height: auto;
+        max-height: 180px;
+
+        > a {
+            display: inline-block;
+        }
+
+        img {
+            display: inline-block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        @media all and (max-width: 767px) {
+            display: none;
+        }
+    }
+
+    &--top {
+        margin: 20px 0;
+    }
+
+    &--bottom {
+        margin-bottom: 30px;
+    }
+    &--listing-details {
+        margin-bottom: 130px;
+    }
+
+    &--right {
+        float: right;
+        text-align: center;
+        width: 210px;
+        max-height: 1200px;
+        height: 100%;
+
+        @media all and (max-width: 991px) {
+            display: none;
+        }
+
+        &.banner--company-profile {
+            @media all and (max-width: 767px) {
+                display: none;
+            }
+        }
+
+    }
+
+    &--inline {
+        max-width: 100%;
+        max-height: 500px;
+        height: 100%;
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+
+        > a,
+        img {
+            display: inline-block;
+        }
+
+        img {
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto !important;
+        }
+
+        @media all and (max-width: 767px) {
+            display: none;
+        }
+    }
+}
+
+.sidebar {
+    &.with-banner {
+        padding-top: 80px;
+    }
+
+    .banner--right {
+        float: none;
+        margin: 30px auto 0;
+
+        @media all and (max-width: 767px) {
+            display: none;
+        }
+    }
+}
+
+.listing-results {
+    &.bottom_banner {
+        .details-body__left.job-preview,
+        .job-preview.sidebar {
+            margin-bottom: 50px;
+        }
+    }
+}
+
+.container--small {
+    position: relative;
+
+    &.with-banner {
+        min-height: 720px;
+        margin-bottom: 30px;
+        @media all and (min-width: 1200px) {
+            width: 1170px;
+            max-width: 1130px;
+        }
+    }
+
+    .with-banner__wrapper {
+        @media all and (min-width: 992px) {
+            width: calc(100% - 260px);
+            float: left;
+
+            .applicants {
+                width: 100%;
+            }
+            .edit-listing--action {
+                width: 210px;
+                .form-group__btns {
+                    padding-left: 0;
+                    padding-right: 0;
+                    .btn {
+                        margin-right: 0;
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+        .my-account-listings {
+            &.my-account-listings-full {
+                @media all and (min-width: 991px) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .banner--right {
+        margin-top: 25px;
+        margin-bottom: 25px;
+        &.banner--edit-profile {
+            top: 220px;
+        }
+
+        &.banner--products {
+            top: 85px;
+            right: 15px;
+        }
+
+        @media all and (max-width: 991px) {
+            display: none;
+        }
+    }
+}
+
+.with-banner__companies {
+    .details-body__search {
+        @media all and (min-width: 991px) {
+            width: calc(100% - 125px);
+            float: left;
+        }
+    }
+
+    .search-results__top {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .search-results__top,
+    .search-results__companies {
+        @media all and (min-width: 991px) {
+            max-width: 665px;
+        }
+
+        @media all and (max-width: 991px) {
+            max-width: 670px;
+        }
+
+    }
+
+    .results__companies {
+        @media all and (min-width: 991px) {
+            text-align: center;
+        }
+    }
+
+    .featured-company {
+        @media all and (min-width: 991px) {
+            float: none;
+        }
+    }
+
+    .search-results__companies .featured-company:nth-child(2n) {
+        @media all and (min-width: 991px) {
+            margin-right: 0;
+        }
+    }
+
+    .search-results__companies .featured-company:nth-child(3) {
+        @media all and (min-width: 991px) {
+            margin-top: 13px;
+            margin-right: 26px;
+        }
+    }
+
+    .search-results__companies .featured-company:nth-child(2n + 3) {
+        @media all and (min-width: 991px) {
+            margin-right: 26px;
+        }
+    }
+
+    .featured-company {
+        @media all and (max-width: 656px) {
+            margin-right: 0;
+        }
+    }
+
+}
+
+.right-banner {
+    float: right;
+
+    .banner--right {
+        position: static;
+        float: none;
+
+        @media all and (min-width: 767px) {
+            display: block;
+        }
+    }
+}
+
+.details-body__search {
+    .banner {
+        @media all and (max-width: 991px) {
+            display: none;
+        }
+    }
+}
+
+.listing {
+    &__featured,
+    &__latest {
+
+        .listing__title.with-banner {
+            @media all and (min-width: 991px) {
+                width: calc(100% - 135px);
+                padding-right: 15px;
+            }
+
+        }
+
+        .banner--right {
+            margin-top: -55px;
+        }
+    }
+}
+
+.with-banner__products {
+    @media all and (min-width: 1120px) {
+        width: 100% !important;
+    }
+}
+
+.product-items-wrapper {
+    &.with-banner {
+        float: left;
+        @media all and (max-width: 1120px) {
+            float: none;
+
+            .product-item:nth-child(2n) {
+                margin-right: 40px;
+            }
+
+            .product-item:nth-child(3n) {
+                margin-right: 40px;
+            }
+        }
+
+        @media all and (max-width: 991px) {
+            width: 100%;
+            .product-item:nth-child(2n) {
+                margin-right: 0;
+            }
+
+            .product-item:nth-child(3n) {
+                margin-right: 40px;
+            }
+        }
+
+        @media all and (max-width: 767px) {
+            float: none;
+            width: 100%;
+
+            .product-item:nth-child(2n) {
+                margin-right: 0;
+            }
+        }
+
+        @media all and (max-width: 680px) {
+            .product-item:nth-child(2n),
+            .product-item:nth-child(3n) {
+                margin-right: auto;
+            }
+        }
+    }
+}

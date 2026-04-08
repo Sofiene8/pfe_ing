@@ -1,0 +1,120 @@
+.panel__navigation {
+    padding-right: 0;
+
+    .panel-body {
+        margin-right: 30px;
+    }
+
+    .dd.submenu {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .submenu__inner {
+        min-width: 600px;
+    }
+}
+
+.prototype {
+    display: none !important;
+}
+
+.dd3-item > button {
+    margin-left: 30px;
+}
+
+.dd-handle {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    border: none !important;
+    background: transparent !important;
+    height: 40px !important;
+    z-index: 9;
+
+    &:hover {
+        background: #ddd;
+    }
+}
+
+.dd {
+    max-width: none !important;
+    &.submenu {
+        margin-bottom: 20px;
+    }
+}
+
+.panel .dd-list {
+    .dd-list {
+        .dd-item {
+            &:before {
+                content: '';
+                width: 30px;
+                height: 1px;
+                background: rgba(#ddd, 0.36);
+                position: absolute;
+                top: -1px;
+                left: -30px;
+            }
+
+            .page-selector.dd-content__item {
+                width: calc(32% + 10px);
+            }
+
+            .dd-content__item:first-child {
+                width: calc(32% - 20px);
+            }
+        }
+    }
+}
+
+.dd-item {
+    border-top: 1px solid rgba(#ddd, 0.36);
+
+    > button {
+        display: none;
+    }
+}
+
+.dd-dragel > .dd-item > .dd-content {
+    margin: 0;
+}
+
+.dd-content {
+    display: block;
+    height: auto;
+    margin: 5px 0;
+    padding: 5px 25px 5px 40px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    background: transparent;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: relative;
+
+    .dd-content__item {
+        width: 32%;
+        float: left;
+        margin: 0 1.5%;
+
+        &.external-link,
+        &:first-child {
+            margin: 0;
+        }
+    }
+
+    .ion-close-circled {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -8px;
+    }
+}
+
+.dd-list.dd-dragel .dd-handle {
+    @include prefix(box-shadow, none, moz webkit o ms);
+}

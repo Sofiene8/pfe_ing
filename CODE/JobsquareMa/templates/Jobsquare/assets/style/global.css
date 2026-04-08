@@ -1,0 +1,64 @@
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    font-variant-ligatures: none;
+    -webkit-font-variant-ligatures: none;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+}
+
+input, textarea, select, button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #F5F6F7;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    padding-right: 24px;
+    padding-left: 24px;
+    display: flex;
+}
+
+@media screen and (min-width: 992px) {
+    .container {
+        flex-direction: row;
+        width: 100%;
+        padding-right: 16px;
+        padding-left: 16px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .container {
+        flex-direction: row;
+        width: 1170px;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    #intercom-container {
+        display: none !important;
+    }
+}

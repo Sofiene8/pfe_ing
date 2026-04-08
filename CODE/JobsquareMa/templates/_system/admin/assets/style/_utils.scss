@@ -1,0 +1,55 @@
+@function prefix($property, $prefixes: webkit moz o ms) {
+    $vendor-prefixed-properties: transform background-clip background-size;
+    $result: ();
+
+    @each $prefix in $prefixes {
+        @if index($vendor-prefixed-properties, $property) {
+            $property: -#{$prefix}-#{$property};
+        }
+
+        $result: append($result, $property);
+    }
+
+    @return $result;
+}
+
+@function trans-prefix($transition, $prefix: moz) {
+    $prefixed: ();
+
+    @each $trans in $transition {
+        $prop-name: nth($trans, 1);
+        $vendor-prop-name: prefix($prop-name, $prefix);
+        $prop-vals: nth($trans, 2);
+        $prefixed: append($prefixed, $vendor-prop-name $prop-vals, comma);
+    }
+
+    @return $prefixed;
+}
+
+@mixin prefix($property, $value, $prefixes: ()) {
+    @each $prefix in $prefixes {
+        #{"-" + $prefix + "-" + $property}: $value;
+    }
+
+    #{$property}: $value;
+}
+
+@mixin reset-form-control($background: $input-default-bg, $border: $input-default-border, $border-focused: $input-default-border-focused) {
+    background-color: $background;
+    color: $input-default-color;
+    font-size: $font-size-base;
+    border-radius: 2px;
+    border: 1px solid $border;
+
+    @include prefix(box-shadow, none, moz ms o webkit);
+
+    &:focus {
+        border: $border-focused;
+        background: #fff;
+        box-shadow: none;
+    }
+}
+
+.nowrap {
+    white-space: nowrap !important;
+}

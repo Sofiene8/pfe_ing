@@ -1,0 +1,1219 @@
+
+
+{title}[[Edit a {$listingTypeID|escape}]]{/title}
+
+	<!--Back -->
+
+						<div class="container">
+								   
+							<div class=" text-right">
+								{if $url == "/my-resume-details/{$listing.id}/"}
+									<a href="{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}"
+									   class="btn__back btn__back_resume">
+										 &raquo; [[Back]]
+									</a>
+									{javascript}
+										<script type="text/javascript">
+											if (window.history && window.history.pushState) {
+												window.history.pushState('forward', null, '');
+												$(window).on('popstate', function() {
+													window.location.href = '{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}';
+												});
+											}
+										</script>
+									{/javascript}
+								{else}
+									{if $backPage && is_numeric($searchID)}
+										<a href="{$GLOBALS.site_url}/resumes/?searchID={$searchID}&action=search&listings_per_page={$backPage * 20}#{$listing.id}"
+										   class="btn__back btn__back_resume ">
+											&laquo; [[Back]]
+										</a>
+									{else}
+										<a href="javascript:history.go(-1)"
+										   class="btn__back btn__back_resume">
+											&laquo; [[Back]]
+										</a>
+									{/if}
+								{/if}
+							</div>
+						
+						   
+						</div>
+				
+				<!--Back -->
+
+<!-- Menu Vertical Edit CV a gauche-->
+<div class=" col-md-3">
+<nav class="sidebar">
+
+	<a class="sidebar__list-item {if $currentPage.order == 1}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Interests/{$listingSID}" aria-current="page">Intérêts Professionnels</a>
+		<a class="sidebar__list-item {if $currentPage.order == 2}is-active {/if}"  href="{$GLOBALS.site_url}/edit-resume/General/{$listingSID}">Informations  Générales</a>
+	<a class="sidebar__list-item  {if $currentPage.order == 3}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Professional/{$listingSID}">Informations  Professionnelles</a>
+	<a class="sidebar__list-item  {if $currentPage.order == 4}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Experience/{$listingSID}">Experience </a>
+	<a class="sidebar__list-item  {if $currentPage.order == 5}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Education/{$listingSID}">Education </a>
+	<a class="sidebar__list-item  {if $currentPage.order == 6}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/PresenceOnline/{$listingSID}">Présence en ligne </a>
+	<a class="sidebar__list-item  {if $currentPage.order == 7}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Downloads/{$listingSID}">Documents</a>
+	<!--<a class="sidebar__list-item  {if $currentPage.order == 8}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/CVModels/{$listingSID}">Modèle CV Tanitjobs</a>-->
+   <a class="sidebar__list-item  {if $GLOBALS.user_page_uri == '/resume/'}is-active {/if}" href=" {if $GLOBALS.user_page_uri == '/resume/'}#{else}{$GLOBALS.site_url}/resume/{$listingSID}{/if}">Visualiser CV</a>
+			
+	</nav>
+	{capture assign="updateDate"}{$update_date|date}{/capture}
+	{if !empty($updateDate)&& $updateDate!="30/11/-1"}
+	
+	<div class="pc-improve-profile-container css-8qkzbz e1l5ldaa0" {if ($today_date_3month >= $update_date_3month)}background-color: #f8d7da; border-color: #f5c6cb;"{/if} >
+	<div class="jobseeker-sidebar__profile-stats profile-stats jobseeker-sidebar__item">		
+	<div class="listing-item__info--item-date "><b>{if ($today_date_3month >= $update_date_3month)}Votre Cv n'est plus &agrave; jour!! {/if}Derni&egrave;re mise &agrave; jour</b>: 
+		<span {if ($today_date_3month < $update_date_3month) && $percentage > 89}  style="color: #83ca4e;"{elseif ($today_date_3month >= $update_date_3month)}style="color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;"{/if} >{$updateDate}</span>
+	</div>
+		
+		
+			
+</div>
+</div>
+{/if}
+	<div class="pc-improve-profile-container css-8qkzbz e1l5ldaa0" >
+	<div class="jobseeker-sidebar__profile-stats profile-stats jobseeker-sidebar__item">
+	
+	<h3 class="profile-stats__title">Améliorer votre CV</h3>
+	<p class="profile-stats__profile-views"><b>{$views}</b> Employeur{if $views > 1}s ont consulté{else} a consulté{/if} votre CV</p>
+	<!--<div class="progress-bar" progress="{$percentage}" color="#FFAB00">
+	<div class="progress-bar__inner" style="width: {$percentage}%; background: rgb(255, 171, 0);"></div>
+	</div>-->
+	<div class="meter green nostripes"> <span id="progress" style="width: {$percentage}%; background: rgb(165, 194, 66);display:block;height:15px;"></span></div>
+	<p class="profile-stats__profile-strength">Votre CV est rempli à {$percentage}%</p>
+
+	</div>
+</div>
+
+</div>
+<!---->
+<div class="resumesteps resume-info col-md-9">
+{if $today_date_3month > $update_date_3month}
+	
+<div class="css-s2dgtn e128p6kr0 alert alert-danger alert-dismissible">
+<!--<span class="css-g50631 e4y08cy0">
+<i size="20"><img src="https://85.25.214.227/projects/TanitV8//templates/Jobsquare/assets/images/icon-tanitjobs.png"></i>
+	</span>-->
+<button type="button" class="css-1v52m5x e128p6kr1 close"  data-dismiss="alert">
+<i size="16" class="css-b80bsd e19xi9jy0">
+<svg width="16" height="16" preserveAspectRatio="none" viewBox="0 0 24 24"><path fill="#B12121" d="M14.238 12L20 17.762 17.763 20 12 14.237 6.238 20 4 17.763 9.764 12 4 6.236l2.236-2.235h.002l5.763 5.762L17.764 4l2.235 2.236v.002L14.238 12z"></path></svg></i></button>
+<div>  N'attendez plus pour valoriser vos talents et publiez vos nouvelles informations. La dernière mise à jour date de plus de 3 mois! -<a href="{$GLOBALS.site_url}/edit-resume/Interests/{$listing.id}" style="color: rgb(177, 33, 33); font-weight: bold; text-decoration: underline;">Mettez votre CV à jour maintenant</a>
+</div></div>
+ 
+{/if}
+
+<div class="css-1vh6i3x exkztdf0">
+<div class="css-b9pwbv e128p6kr0">
+<div><span class="css-g50631 e4y08cy0">
+<i size="20" class="css-tjx49 e19xi9jy0"><img src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/icon-tanitjobs.png" /></i>
+</span>
+<span class="css-2m6wmx e4y08cy1"><a href="{$GLOBALS.site_url}/edit-resume/CVModels/{$listingSID}" >CV Tanitjobs</a></span>
+<!--<span class="css-uzhbcc e4y08cy2"> Choisissez un modèle et récupérez votre CV en PDF prêt à l'emploi</span>-->
+<span class="css-uzhbcc e4y08cy2"> Récupérez votre CV en PDF prêt à l'emploi</span>
+<div class="css-1xr94rl">
+<!--<a class="css-1ez1kl4 e1eq3cmo0" style="background-color:rgb(235, 128, 14);" href="{$GLOBALS.site_url}/edit-resume/CVModels/{$listingSID}">
+Choisir Modèle
+</a>-->
+{if $percentage > 89}
+<a class="css-1ez1kl4 e1eq3cmo0" href="{$GLOBALS.site_url}/my-resume-details/{$listingSID}/?action=download_pdf_version">
+[[Download PDF]]
+</a>
+{/if}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+ {if $currentPage.order == 1}
+
+	
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+	      {if $form_field.id == 'id_Resume_careerlevel'}
+	
+							{assign var=Resume_CareerLevel value=$form_field}
+         {elseif $form_field.id == "EmploymentType"}	
+					{assign var=EmploymentType value=$form_field}
+		{elseif $form_field.id == "Title"}	
+					{assign var=DesiredTitle value=$form_field}
+		{elseif $form_field.id == "JobCategory"}	
+					{assign var=JobCategory value=$form_field}
+		{elseif $form_field.id == "salary"}	
+					{assign var=salary value=$form_field}
+		{elseif $form_field.id == "id_Resume_CurrentStatus"}	
+					{assign var=id_Resume_CurrentStatus value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+		{elseif $form_field.id == "access_type"}	
+					{assign var=ResumeAccessType value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+	
+
+	<div id="resumesteps" class="resumesteps resume-info col-md-9">
+		<div class=" ">
+			
+			<div class="css-1wtdjp1 exkztdf0">
+			
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				
+				    {if $redirectBackToJobID}				
+					
+				   <div class="css-1scoqbg e128p6kr0">
+					  <div>[[Pour pouvoir postuler, veuillez mettre à jour votre CV Tanitjobs. Vous devez avoir au minimum un CV complet à 90%.]]
+					  </div>
+				  </div>
+				  {else}
+				  {include file='field_errors.tpl'}
+				  {/if}
+					<div class=" resume-bloc ">
+						<div class="section-title"><h2 class="resume_main-title">Quel est votre niveau d'experience Professionnelle?</h2></div>
+						<div class=" eh8qwvv0">
+							<div class="inner-bloc e67rya20">
+							{input property=$Resume_CareerLevel.id}
+							</div>
+						</div>
+					</div>
+					
+					<div class=" resume-bloc ">
+						<div class="section-title">
+							<h2 class="resume_main-title">À quel (s) type (s) d'emploi êtes-vous ouvert (e)?</h2>
+							
+								
+								 <span class="desc_title"> — Type d'emploi désiré</span>
+						
+				
+						  
+						</div>
+					<div class="css-pbed7v e8my37z0">
+						<div class="css-14nywfj">
+							{input property=$EmploymentType.id}
+								
+						</div>
+					</div>
+				</div>
+			<div class="section-validation-error resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quel est le nom de poste / fonction  qui décrit ce que vous recherchez?</h2>
+					 <span class="desc_title"> — Titre du poste désiré</span>
+					
+				</div>
+				   {input property=$DesiredTitle.id}
+				
+			</div>
+			<div class="section-validation-error resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quels sont les domaines d'activites qui vous intéressent?</h2>
+					 <span class="desc_title"> — Max 5</span>
+						
+					</div>
+					
+					<div class="custom-selectbox">
+						<div class="Select custom-selectbox__select  is-clearable is-searchable Select--multi">
+							<div class="Select-control">
+								
+									{input property=$JobCategory.id}
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="section-validation-error resume-bloc ">
+					<div class="section-title">
+						<h2 class="resume_main-title">Quel est le salaire minimum que vous accepteriez?</h2>
+						 <span class="desc_title"> — Ajoutez un salaire net (c-à-d, Le montant final que vous voulez recevoir après les taxes).
+							
+						</span>
+					</div>
+					<div class="css-bl1ilx e14ozvww0">
+						<div class="css-1f2c5hb e14ozvww1">
+							<div class="text-field-wrapper css-znsm0t">
+								<div class="css-1ac03ny">
+												
+									{input property=$salary.id}
+									<span class="css-wgn4vk e1gqe2o91">
+						<span> NB: </span>
+							<span class="css-1ugyivz e1gqe2o94">Le montant en Dinars Marocn</span>
+						</span>
+					
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="section-validation-error resume-bloc ">
+					<div class="section-title">
+						<h2 class="resume_main-title">Quel est votre statut actuel? </h2>
+						 <span class="desc_title"> — Pourquoi vous êtes à la recherche d'un emploi?
+							
+						</span>
+					</div>
+					<div class="custom-selectbox">
+						<div class="Select custom-selectbox__select  is-clearable is-searchable Select--single">
+							<div class="Select-control">
+								{input property=$id_Resume_CurrentStatus.id}
+							</div>
+						</div> 
+					</div>
+					<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$ResumeAccessType.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Laissez les entreprises me trouver sur Tanitjobs.com. (Recommandé)</h1>
+							<p class="css-d9v5op e1v8ucbs1">En activant cette option, vous augmenterez vos chances de vous faire chasser par les entreprises qui recherchent dans notre base de données.</p>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+	  
+					<div class="css-7oyirr">
+						<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+						<input type="submit" name="preview_listing" value="Sauvegarder et continuer" class="css-txeug1 e1eq3cmo0" id="listingPreview"/>
+					
+				</div>
+			
+			
+			</form>
+		</div>
+	</div>
+	<div class="css-1t08rlo evbdj4a0">
+		<div class="Toastify"></div>
+	</div>
+	<div></div>
+</div>
+   {elseif $currentPage.order == 2}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+			
+	      {if $form_field.id == 'Objective'}
+				{assign var=Objective value=$form_field}
+         {elseif $form_field.id == "Photo"}	
+				{assign var=Photo value=$form_field}
+		{elseif $form_field.id == "Phone"}	
+					{assign var=Phone value=$form_field}
+		{elseif $form_field.id == "Motorized"}	
+					{assign var=Motorized value=$form_field}
+					{elseif $form_field.id == "GooglePlace"}	
+					{assign var=GooglePlace value=$form_field}
+		{elseif $form_field.id == "OtherPhone"}	
+					{assign var=OtherPhone value=$form_field}
+		{elseif $form_field.id == "Licence"}	
+					{assign var=Licence value=$form_field}
+		
+		{elseif $form_field.id == "access_type"}	
+					{assign var=ResumeAccessType value=$form_field}			
+
+		{elseif $form_field.id == "Location"}	
+					{assign var=Location value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+
+
+ <div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+	<div class="css-1wtdjp1 exkztdf0">
+	
+		
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+	<div class="userphoto  resume-bloc ">
+	<div class="text-field-wrapper css-znsm0t">
+	<h2 class="resume_main-title">Photo de profil <span class="css-wgn4vk e1gqe2o91">- Inserez une photo de profil garentie une meilleur visibilité de votre CV, un CV sans photo de profil risque d'être negligé par les recruteurs.</span> </h2>
+	<div class="css-1ac03ny">
+					
+						{input property=$Photo.id}
+	</div>
+
+		</div>
+		</div>
+		<br>
+	<!--<div class="userphoto">
+		<div class="userphoto__img">
+		<div class="text-field-wrapper css-znsm0t">
+	{if $Photo.id}
+	
+	<label for="fname" class="css-ybizro ebed2s31">Photo de profil</label>
+	<div class="css-1ac03ny">
+					
+						{input property=$Photo.id}
+	</div>
+		
+	{else}
+	<div size="100" color="#808EA5" class="css-9zn6s3 e1vygdsj0">
+	<div>M</div>
+	</div>
+	{/if}
+		</div>
+	</div>
+	<div class="userphoto__content">
+	<div class="css-13tiaj0 eclq2bk0">
+	<h2 class="css-1li3g6j eclq2bk1">Photo de profil</h2>
+	</div>
+	<span class="userphoto__description">Vous pouvez télécharger une photo .jpg, .png ou .gif d'une taille maximale de 5 Mo.</span>
+
+	<div class="userphoto__cta"><input type="file" accept=".jpg, .jpeg, .png, .gif" name="Photo" id="input_file_Photo" class="css-tgm4fq e161llcf0">
+	<label class="userphoto__upload-btn css-1kqwv1a e161llcf1" for="profile-photo-file">Upload Your Photo</label>
+	</div>
+	
+	</div>
+	</div>
+	-->
+	
+	
+	<div class="section-validation-error resume-bloc ">
+			<div class="section-title"><h2 class="resume_main-title">Vos informations personnelles</h2></div>
+			<div class="css-rpi6b5 e6pv2vl0">
+			
+			    <div class="css-rpi6b5 e6pv2vl0 " style="margin-top: 20px;">
+				           
+							<div class="text-field-wrapper css-znsm0t  ">
+								<div class="css-1ac03ny ">
+									   <span class="css-tukd06 e1gqe2o92">
+						<label class="custom-selectbox__label">Objectifs et Motivations (Lettre de Motivation) </h1>
+						
+				              	</span>			
+									{input property=$Objective.id}
+									
+				
+								</div>
+							</div>
+				</div>
+			
+		</div>
+		
+	
+	
+</div>
+<div class=" resume-bloc ">
+	<div class="section-title">
+		<h2 class="resume_main-title">Votre emplacement</h2>
+	</div>
+	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					
+					<div class="css-1ac03ny">
+						{input property=$Location.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+				<div class="form-group">
+					<label class="custom-selectbox__label">Adresse</label>
+					 <span class="desc_title"> — Rue, Appt, Résidence, cité ...
+							
+						</span>
+				
+					<div class="css-1ac03ny">
+						{input property=$GooglePlace.id}
+					</div>
+					</div>
+				</div>
+		    </div>
+			
+		</div>
+	</div>
+	
+		
+		<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$Licence.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Avez-vous un permis de conduire valide? </h1>
+							<p class="css-d9v5op e1v8ucbs1">Si vous choisissez de mentionner votre permis de conduire sur votre CV, réfléchissez bien au préalable à ce que cela apporte à votre candidature et si cela est bien nécessaire pour le poste que vous cherchez.</p>
+						</div>
+						
+		</div>
+		<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$Motorized.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Êtes - vous motorisé?</h1>
+							<p class="css-d9v5op e1v8ucbs1">Prenez d’abord le temps de regarder les avantages et inconvénients à mettre en avant votre scooter, moto ou voiture sur votre CV.</p>
+						</div>
+						
+		</div>
+		
+	</div>
+	<div class="section-validation-error resume-bloc ">
+		<div class="section-title">
+			<h2 class="resume_main-title">Informations de contact</h2>
+		</div>
+		<div class="css-rpi6b5 e6pv2vl0">
+			<div class="text-field-wrapper css-znsm0t">
+			<div class="form-group">
+				<label for="mnumber" class="css-ybizro ebed2s31">Numéro de portable</label>
+				<div class="css-1ac03ny">
+					{input property=$Phone.id}
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="css-rpi6b5 e6pv2vl0">
+			<div class="text-field-wrapper css-znsm0t">
+			<div class="form-group">
+				<label for="ophone" class="css-ybizro ebed2s31">Autre télephone
+					<span class="css-y7u1of">— Optionnel</span>
+				</label>
+				<div class="css-1ac03ny">
+					{input property=$OtherPhone.id}
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="css-7oyirr">
+	  <input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Sauvegarder et continuer</button>
+	<a href="{$GLOBALS.site_url}/edit-resume/Interests/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+<div class="Toastify"></div>
+</div>
+<div>
+</div>
+</div>
+{elseif $currentPage.order == 3}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	      {if $form_field.id == 'Objective'}
+				{assign var=Objective value=$form_field}
+         {elseif $form_field.id == "id_Job_Langue"}	
+				{assign var=id_Job_Langue value=$form_field}
+		{elseif $form_field.id == "Skills"}	
+					{assign var=Skills value=$form_field}
+		{elseif $form_field.id == "Education"}	
+					{assign var=Education value=$form_field}
+		{elseif $form_field.id == "Study"}	
+					{assign var=Study value=$form_field}
+		{elseif $form_field.id == "WorkExperience"}	
+					{assign var=WorkExperience value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+		{elseif $form_field.id == "Resume"}	
+					{assign var=Resume value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+	
+		<div class="css-1wtdjp1 exkztdf0">
+			
+			
+		
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				
+				  
+				  {include file='field_errors.tpl'}
+			
+				
+			
+			<div class="resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quelles langues connaissez-vous?
+						<span class="css-wgn4vk e1gqe2o91">— Vous pouvez ajouter plusieurs</span>
+					</h2>
+				</div>
+				
+				<div name="talentLanguageForm">
+					<div class="css-eio8xc e6pv2vl3">
+						
+							{input property=$id_Job_Langue.id}
+						
+					</div>
+					</div>
+				<div>
+			</div>
+			<div class="container mt-30">
+				<div class="col-6"></div>
+			</div>
+			<div class="container mt-30">
+				<div class="col-6"></div>
+			</div>
+		</div>
+		<div class="resume-bloc ">
+			<div class="section-title">
+				<h2 class="resume_main-title">De quelles compétences, outils, technologies et domaines d'expertise disposez-vous?</h2>
+				 <span class="desc_title"> — Prenez le temps de comprendre quelles sont les compétences essentielles pour le poste auquel vous postulez.
+				</span>
+			</div>
+			<div type="full-width" class="css-41u6q2 e6pv2vl0">
+				<div class="custom-selectbox"> 
+					  {input property=$Skills.id}
+				</div>
+			</div>
+		</div>
+	<div class="upload-cv resume-bloc ">
+		<div class="section-title">
+			<h1 class="css-esj582 e12vjvm83">Télécharger votre CV</h1>
+			<span class="css-djskp8 e12vjvm82">
+				<span class="css-16ghou"> — Optionnelle</span>
+			</span>
+		</div>
+		<span class="css-vzfgfo">Fichiers accepter: <b>.docx</b>, <b>.doc</b> or <b>.pdf</b>, avec une taille maximale de 5MB</span>
+		<div class="css-6n7j50" style="position: relative;" aria-disabled="false">
+			
+		  {input property=$Resume.id}
+		  </div>
+	</div>
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider </button>
+		<a href="{$GLOBALS.site_url}/edit-resume/General/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+{elseif $currentPage.order == 4}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+		{if $form_field.id == "WorkExperience"}	
+					{assign var=WorkExperience value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+	
+		{/if} 
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+		<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+				  
+					<div class="resume-bloc " style="overflow: hidden;">
+					   <div class="section-title">
+						<h2 class="resume_main-title">Quel est le nombre d'années de votre expérience?</h2>
+						</div>
+						<div class=" eh8qwvv0">
+							<div class="inner-bloc e67rya20">
+							{input property=$Experience.id}
+							</div>
+						</div>
+					</div>
+					<div class=" resume-bloc " style="overflow: hidden;">
+					<div class="section-title">
+							<span class="css-tukd06 e1gqe2o92">
+								<h2 class="resume_main-title">Détails de l'expérience</h2>
+							</span>
+							<div>
+						       <span class="desc_title"> — <b>Important:</b> Classez vos expériences de la plus récente à la plus ancienne.
+									
+								  </span>
+								    </div>
+								  <div>
+								  
+                                 <span class="desc_title"> — 
+										Ajouter votre expérience <b>la plus récente</b> (votre dernière expérience ou votre expérience actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Expérience</b> pour ajouter d'autres.
+									</span>
+								  
+								  </div>
+				     </div>
+					 	<div  class="form-group form-group__complex field-group">
+							
+										
+
+
+    							{input property=$WorkExperience.id}
+							  </div>
+						
+				
+					</div>
+				 
+				
+	
+	
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Professional/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+{elseif $currentPage.order == 5}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+			{if $form_field.id == "Education"}	
+					{assign var=Education value=$form_field}
+		{elseif $form_field.id == "Study"}	
+					{assign var=Study value=$form_field}
+						{/if}
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+				  
+						<div class="section-validation-error resume-bloc " style="overflow: hidden;">
+						<span class="css-tukd06 e1gqe2o92"><h2 class="resume_main-title">Quel est votre niveau d'étude actuel?</h2>
+							<span class="css-wgn4vk e1gqe2o91">
+								<span> — </span>
+								<span class="css-1ugyivz e1gqe2o94">Si vous étudiez actuellement, sélectionnez votre prochain diplôme.</span>
+							</span>
+						</span>
+						<div class="inner-bloc e67rya20">
+								{input property=$Study.id}
+						</div>
+						</div>
+						<div class="section-validation-error resume-bloc " style="overflow: hidden;">
+						
+							<div class="section-title">
+								<h2 class="resume_main-title">Détails des études</h2> 
+								
+							
+							 <span class="desc_title"> — <b>Important:</b> Classez vos études de la plus récente à la plus ancienne.</span>
+							 <br>
+							 <span class="desc_title">
+										 — Ajouter votre <b>dernier diplôme </b> (votre dernière formation ou niveau d'étude actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Etude</b> pour ajouter d'autres.
+									</span>
+							 
+                                
+								  
+								   <span class="desc_title"> — Ajouter votre <b>dernier diplôme </b> (votre dernière formation ou niveau d'étude actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Etude</b> pour ajouter d'autres.</span>
+								  </div>
+							
+									<div  class="form-group form-group__complex field-group">
+									{input property=$Education.id}
+									
+								</div>
+								
+							
+						
+				        
+			</div>
+				
+	
+	
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Experience/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</div>
+</div>
+</div>
+	{elseif $currentPage.order == 6}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+			{if $form_field.id == "Linkedin_link"}	
+					{assign var=Linkedin value=$form_field}
+					{elseif $form_field.id == "Facebook_link"}	
+					{assign var=Facebook value=$form_field}
+					{elseif $form_field.id == "Twitter_link"}	
+					{assign var=Twitter value=$form_field}
+					{elseif $form_field.id == "Behance_link"}	
+					{assign var=Behance value=$form_field}
+					{elseif $form_field.id == "Instagram_link"}	
+					{assign var=Instagram value=$form_field}
+					{elseif $form_field.id == "GitHub_link"}	
+					{assign var=GitHub value=$form_field}
+					{elseif $form_field.id == "StackOverflow_link"}	
+					{assign var=StackOverflow value=$form_field}
+					{elseif $form_field.id == "YouTube_link"}	
+					{assign var=YouTube value=$form_field}
+					{elseif $form_field.id == "Blog_link"}	
+					{assign var=Blog value=$form_field}
+					{elseif $form_field.id == "Website_link"}	
+					{assign var=Website value=$form_field}
+					{elseif $form_field.id == "Other_link"}	
+					{assign var=Other value=$form_field}
+						{/if}
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+ <div class=" resume-bloc ">
+	<div class="section-title">
+		<h2 class="resume_main-title">Votre Présence en ligne</h2>
+	</div>
+	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Linkedin.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Linkedin.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Facebook.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Facebook.id}
+					</div>
+				</div>
+		    </div>
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Twitter.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Twitter.id}
+					</div>
+				</div>
+		    </div>
+				<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Instagram.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Instagram.id}
+					</div>
+				</div>
+		    </div>
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Behance.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Behance.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$GitHub.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$GitHub.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$StackOverflow.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$StackOverflow.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$YouTube.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$YouTube.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Blog.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Blog.id}
+					</div>
+				</div>
+		    </div>
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Website.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Website.id}
+					</div>
+				</div>
+		    </div>
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">{$Other.caption}</label>
+					<div class="css-1ac03ny">
+						{input property=$Other.id}
+					</div>
+				</div>
+		    </div>
+			
+			
+		</div>
+	</div>
+	
+				
+	</div>
+	
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Education/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+	
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+
+
+
+
+
+	{elseif $currentPage.order == 7}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+					{if $form_field.id == "diploma_file"}	
+					{assign var=diploma_file value=$form_field}
+					{elseif $form_field.id == "cin_file"}	
+					{assign var=cin_file value=$form_field}
+					{elseif $form_field.id == "book_file"}	
+					{assign var=book_file value=$form_field}
+					
+						{/if}
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+ <div class=" resume-bloc ">
+	<div class="section-title">
+		<h2 class="resume_main-title">Documents utiles</h2>
+	</div>
+	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="upload-cv css-6hend0 e1581u7e0">
+		<span class="css-qijrzv e12vjvm81">
+			<h1 class="css-esj582 e12vjvm83">Télécharger votre diplôme</h1>
+			<span class="css-djskp8 e12vjvm82">
+				<span class="css-16ghou"> — Optionnelle</span>
+			</span>
+		</span>
+		<span class="css-vzfgfo">Fichiers accepter: <b>.jpg</b>, <b>.jpeg</b>, <b>.png</b> or <b>.pdf</b>, avec une taille maximale de 5MB</span>
+		<div class="css-6n7j50" style="position: relative;" aria-disabled="false">
+			
+		  {input property=$diploma_file.id}
+		  </div>
+	</div>
+
+			 </div>
+			 
+			 <!--
+			 	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="upload-cv css-6hend0 e1581u7e0">
+		<span class="css-qijrzv e12vjvm81">
+			<h1 class="css-esj582 e12vjvm83">Télécharger votre CIN</h1>
+			<span class="css-djskp8 e12vjvm82">
+				<span class="css-16ghou"> — Optionnelle</span>
+			</span>
+		</span>
+		<span class="css-vzfgfo">Fichiers accepter: <b>.jpg</b>, <b>.jpeg</b>, <b>.png</b> or <b>.pdf</b>, avec une taille maximale de 5MB</span>
+		<div class="css-6n7j50" style="position: relative;" aria-disabled="false">
+			
+		  {input property=$cin_file.id}
+		  </div>
+	</div>
+
+			 </div>
+			  </div>
+			  -->
+			  	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="upload-cv css-6hend0 e1581u7e0">
+		<span class="css-qijrzv e12vjvm81">
+			<h1 class="css-esj582 e12vjvm83">Télécharger votre catalogue de réalisation(Book)</h1>
+			<span class="css-djskp8 e12vjvm82">
+				<span class="css-16ghou"> — Optionnelle</span>
+			</span>
+		</span>
+		<span class="css-vzfgfo">Fichiers accepter: <b>.jpg</b>, <b>.jpeg</b>, <b>.png</b> or <b>.pdf</b>, avec une taille maximale de 5MB</span>
+		<div class="css-6n7j50" style="position: relative;" aria-disabled="false">
+			
+		  {input property=$book_file.id}
+		  </div>
+	</div>
+
+			 </div>
+			  </div>
+			  
+			  
+			  
+			  </div>
+			  
+			  
+			  
+			   </div>
+			   
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/PresenceOnline/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+	
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>		   
+			    </div>
+				
+				
+{elseif $currentPage.order == 8}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+					{if $form_field.id == "resume_modele_sid"}	
+					{assign var=resume_modele_sid value=$form_field}
+					{elseif $form_field.id == "modele_color"}	
+					{assign var=modele_color value=$form_field}
+				
+					
+						{/if}
+      	 	
+	{/foreach}
+					
+
+<div id="resumesteps" class="resumesteps resume-info template-cv  col-md-9" >
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+			
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+ <div class=" resume-bloc ">
+	<div class="section-title">
+		<h2 class="resume_main-title">Choisissez un modèle de CV Tanitjobs</h2>
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');" id="editListingForm"{/if}>
+			<input type="hidden" name="action" value="save_info" />
+			<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+			<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+						
+			<input type="submit" value="Choisir le modèle par défaut" {if $resumeModel.sid!=0}class="active"{else}class="disabled" disabled{/if}>
+			<p>
+			<input type="hidden" value="0" name="resume_modele_sid">
+			<input type="hidden" value="0" name="modele_color">
+			<br>
+			</p>
+			</form>
+	</div>
+	<div style="width: 100%; display: table;">
+		{foreach from=$resumeModels item=model}
+			  
+		 	<div class="css-rpi6b5 e6pv2vl0">
+			<div class="custom-selectbox">
+		
+			<div class="col-md-4 {if $resumeModel.sid && $resumeModel.sid==$model.sid}selected{/if}">
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm{$model.sid}" class="form ">
+						<input type="hidden" name="action" value="save_info" />
+						<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+						<!--<input type="hidden" name="preview_listing" id="preview_listing" value="1" />-->
+						
+			<div class="background-img-template background-img-template-{$model.sid}" id="cv-{$model.sid}-miniature" {if $resumeColor.sid && $resumeModel.sid==$model.sid}  style="background-image:url('{$GLOBALS.site_url}/files/cvmodels/{$resumeColor.image}');" {else} style="background-image:url('{$GLOBALS.site_url}/files/cvmodels/cv-{$model.sid}-{$model.default_color}.png');"{/if}>
+			<input type="submit" value="{if $resumeModel.sid && $resumeModel.sid==$model.sid}&nbsp;{else}Choisir ce CV{/if}" class="hiddenhover">
+			
+			<div {if $resumeModel.sid && $resumeModel.sid==$model.sid}class="checkedcv"{/if}></div>
+			</div>
+			<p>
+			<input type="hidden" value="{if $resumeColor.sid && $resumeModel.sid==$model.sid}{$resumeColor.sid}{else}{$model.default_color_sid}{/if}" name="cv-color-selected">
+			<input type="hidden" value="{if $resumeModel.sid && $resumeModel.sid==$model.sid}{$resumeModel.sid}{else}{$model.sid}{/if}" name="resume_modele_sid">
+			<input type="hidden" value="{if $resumeColor.sid && $resumeModel.sid==$model.sid}{$resumeColor.sid}{else}{$model.default_color_sid}{/if}" name="modele_color">
+			<br>
+			</p>
+			
+			
+			<p class="cv-template-color" id="cv-{$model.sid}-color-selector" style="margin-bottom:0">
+			{foreach from=$model.colors item=color key="index"}
+			<span class="cv-color">
+			<a class="change-color-{$color.color}  {if $color.sid==$resumeColor.sid  && $resumeModel.sid==$model.sid}selected {else}{if $color.sid==$model.default_color_sid && $resumeModel.sid!=$model.sid} selected{/if}{/if}" data-color-index="{$color.sid}" style="background:{$color.code}">
+			<span class="dashicons dashicons-yes"></span></a>
+			</span>
+			
+			{/foreach}
+			
+			</p><p></p>
+			
+			</form>
+			</div>  
+			  
+			  
+			  
+			  </div>
+			   </div>
+			  {/foreach}
+			  
+			  
+			  
+			  
+			  
+			   </div>
+			   
+	
+</div>
+</div>
+</div>
+
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>		   
+ </div>
+{/if}
+
+
+
+{javascript}
+<script type="text/javascript">
+$(document).ready(function(e){
+	$('body').on('click','.cv-template-color a:not(.selected)',function(){
+	//$('.cv-template-color a:not(.selected)').on('click', function() {
+	
+	var color=$(this).attr('class').split('-')[2];
+	$(this).closest('.cv-template-color').find('a.selected').removeClass('selected');
+	$(this).addClass('selected');
+	var cv_num=$(this).closest('.cv-template-color').attr('id').replace('-color-selector','');
+	$('#'+cv_num+'-miniature').css('background-image','url("{$GLOBALS.site_url}files/cvmodels/'+cv_num+'-'+color.trim()+'.png")');
+	var color_index=$(this).attr('data-color-index');
+	var cv_index=cv_num.split('-')[1];
+	
+	$('#editListingForm'+cv_index+' input[name="cv-color-selected"').val(color_index);
+	$('#editListingForm'+cv_index+' input[name="resume_modele_sid"').val(cv_index);
+	$('#editListingForm'+cv_index+' input[name="modele_color"').val(color_index);
+	
+	})});
+  $(document).ready(function() {
+            var perc = {$percentage};
+            if (perc < 40) {
+                $("#progress").css('background', 'red');
+            } else if (perc < 60) {
+                $("#progress").css('background', 'orange');
+            } else if (perc < 80) {
+                $("#progress").css('background', 'yellow');
+            } else {
+                $("#progress").css('background', '#a5c242');
+            }
+
+            $("#progress").css("width", perc + "%");
+        });
+    </script>
+{/javascript}
+
+

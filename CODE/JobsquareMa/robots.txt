@@ -1,0 +1,5 @@
+Disallow: /files/files/
+Disallow: /go-link
+Disallow: /resume/
+User-agent: PetalBot
+Disallow: /

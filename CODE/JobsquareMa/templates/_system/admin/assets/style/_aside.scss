@@ -1,0 +1,230 @@
+.left-panel {
+    background-color: $left-panel-bg;
+    width: $left-panel-width;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9;
+
+    @include prefix(box-shadow, 7px 70px 12px rgba(0, 0, 0, 0.15), moz webkit o ms);
+
+    &__top {
+        padding: 13px 10px;
+        background-color: #ffffff;
+        height: $header-height;
+    }
+
+    .packageVersion {
+        color: $left-nav-color;
+        font-size: 12px;
+        text-align: center;
+        bottom: 15px;
+        width: 100%;
+        left: 0;
+
+        @media all and (min-width: 992px) {
+            position: absolute;
+        }
+        @media all and (max-height: 740px) {
+            position: relative;
+        }
+    }
+
+}
+
+@media (max-width: 768px) {
+    .left-panel.collapsed {
+        width: 250px;
+        left: 0;
+        overflow: hidden !important;
+    }
+
+    .left-panel.collapsed + .content {
+        margin-left: 0;
+        position: relative;
+        left: 250px;
+    }
+
+    .left-panel {
+        left: 100%;
+    }
+
+    section.content {
+        margin-left: 0px;
+    }
+
+    .content > .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .page-header h1 {
+        margin-top: 0px;
+    }
+    .footer {
+        left: 0px;
+    }
+}
+
+.left-panel.lg {
+    width: 250px;
+}
+
+.left-panel.lg + .content {
+    margin-left: 250px;
+}
+
+.logo {
+    text-align: center;
+    position: relative;
+
+    .view-frontend {
+        position: absolute;
+        top: 4px;
+        right: 15px;
+        font-size: 22px;
+    }
+
+    &__img {
+        max-height: 38px;
+    }
+
+    .logo-expanded {
+        font-size: 20px;
+        color: #2f353f !important;
+        display: block;
+        height: 30px;
+    }
+}
+
+.logo-expanded i {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+.navigation {
+    margin: 50px 0 20px;
+    position: relative;
+
+    > ul > li {
+        position: relative;
+
+        &.active.has-submenu:after,
+        &.has-submenu:hover:after {
+            color: #fff;
+        }
+
+        &:hover > a,
+        &.active:hover > a,
+        &.active > a{
+            color: #fff;
+            background: #2A303A;
+        }
+
+        > a {
+            display: block;
+            padding: 12px 25px;
+            color: #838F9A;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all 0.4s;
+            -moz-transition: all 0.4s;
+            -webkit-transition: all 0.4s;
+            -o-transition: all 0.4s;
+            font-weight: 400;
+            outline: none !important;
+
+            &:hover {
+                color: #fff;
+            }
+
+            .badge {
+                margin-top: 5px;
+                float: right;
+            }
+        }
+    }
+
+    i {
+        margin-right: 6px;
+        font-size: 16px;
+        width: 25px;
+        float: left;
+        margin-top: 1px;
+
+        &.appearance:before {
+            content: "\f1fc";
+        }
+
+        &.ecommerce:before {
+            content: "\f07a";
+        }
+
+        &.content:before {
+            content: "\f14b";
+        }
+
+        &.listing_fields:before {
+            content: "\f00b";
+        }
+
+        &.settings:before {
+            content: "\f013";
+        }
+
+        &.job_board:before {
+            content: "\f0b1";
+        }
+    }
+
+    .nav-label {
+        vertical-align: middle;
+    }
+
+    ul li ul {
+        display: none;
+        background-color: #272c35;
+        padding-bottom: 10px;
+
+        li {
+            &.active a {
+                color: #eeeeee !important;
+            }
+
+            a {
+                padding: 8px 25px 8px 55px;
+                color: $left-nav-color;
+                text-decoration: none;
+                white-space: nowrap;
+                transition: all 0.2s;
+                -moz-transition: all 0.2s;
+                -webkit-transition: all 0.2s;
+                -o-transition: all 0.2s;
+                font-size: 14px;
+                text-align: left;
+                display: block;
+                outline: none !important;
+
+                &:hover {
+                    color: #ddd;
+                }
+            }
+        }
+    }
+}
+
+.left-panel.collapsed .navigation > ul > li > a .badge {
+    display: none;
+}
+
+.collapsed .navigation ul li a i {
+    float: none;
+}
+
+/*** 2.3 Sub Menu ***/
+
+.left-panel:not(.collapsed) .navigation ul li.active ul {
+    display: block;
+}
+

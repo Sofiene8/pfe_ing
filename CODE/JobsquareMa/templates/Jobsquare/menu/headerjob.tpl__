@@ -1,0 +1,54 @@
+
+<nav class="navbar navbar-default">
+	<div class="container container-fluid">
+		<div class="logo navbar-header col-md-2">
+			<a class="logo__text navbar-brand" href="{$GLOBALS.site_url}">
+				<img src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/{$GLOBALS.theme_settings.logo|escape:'url'}" alt="Emploi Maroc, Formation Maroc, Travail Maroc" title="Emploi Maroc, Formation Maroc, Travail Maroc"/>
+				<span class="slogan">Le portail de l'emploi en Maroc </span>
+			</a>
+		</div>
+	{if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'&& $GLOBALS.user_page_uri != '/login/'&& $GLOBALS.user_page_uri != '/registration/'&& $GLOBALS.user_page_uri != '/job/'&& $GLOBALS.user_page_uri != '/training/'&& $GLOBALS.user_page_uri != '/system/applications/view/'&& $GLOBALS.user_page_uri != '/resumes/'&& $GLOBALS.user_page_uri != '/products/'&& $GLOBALS.user_page_uri != '/shopping-cart/'}
+	<div class="banner banner--top">
+		{module name="banners" function="show_banners" group="Top_Site"}
+	</div>
+{/if}
+	
+
+
+		<div class="burger-button__wrapper burger-button__wrapper__js visible-sm visible-xs"
+			 data-target="#navbar-collapse" data-toggle="collapse">
+			<div class="burger-button"></div>
+		</div>
+		<div class="collapse navbar-collapse col-md-10" id="navbar-collapse">
+			<div class="visible-sm visible-xs">
+				{capture name='nav_menu'}
+					{module name='template_manager' function='navigation_menu'}
+				{/capture}
+				{$smarty.capture.nav_menu}
+						
+			</div>
+			                
+			<ul class="nav navbar-nav navbar-right col-md-5">
+				{if $GLOBALS.current_user.logged_in}
+					<li class="navbar__item"><a class="navbar__link logout_btn" href="{$GLOBALS.site_url}/logout/"> [[Logout]]</a></li>
+					<li class="navbar__item navbar__item__filled">
+                        {if $GLOBALS.current_user.group.id == "Employer"}
+                            <a class="navbar__link btn__blue signup_btn" href="{$GLOBALS.site_url}/my-listings/job/">[[My Account]]</a>
+                        {else}
+                            <a class="navbar__link btn__blue signup_btn" href="{$GLOBALS.site_url}/my-listings/resume/">[[My Account]]</a>
+                        {/if}
+                    </li>
+				{else}
+					<li class="navbar__item navbar__item {if $url == '/login/'}active{/if}">
+						<a class="navbar__link navbar__login login_btn" href="{$GLOBALS.site_url}/login/">[[Sign in]]</a>
+					</li>
+					<li class="navbar__item navbar__item__filled "><a class="navbar__link  btn__orange signup_btn" href="{$GLOBALS.site_url}/registration/">[[Sign up]]</a></li>
+					<li class="navbar__item navbar__item__filled "><a class="navbar__link  btn__blue signup_btn" href="{$GLOBALS.site_url}/registration/?user_group_id=Employer">Employeur?</a></li>
+				{/if}
+			</ul>
+			<div class="visible-md visible-lg col-md-7">
+				{$smarty.capture.nav_menu}
+			</div>
+		</div>
+	</div>
+</nav>

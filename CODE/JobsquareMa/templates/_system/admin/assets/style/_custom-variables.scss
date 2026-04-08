@@ -1,0 +1,62 @@
+$body-bg: #f1f4f5;
+$default-color: #797979;
+$link-color: #333b4d;
+
+/* buttons */
+
+//btn--primary
+$btn-gray-bg: #03a9f4;
+$btn-gray-border: $btn-gray-bg;
+$btn-gray-color: #fff;
+
+//bordered
+$btn-bordered-bg: transparent;
+$btn-bordered-border: #03a9f4;
+$btn-bordered-color: #03a9f4;
+
+//btn--danger
+$btn-delete-bg: #cb2a2a;
+$btn-delete-border: $btn-delete-bg;
+$btn-delete-color: #fff;
+
+//btn--secondary
+$btn-green-bg: #009688;
+$btn-green-border: $btn-green-bg;
+$btn-green-color: #fff;
+
+
+/* fonts */
+//museo
+$font-900: museo_sans_cyrl900, 'Trebuchet MS', sans-serif;
+$font-700: museo_sans_cyrl700, 'Trebuchet MS', sans-serif;
+$font-500: museo_sans_cyrl500, 'Trebuchet MS', sans-serif;
+$font-300: museo_sans_cyrl300, 'Trebuchet MS', sans-serif;
+
+
+/* forms */
+$input-default-color: rgba(#000, 0.6);
+$input-default-bg: #fafafa;
+$input-default-border: 1px solid #eee;
+$input-default-border-focused: 1px solid #e0e0e0;
+
+/* panels */
+$panel-default-border: rgba(0,0,0,0.08);
+$panel-default-bg: #fff;
+$panel-default-heading-border: #ddd;
+
+/* tables */
+$tr-bg-hover: #e4ebf5;
+$tr-odd-bg: #F3F5F6;
+$tr-even-bg: #fff;
+
+/* header */
+$header-height: 61px;
+
+/* title */
+$h1-font-size: 26px;
+
+/* left panel */
+$left-panel-width: 250px;
+$left-panel-collapsed-width: 75px;
+$left-panel-bg: #2f353f;
+$left-nav-color: #838F9A;

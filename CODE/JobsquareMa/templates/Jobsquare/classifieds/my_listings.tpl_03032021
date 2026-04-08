@@ -1,0 +1,453 @@
+<script src="https://use.fontawesome.com/7e203bcaaf.js"></script>
+<h1 class="my-account-title">{if $GLOBALS.current_user.group.id != "Employer"}[[My Account]]
+<a href="{$GLOBALS.site_url}/my-listings/{$listingTypeID|lower}/#offres"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Offres similaires à mon profil</a>{/if}</h1>
+{if $GLOBALS.current_user.group.id == "Employer"}
+<h1 class="my-account-title">[[My Account]]</h1>
+<div id="my-account-title" class="mylisting">
+<div class="edito">
+<p>
+  Pour <strong class="rouge">plus de visibilité</strong>, Tanitjobs.com vous offre la possibilité de <strong class="green">commander les annonces prioritaires et les produits publicitaires</strong> en ligne.</p>
+  <p ><strong>Profitez d'une <span class="rouge">activation Immédiate</span> de vos produits</strong></p>
+
+  <a href="{$GLOBALS.site_url}/products/?permission=post_job"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Les produits liés à l'emploi</a>
+<a href="{$GLOBALS.site_url}/products/?permission=post_training" class="btn-formation"><i class="fa fa-hand-pointer-o" aria-hidden="true"></i> Les produits liés aux formations
+
+</a>
+
+		<div class="paiement-block text-center" style="border-top:1px dotted #ccc; padding-top:10px">
+					<!--s<h3>Paiement sécurisé</h3>-->
+					
+					<img  alt="visa" src="/templates/Jobsquare/assets/images/visa.png"> 
+					<img alt="mastercard" src="/templates/Jobsquare/assets/images/mastercard.png"> 
+					<img src="/templates/Jobsquare/assets/images/cib.png" alt="CIB"> 
+					<img alt="master secure" src="/templates/Jobsquare/assets/images/master-secure.png"> 
+					<img alt="verified visa" src="/templates/Jobsquare/assets/images/verified-by-visa.png">
+					
+		</div>
+
+  </div>
+  </div>
+
+
+
+
+			
+{/if}
+
+
+<div class="my-account-list">
+	<ul class="nav nav-pills">
+		{if $GLOBALS.current_user.group.id == "Employer"}
+			{title}[[Job Postings]]{/title}
+			<li class="presentation{if $listingTypeID == 'job'} active{/if}"><a href="{$GLOBALS.site_url}/my-listings/job/">[[Job Postings]]</a>
+			
+<li class="presentation{if $listingTypeID == 'training'} active{/if}"><a href="{$GLOBALS.site_url}/my-listings/training/">[[Training Postings]]</a></li>
+		
+			
+			{*<li class="presentation"> <a href="{$GLOBALS.site_url}/system/applications/view/">[[Applicants]]</a></li>*}
+			<li class="presentation"> <a href="{$GLOBALS.site_url}/edit-profile/">[[Company Profile]]</a></li>
+			<li class="presentation{if $listingTypeID == 'resumes'} active{/if}"><a href="{$GLOBALS.site_url}/resumes/">Accès Cvthèque</a></li>	
+		{else}
+			{title}[[My Resume]]{/title}
+			<li class="presentation active"><a href="{$GLOBALS.site_url}/my-listings/{$listingTypeID|lower}/#offres">[[My Resume]]</a></li>
+			<li class="presentation"> <a href="{$GLOBALS.site_url}/system/applications/view/">[[My Applications]]</a></li>
+			<li class="presentation"> <a href="{$GLOBALS.site_url}/edit-profile/">[[Account Settings]]</a></li>
+			
+		{/if}
+	</ul>
+</div>
+<div class="container container--small 1">
+	{if not $listings}
+		<div class="search-results my-account-listings col-xs-12 {if $my_products}col-sm-9{else}my-account-listings-full{/if}">
+			<div class="form-group__btn">
+				{if $GLOBALS.current_user.group.id == "Employer"}
+				{if $listingTypeID == 'training' || $listingTypeID == 'Training'} 
+					<a href="{$GLOBALS.site_url}/add-listing/?listing_type_id={$listingTypeID}" class="btn btn__orange violet btn__bold">[[Post a {$listingTypeID}]]</a>
+					{else}
+					<a href="{$GLOBALS.site_url}/add-listing/?listing_type_id={$listingTypeID}" class="btn btn__orange btn__bold">[[Post a {$listingTypeID}]]</a>
+					{/if}
+				{else}
+					<a href="{$GLOBALS.site_url}/add-listing/?listing_type_id=Resume" class="btn btn__blue btn__bold">[[Create New Resume]]</a>
+				{/if}
+			</div>
+			<div class="alert alert-danger">[[You have no {$listingTypeID}s so far]]</div>
+		</div>
+	{else}
+		<div class="search-results my-account-listings col-xs-12 {if $my_products}col-sm-9{else}my-account-listings-full{/if}">
+			<h3 class="has-left-postings search-results__title">
+				{assign var="listings_number" value=$listing_search.listings_number}
+				{if $GLOBALS.current_user.group.id == "Employer"}
+					{$listings_number} [[{$listingTypeID} Postings]]
+				{else}
+					{*[[You have $listings_number Resume(s)]]*}
+				{/if}
+			</h3>
+			<div class="form-group__btn">
+				{if $GLOBALS.current_user.group.id == "Employer"}
+
+					<a href="{$GLOBALS.site_url}/add-listing/?listing_type_id={$listingTypeID}" class="btn {if $listingTypeID == "job"}bouton__orange{else}bouton__violet{/if}">[[Post a {$listingTypeID}]]</a>
+
+				{else}
+					{if !$listings}
+						<a href="{$GLOBALS.site_url}/add-listing/?listing_type_id=Resume" class="btn bouton__orange">[[Create New Resume]]</a>
+					{/if}
+				{/if}
+			</div>
+			
+	{if $GLOBALS.current_user.group.id == 'JobSeeker'}
+	{if $today_date_3month > $update_date_3month}
+<div class="css-s2dgtn e128p6kr0 alert alert-danger alert-dismissible">
+<!--<span class="css-g50631 e4y08cy0">
+<i size="20"><img src="https://85.25.214.227/projects/TanitV8//templates/Jobsquare/assets/images/icon-tanitjobs.png"></i>
+	</span>-->
+	{literal}<script src="https://use.fontawesome.com/7e203bcaaf.js"></script>{/literal}
+<button type="button" class="css-1v52m5x e128p6kr1 close"  data-dismiss="alert">
+<i size="16" class="css-b80bsd e19xi9jy0">
+<svg width="16" height="16" preserveAspectRatio="none" viewBox="0 0 24 24"><path fill="#B12121" d="M14.238 12L20 17.762 17.763 20 12 14.237 6.238 20 4 17.763 9.764 12 4 6.236l2.236-2.235h.002l5.763 5.762L17.764 4l2.235 2.236v.002L14.238 12z"></path></svg></i></button>
+<div> N'attendez plus pour valoriser vos talents et publiez vos nouvelles informations. La dernière mise à jour date de plus de 3 mois! -<a href="{$GLOBALS.site_url}/edit-resume/Interests/{$listing.id}" style="color: rgb(177, 33, 33); font-weight: bold; text-decoration: underline;">Mettez votre CV à jour maintenant</a>
+</div></div>
+	{/if}
+	{/if}
+			{foreach from=$listings item=listing name=listings_block}
+					<article class="media well listing-item  {if $listingTypeID == 'job'}listjob {if $listing.featured}listing-item__featured{/if} {elseif $listingTypeID == 'training'}listtraining {if $listing.featured}listing-item__featured violet{/if} {else}listresume{/if} ">
+					<div class="col-md-8">
+				{if $listingTypeID == 'resume'}
+				{if $photoUrl}
+						<div class="job-seeker__image">
+							<div class="text-center profile__image">
+								<img class="profile__img" src="{$photoUrl}" >
+							</div>
+						</div>
+						{else}
+						
+					
+						<div class="job-seeker__image">
+							<div class="text-center profile__image">
+								<img class="profile__img" src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/sansphoto.jpg" >
+							</div>
+						</div>
+					{/if}
+					{/if}
+						<div class="media-heading listing-item__title">
+							
+							<a class="link" href="{if $listingTypeID == 'resume'}{$GLOBALS.site_url}/edit-resume/Interests/{$listing.id}{else}{$GLOBALS.site_url}/edit-{$listing.type.id|lower}/?listing_id={$listing.id}{/if}"><span class="{if $listingTypeID == 'job'} c-orange {else}violet{/if}">{$listing.Title|escape}</span>
+							</a>
+							<span class="listing-item__info--item listing-item__info--status
+									{if $listing.active|status == 'active'} listing-item__info--status-active
+									{elseif $listing.active|status == 'pending'} listing-item__info--status-pending
+									{elseif $smarty.now > $listing.expiration_date|strtotime}listing-item__info--status-no-active
+									{else}listing-item__info--status-no-active{/if}
+									">
+							{if $listing.active|status == 'active'}
+								[[Active]]
+							{elseif $listing.active|status == 'pending'}
+								[[Pending Approval]]
+							{elseif $listing.expiration_date && $smarty.now > $listing.expiration_date|strtotime}
+								[[Expired]]
+							{else}
+								[[Hidden]]
+							{/if}
+						</span>
+							
+						</div>
+						<div class="listing-item__info clearfix">
+						<!--<div class="listing-item__info--item-date visible-xs-480">
+							<div class="listing-item__views">
+								{$listing.views} [[views]]
+							</div>
+							{if $GLOBALS.current_user.group.id == 'Employer'}
+								<div class="listing-item__applies">
+									{if $apps[$listing.id] || !$listing.application_redirects}
+										{if !$apps[$listing.id]}
+											0 [[applicants]]
+										{else}
+											<a href="{$GLOBALS.site_url}/system/applications/view/?appJobId={$listing.id}" class="link">
+												{$apps[$listing.id]|default:"-"} [[applicants]]
+											</a>
+										{/if}
+									{/if}
+									{if $listing.application_redirects}
+										{if $apps[$listing.id]}/{/if}
+										{$listing.application_redirects} [[apply clicks]]
+									{/if}
+								</div>
+							{/if}
+						</div>-->
+						{if $listingTypeID == 'resume'}
+						<a class="link" href="{$GLOBALS.site_url}/edit-resume/Interests/{$listing.id}"><span class="{if $listingTypeID == 'job'} btns {else} btns bt2{/if}"><i class="fa fa-pencil" aria-hidden="true"></i> Modifier votre CV</span></a>{/if}
+						
+						{capture assign="updateDate"}{$update_date|date}{/capture}
+						{if !empty($updateDate)&& $updateDate!="30/11/-1"}
+						
+						<div class="listing-item__info--item-date "><b>Derni&egrave;re mise &agrave; jour: </b>
+							<span    {if ($today_date_3month < $update_date_3month) && $percentage > 89}  style="color: #83ca4e;"{/if}>{$updateDate}</span>
+						</div>
+						
+						{/if}
+						<div class="listing-item__info--item-date "><b>Date activation: </b>
+							<span>{$listing.activation_date|date} </span>
+						</div>
+					</div>
+					</div>
+					<div class="col-md-4">
+					<div>
+					{if $GLOBALS.current_user.group.id == 'Employer'}
+							<a href="{if $listingTypeID == 'resume'}{$GLOBALS.site_url}/edit-resume/Interests/{$listing.id}{else}{$GLOBALS.site_url}/edit-{$listing.type.id|lower}/?listing_id={$listing.id}{/if}" class="btns"><i class="fa fa-pencil" aria-hidden="true"></i>
+ Editer l&acute;offre</a><br>
+							
+							{if $apps[$listing.id] || !$listing.application_redirects}
+							{if $apps[$listing.id]}
+							<a href="{$GLOBALS.site_url}/system/applications/view/?appJobId={$listing.id}" class="btns "><i class="fa fa-eye" aria-hidden="true"></i> Voir les canditatures</a>
+								{/if}
+								{/if}
+								{/if}
+					</div>
+						<div class="listing-item__views">
+							{$listing.views} [[views]]
+						</div>
+						{if $GLOBALS.current_user.group.id == 'Employer'}
+							<div class="listing-item__applies">
+								{if $apps[$listing.id] || !$listing.application_redirects}
+									{if !$apps[$listing.id]}
+										0 [[applicants]]
+									{else}
+										<a href="{$GLOBALS.site_url}/system/applications/view/?appJobId={$listing.id}" class="link">
+											{$apps[$listing.id]|default:"-"} [[applicants]]
+										</a>
+									{/if}
+								{/if}
+								{if $listing.application_redirects}
+									{if $apps[$listing.id]}/{/if}
+									{$listing.application_redirects} [[apply clicks]]
+								{/if}
+							</div>
+						{/if}
+						{if $percentage}
+				<h4>[[Your resume is filled out by]] {$percentage}%</h4>
+				{if $percentage > 89}
+					<a class="btn btn__blue " href="{$GLOBALS.site_url}/my-resume-details/{$listingIDforPDF}/?action=download_pdf_version">
+						Télécharger CV Tanitjobs en PDF
+					</a>
+				{/if}
+				<div class="meter green nostripes"> <span id="progress" style="width: {$percentage}%;"></span></div>
+		
+					
+		{/if}
+										</div>
+					
+				</article>
+			{/foreach}
+			{if $GLOBALS.current_user.group.id != 'Employer'}
+			{module name="classifieds" function="listings_user_profile" items_count="10" listing_type="Job" listing_id=$listing.id title=$listing.Title}
+				{/if}
+		 <button type="button" class="load-more btn btn__white {if $listings_number <= $listing_search.listings_per_page}hidden{/if}" data-page="2">
+            [[Load more]]
+        </button>
+		</div>
+
+	{/if}
+	{if $my_products}
+		<div class="col-sm-3 col-xs-12 well my-account-products">
+			<div class="profile__content">
+				<h4>[[Purchased Products]]</h4>
+				{foreach from=$my_products item=contract}
+					<div class="contract-list" data-contract="{$contract.id}">
+						<div class="contract-list--name">
+							{$contract.product_info.name|escape}<!--{if $contract.product_info.price} - {capture assign='contract_price'}{tr type='float'}{$contract.price}{/tr}{/capture}{currencyFormat amount=$contract_price}{/if}--> {if $contract.product_info.recurring}[[per {$contract.product_info.billing_cycle}]]{/if}
+						</div>
+						<div class="contract-list--purchased">[[Purchased]]: {$contract.creation_date|date}</div>
+						{if !$contract.product_info.recurring}
+							{if $contract.expired_date}<div class="contract-list--expires">[[Expires]]: {$contract.expired_date|date}</div>{/if}
+						{/if}
+						{if $contract.listingAmount}
+							{foreach item='stat' from=$contract.listingAmount}
+								<div class="contract-list--listing-count">{$stat.numPostings}/[[{$stat.count}]] <!--[[{$listingTypeName|strtolower}s]]--> [[posted]]</div>
+							{/foreach}
+						{/if}
+						{if $contract.recurring}
+							{if $contract.recurring_status == 'active'}
+								<a href="#" class="contract-list--cancel link" data-toggle="modal" data-target="#confirm-cancel">[[Cancel]]</a>
+							{elseif $contract.recurring_status == 'canceled'}
+								<span class="label label-default">[[Canceled]]</span>
+							{/if}
+						{/if}
+					</div>
+				{/foreach}
+			</div>
+		</div>
+
+		<div class="modal fade confirm-cancel" id="confirm-cancel" tabindex="-1" role="dialog" aria-labelledby="message-modal-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					</div>
+					<div class="modal-body">
+						<div class="form">
+							<div class="form-group text-center">
+								[[Are you sure you'd like to cancel your subscription?]]
+							</div>
+							<div class="form-group form-group__btns text-center">
+								<a href="#" class="confirm-cancel__yes btn btn__orange btn__bold">
+									[[Yes]]
+								</a>
+								<button type="button" class="btn btn__white" data-dismiss="modal">[[Cancel]]</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
+	{if $listingTypeID == "resume"}
+{javascript}
+    <script type="text/javascript" language="JavaScript">
+        var overall = {if $listings_number}{$listings_number}{else}0{/if};
+        $('.load-more').click(function() {
+            var self = $(this);
+            self.addClass('loading');
+            $.get('?searchId={$searchId}&action=search&page=' + self.data('page'), function(data) {
+                self.removeClass('loading');
+                var listings = $(data).find('.listing-item');
+                if (listings.length) {
+                    $('.listing-item').last().after(listings);
+                    self.data('page', parseInt(self.data('page')) + 1);
+                    if ($('.listing-item').length >= overall) {
+                        self.hide();
+                    }
+                }
+            });
+        });
+        $('.contract-list--cancel').click(function() {
+            $('#confirm-cancel').data('contract', $(this).closest('.contract-list').data('contract'));
+        });
+        $('.confirm-cancel__yes').click(function() {
+            window.location.href = SJB_UserSiteUrl + '/system/payment/cancel_recurring/?contract=' + $('#confirm-cancel').data('contract');
+        });
+
+
+        $(document).ready(function() {
+            var perc = {$percentage};
+            if (perc < 40) {
+                $("#progress").css('background', 'red');
+            } else if (perc < 60) {
+                $("#progress").css('background', 'orange');
+            } else if (perc < 80) {
+                $("#progress").css('background', 'yellow');
+            } else {
+                $("#progress").css('background', '#a5c242');
+            }
+
+            $("#progress").css("width", perc + "%");
+        });
+    </script>
+{/javascript}
+	{else}
+	
+	{javascript}
+    <script type="text/javascript" language="JavaScript">
+        var overall = {if $listings_number}{$listings_number}{else}0{/if};
+        $('.load-more').click(function() {
+            var self = $(this);
+            self.addClass('loading');
+            $.get('?searchId={$searchId}&action=search&page=' + self.data('page'), function(data) {
+                self.removeClass('loading');
+                var listings = $(data).find('.listing-item');
+                if (listings.length) {
+                    $('.listing-item').last().after(listings);
+                    self.data('page', parseInt(self.data('page')) + 1);
+                    if ($('.listing-item').length >= overall) {
+                        self.hide();
+                    }
+                }
+            });
+        });
+        $('.contract-list--cancel').click(function() {
+            $('#confirm-cancel').data('contract', $(this).closest('.contract-list').data('contract'));
+        });
+        $('.confirm-cancel__yes').click(function() {
+            window.location.href = SJB_UserSiteUrl + '/system/payment/cancel_recurring/?contract=' + $('#confirm-cancel').data('contract');
+        });
+ </script>
+	{/javascript}
+	{/if}
+<style>
+    .job-seeker__image {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 26px 0px auto;
+        float: left;
+    }
+
+
+
+
+    .detailListText {
+        margin: 0 0 0 20px;
+    }
+    .checkBoxLeft {
+        position: absolute;
+        left: 10px;
+        top: 28%;
+        width: 18px;
+        height: 18px;
+        background: #d9d9d9;
+        border-radius: 3px;
+    }
+    .hidden-checkbox {
+        display: none;
+    }
+    .not-checked {
+        background-position: 18px 0;
+        background-color:#d9d9d9;
+    }
+    .checked {
+        background-position: 0 0;
+        background-color:#6496bc;
+    }
+    .meter {
+	    width: 50%;
+    height: 20px;
+    position: relative;
+    margin: -17px 0 20px 0;
+    background: #9a9a9a;
+    }
+    .meter > span {
+        display: block;
+        height: 100%;
+        // -webkit-border-top-right-radius: 20px;
+        // -webkit-border-bottom-right-radius: 20px;
+        // -moz-border-radius-topright: 20px;
+        // -moz-border-radius-bottomright: 20px;
+        // border-top-right-radius: 20px;
+        // border-bottom-right-radius: 20px;
+        // -webkit-border-top-left-radius: 20px;
+        // -webkit-border-bottom-left-radius: 20px;
+        // -moz-border-radius-topleft: 20px;
+        // -moz-border-radius-bottomleft: 20px;
+        // border-top-left-radius: 20px;
+        // border-bottom-left-radius: 20px;
+        // background-color: rgb(43, 194, 83);
+        // background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(43, 194, 83)), color-stop(1, rgb(84, 240, 84)));
+        // background-image: -moz-linear-gradient(center bottom, rgb(43, 194, 83) 37%, rgb(84, 240, 84) 69%);
+        // -webkit-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+        // -moz-box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+        // box-shadow: inset 0 2px 9px rgba(255, 255, 255, 0.3), inset 0 -2px 6px rgba(0, 0, 0, 0.4);
+        // position: relative;
+        // overflow: hidden;
+    }
+    .meter > span:after, .animate > span > span {
+        content:"";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+   
+    }
+    .animate > span:after {
+        display: none;
+    }
+</style>

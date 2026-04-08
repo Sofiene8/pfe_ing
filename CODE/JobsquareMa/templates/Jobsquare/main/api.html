@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+              body {
+            font-family: 'Source Sans Pro', Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            }
+         li {
+            list-style-type: disc;
+            margin-left:15px
+        } .endpoint li{
+            list-style-type: none;
+        }
+        #doc{
+            max-width:1150px;
+            margin: 0px auto;
+            padding:20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .endpoint {
+            background-color: #f4f4f4;
+            border-left: 5px solid #EE810C;
+            padding: 15px;
+            margin: 20px 0px;
+            border-radius: 5px;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+        }
+        .code-block {
+            background-color: #2b2b2b;
+            color: #f8f8f8;
+            border: 1px solid #6e6c6f;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom:5px;
+        }
+        .code-block code {
+            color: #f8f8f8;
+        }
+        .code-blocks {
+    background-color: #222;
+    border: 1px solid #6e6c6f;
+    border-radius: 5px;
+    padding: 15px;
+    overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+}
+pre{
+    border: none;
+}
+
+
+pre[class*="language-"] {
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+
+
+code[class*="language-"] {
+    padding-left: 0 !important;
+}
+       
+        .language-tab {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #6e6c6f;
+            cursor: pointer;
+            color: #fff;
+            border-radius: 3px 3px 0 0;
+        }
+        .language-tab.active {
+            background-color: #EE810C;
+        }
+        .language-tabs {
+           
+            margin-bottom: 10px;
+        }
+        #apiKeySection {
+            background-color: #e8f5e9;
+            border: 1px solid #66bb6a;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #apiKeyForm input[type="email"] {
+            width: calc(100% - 110px);
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        #apiKeyForm button {
+            padding: 10px 20px;
+            background-color: #EE810C;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #apiKeyForm button:hover {
+            background-color: #d3730c;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            #apiKeyForm input[type="email"] {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            #apiKeyForm button {
+                width: 100%;
+            }
+        }
+      .json-code {
+        color: #899499;
+        margin-left: 20px; /* Adjust indentation here */
+    }
+    .json-comment {
+        color: green;
+    }
+    </style>
+</head>
+<body>
+    <section id="doc">
+        <h1>📖 API DOCIMENTATION :YOUR PORTAL INTO TANIT JOBS API</h1>
+    <section id="summary">
+        <h2>🚀 GET STARTED HERE</h2>
+        <p>This documentation is designed to help you integrate with the TanitJob website API from your own site. It provides comprehensive guidance on handling various requests, such as updating your profile, adding job offers, and more... </p>
+    </section>
+        <section id="authentication">
+        <h2>🔐 AUTHENTICATION: GET API ACCESS</h2>
+        <p><h3> 1. API Key Requirement</h3>
+            To interact with our API, every request must include a valid API Key. The API Key uniquely identifies you and allows us to track and authorize your access. Without an API Key, your requests will be denied.
+            How to Obtain an API Key:
+            <ul>
+                <li> Login to Your Account: First, log in to your account on our platform.</li>
+                <li>Access the API Documentation: Navigate to the API Documentation section within your account dashboard.</li>
+               
+                <div class="endpoint">
+                <h3>Your Api Key</h3>
+
+
+           
+                {php}
+                session_start();
+                $apiKey = '';
+               
+                if (!isset($_SESSION['current_user']['api_key']) || $_SESSION['current_user']['api_key'] == '') {
+                    $current_user = $_SESSION['current_user'];
+                    $newApiKey = bin2hex(random_bytes(24));
+                    $result = SJB_DB::query("UPDATE users SET api_key = ?s WHERE email = ?s", $newApiKey, $current_user['email']);
+                    $current_user['api_key'] = $newApiKey;
+                    $_SESSION['current_user'] = $current_user;
+                    $GLOBALS['current_user'] = $current_user;
+                    $apiKey = $newApiKey;
+                    $newKeyGenerated = true;
+                } else {
+                    $apiKey = $_SESSION['current_user']['api_key'];
+                    echo $apiKey;
+                }
+                {/php}
+                <div class="code-block" id="apiKeyCode">
+                    <span id="downloadIcon" style="cursor: pointer;">CLICK ON THIS DOWNLOAD LINK TO GET YOUR API KEY FILE ⬇️</span>
+                </div>
+                <script>
+                    function download(filename, text) {
+                        var element = document.createElement('a');
+                        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                        element.setAttribute('download', filename);
+                        element.style.display = 'none';
+                        document.body.appendChild(element);
+                        element.click();
+                        document.body.removeChild(element);
+                    }
+                    var apiKey;
+                    //apiKey = "{php}echo htmlspecialchars($GLOBALS['current_user']['api_key'], ENT_QUOTES);{/php}";
+                    var newKeyGenerated = "<?php echo $newKeyGenerated ? 'true':'false'; ?>";
+                    newKeyGenerated = (newKeyGenerated === 'true'); // Convert to boolean
+                    var apiKey;
+
+
+                    if (newKeyGenerated) {
+                        apiKey = "{php}echo htmlspecialchars($GLOBALS['current_user']['api_key'], ENT_QUOTES);{/php}";
+                    } else {
+                        apiKey = "{php}echo htmlspecialchars($_SESSION['current_user']['api_key'], ENT_QUOTES);{/php}";
+                    }
+                       
+                           
+var text =
+"🚨 YOUR API KEY: " + apiKey + "\n\n" +
+"/*****************************************************************************************/\n\n" +
+"⚠️ IMPORTANT: Keep this key secure at all times. It is required for every API request.\n\n" +
+"⚠️ WARNING: If someone else gains access to your API key, we will not be responsible \n\n" +
+"   for any issues or breaches that may occur as a result.\n\n" +
+"⚠️ Ensure that you handle this key with the highest level of security.\n\n" +
+"🧐 ADVICE: Store your API key in a secure location, such as a .env file or a secure \n\n" +
+"   password manager. Avoid sharing this key or exposing it in your code.\n\n" +
+"/*****************************************************************************************ENJOY FROM TANIT JOBS FAMILY 😁/";
+
+
+                   
+                    document.getElementById("downloadIcon").addEventListener("click", function() {
+
+
+
+
+                    var filename = "YOUR_API_KEY.txt";
+
+
+                    download(filename, text);
+                }, false);
+            </script>
+
+
+               
+                   
+                       
+                </div>
+                <li>⚠️NB: Keep this key secure as it is required for every API request.</li>
+            </ul>
+        <h3>2. Server IP Address Validation</h3>
+        For added security, we validate that requests are made from an authorized server.
+        Why We Need Your IP Address:
+            <ul>
+                <li>To prevent unauthorized access. </li>
+                <li>This ensures that requests are only accepted from trusted sources</li>
+                <li>To avoid potential threats.</li>
+                <li>⚠️NB: During the process of using this API tool, any request will be verified by IP address of the server you are using. Only requests coming from the registered IP address will be accepted. so ensure to contact us and validate you IP server adress.</li>
+            </ul>
+        <h3>3. Making API Requests</h3>
+        Once you have your API Key and your server's IP address is registered, you can start making API requests:
+        <ul>
+            <li>API Endpoint: The URL you use will vary depending on the specific request you are making, so ensure you reference the correct endpoint. </li>
+            <li>Passing the API Key: Include your API Key as a query parameter in your requests.</li>
+            <div class="endpoint">
+                    <div class="code-block">
+                        http://yourapiurl.com/api/endpoint?api_key=YOUR_API_KEY
+                    </div>
+                    <div class="code-block">
+                        Headers : Content-Type application/json
+                    </div>
+            </div>
+            <li>Detailed Example of an API Request : Suppose your API Key is 12345abcd and you want to update your information</li>
+                    <div class="endpoint">
+                   {literal}
+<div class="code-block">
+    <span style="color:red;margin-right:5px">POST</span>http://yourapiurl.com/api/endpoint?api_key=12345abcd<br>
+    <span class="json-code">&#123;<br></span>
+    <div  style="margin-left: 40px;">
+        "field1": "data 1",<br>
+        "field2": "data 2",<br>
+        "field3": "data 3",<br>
+    </div>
+    <span class="json-code">&#125;<br></span>
+</div>
+{/literal}
+            </div>
+            <li>Success message ✅</li>
+                  <div class="endpoint">
+                   {literal}
+<div class="code-block">
+   
+    <span class="json-code">&#123;<br></span>
+    <div  style="margin-left: 40px;">
+         "session_id": "j25ddecrr4fqbq1cdus5djmn0o",<br>
+         "result": "success",<br>
+         "function_result": <span class="json-code">&#123;<br></span>
+            "message": "something inform you about sucess"<br>
+        <span style="color:#899499">&#125;<br></span>
+    </div>
+    <span class="json-code">&#125;<br></span>
+   
+</div>
+{/literal}
+</div>
+          <li>Error message ❌</li>
+                  <div class="endpoint">
+                   {literal}
+<div class="code-block">
+   
+    <span class="json-code">&#123;<br></span>
+    <div  style="margin-left: 40px;">
+        "session_id": "j25ddecrr4fqbq1cdus5djmn0o",<br>
+        "result": "error",<br>
+        "message": "Internal Server Error: Detailed message error",<br>
+        "file": "file path ",<br>
+        "line": "line number in the specified file" <br>
+    </div>
+    <span class="json-code">&#125;<br></span>
+   
+</div>
+{/literal}
+</div>    
+            </li>
+        </ul>
+    </p>
+           
+    </section>
+    <section id="authentication">
+        <h2>🤖 API REQUEST: CODE IMPLEMENTATION</h2>
+        <h3> 1. UPDATE USER DATA</h3>
+        <div class="endpoint">
+            <div class="code-block">
+                <span style="color:red;margin-right:5px">POST</span>http://yourapiurl.com/api/employer?api_key=YOUR_API_KEY<br>
+                <p><strong>Description:</strong>Updates user data based on the provided parameters and API key.</p>
+                <p><strong>Headers:</strong>Content-Type application/json</p>
+                <p><strong>Parameters:</strong><br>
+                    <ul>
+                        <li>1. API_KEY : located in the query params</li>
+                        <li>2. Endpoint : located in the uri </li>
+                        <li>3. Content : Request Body
+                    </ul>
+                </p>
+                <p><strong>Body Content</strong>
+                    <span class="json-code">&#123;<br></span>
+                    <div  style="margin-left: 40px;">
+                        "CompanyName": "Acme Corp",<br>
+                        "Phone": "+1-800-555-1234",<br>
+                        "FullName": "John Doe",<br>
+                        "WebSite": "https://www.example.com",<br>
+                        "Location_City": "TUNIS",<br>
+                        "Location_Country": "TUNISIA",<br>
+                        "CompanyDescription": "Leading provider of business solutions and services.",<br>
+                        "PrivateSpace": "https://www.example.com",<br>
+                        "Gender": "NULL",<br>
+                        "Gouvernorat": "TUNIS",<br>
+                        "Location_State": "TUNIS",<br>
+                        "Location_Zip_Code": "1145",<br>
+                        "birth": "2001-09-07",<br>
+                        "Location_Latitude": "37.7749",<br>
+                        "Location_Longitude": "-122.4194",<br>
+                        "GooglePlace": "ChIJIQBpAG2ahYAR_6128GcTUEo",<br>
+                        "Location": "1 Market St, San Francisco, CA 94105, USA"<br>
+                    </div>
+                    <span class="json-code">&#125;<br></span>
+                    <div class="json-comment">
+                        // Note: You only need to include the fields you wish to update.<br>
+                        // There's no requirement to provide all fields in the request body like this example.
+                    </div>
+                </p>
+
+
+               
+            </div>
+        </div>
+    </section>
+    <h3><strong>✍️ Example Implementation : </strong></h3>
+    <div class="endpoint">
+        <div class="code-blocks">
+            <div class="language-tabs">
+                <span class="language-tab active" data-lang="javascript">JavaScript</span>
+                <span class="language-tab" data-lang="python">Python</span>
+                <span class="language-tab" data-lang="java">Java</span>
+            </div>
+           
+   
+            <!-- JavaScript Example -->
+             {literal}
+<pre class="language-javascript">
+<code class="language-javascript">
+import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
+   
+const proxyBaseUrl = process.env.PROXY_BASE_URL;
+const apiKey = process.env.API_KEY;
+   
+const makeApiRequest = async (endpoint, method, data) => {
+try {
+        const response = await axios({
+            method: method,
+            url: `${proxyBaseUrl}/${endpoint}`,
+            data: data,
+            params: { api_key: apiKey },
+        });
+        return response.data;
+    } catch (error) {
+        console.error(`Error in ${method} request to ${endpoint}:`, error.response ? error.response.data : error.message);
+        throw error;
+        }
+};
+   
+const updateEmployer = async (req, res) => {
+    try {
+            const result = await makeApiRequest('employer', 'POST', req.body);
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: 'Error updating employer data', details: error.response ? error.response.data : error.message });
+        }
+    };
+                </code>
+            </pre>
+   
+            <!-- Python Example -->
+<pre class="language-python" style="display:none;">
+    <code class="language-python">
+import requests
+def make_api_request(endpoint, method, data, api_key):
+    url = f'http://localhost:3000/api/{endpoint}'
+    headers = {'Content-Type': 'application/json'}
+    try:
+        response = requests.request(method, url, json=data, headers=headers, params={'api_key': api_key})
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as err:
+        print(f"Error in {method} request to {endpoint}: {err}")
+        raise
+   
+def update_employer(api_key, data):
+    try:
+        result = make_api_request('employer', 'POST', data, api_key)
+        print(result)
+    except Exception as error:
+        print(f"Error updating employer data: {error}")
+</code>
+</pre>
+   
+            <!-- Java Example -->
+<pre class="language-java" style="display:none;">
+<code class="language-java">
+public class ApiClient {
+    private static final HttpClient client = HttpClient.newHttpClient();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static String makeApiRequest(String endpoint, String method, Map<String, Object> data, String apiKey) throws Exception {
+    String url = "http://localhost:3000/api/" + endpoint + "?api_key=" + apiKey;
+    String requestBody = objectMapper.writeValueAsString(data);
+    HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+        .uri(URI.create(url))
+        .header("Content-Type", "application/json");
+   
+        if (method.equalsIgnoreCase("POST")) {
+            requestBuilder.POST(HttpRequest.BodyPublishers.ofString(requestBody));
+        }
+   
+        HttpRequest request = requestBuilder.build();
+        try {
+                HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                return response.body();
+            } catch (Exception e) {
+                System.err.println("Error in " + method + " request to " + endpoint + ": " + e.getMessage());
+                throw e;
+            }
+    }
+   
+    public static void updateEmployer(String apiKey, Map<String, Object> data) {
+    try {
+            String result = makeApiRequest("employer", "POST", data, apiKey);
+            System.out.println(result);
+        } catch (Exception e) {
+            System.err.println("Error updating employer data: " + e.getMessage());
+        }
+    }
+}
+                </code>
+            </pre>
+            {/literal}
+        </div>
+    </div>
+   
+    </section>
+   
+
+
+  <script>
+   document.addEventListener('DOMContentLoaded', function () {
+    const tabs = document.querySelectorAll('.language-tab');
+    const codeBlocks = document.querySelectorAll('pre');
+
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            const lang = this.getAttribute('data-lang');
+
+
+            // Remove 'active' class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+
+
+            // Show and hide the appropriate code blocks
+            codeBlocks.forEach(block => {
+                // Check if the current block has the correct language class
+                if (block.classList.contains('language-' + lang)) {
+                    block.style.display = 'block';
+                } else {
+                    block.style.display = 'none';
+                }
+            });
+        });
+    });
+
+
+    // Initially show the JavaScript block by default
+    document.querySelector('.language-javascript').style.display = 'block';
+});
+   
+
+
+  </script>  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+</body>
+</html>
+

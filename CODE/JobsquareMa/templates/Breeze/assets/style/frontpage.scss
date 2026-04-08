@@ -1,0 +1,508 @@
+@import "mixins";
+@import "variables";
+
+.main-sections {
+    padding: 20px 0 10px;
+
+    &__middle-banner {
+        padding: 0;
+    }
+
+    &__jobs-at {
+        background: #F8F9F9;
+        margin-top: 60px;
+        padding: 0;
+    }
+
+    .featured-companies__wrapper {
+        background: #F8F9F9;
+        overflow: hidden;
+    }
+
+    @media all and (max-width: 1199px) {
+        .container {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+
+    &__secondary__banner {
+        margin-top: 10px;
+    }
+
+    &__main-wrapper {
+        margin-bottom: 100px;
+    }
+
+    &__alert {
+        margin-bottom: 20px;
+    }
+}
+
+/* START:Main banner
+ ********************************************************************************* */
+.main-banner {
+    position: relative;
+    height: 360px;
+    background: url("../images/#{$top-banner-image}") no-repeat;
+    background-size: cover;
+
+    &__wrapper {
+        height: 100%;
+    }
+
+    &__head {
+        padding-left: 10px;
+        padding-right: 10px;
+        h1 {
+            padding-top: 8px;
+            font-size: 48px;
+
+            @media all and (max-width: 991px) {
+                font-size: 46px;
+            }
+
+            @media all and (max-width: 767px) {
+                font-size: 40px;
+            }
+
+            @media all and (max-width: 420px) {
+                font-size: 28px;
+                padding: 0 !important;
+                margin: 10px 0;
+            }
+        }
+        @media all and (max-width: 767px) {
+            margin-top: 40px !important;
+        }
+        @media all and (max-width: 420px) {
+            padding: 0 !important;
+        }
+    }
+}
+
+/* START:Post a job
+ ********************************************************************************* */
+.middle-banner {
+    display: table;
+    width: 100%;
+
+    @media all and (max-width: 420px) {
+        height: 340px;
+    }
+
+    &__listings {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    &__wrapper {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    h3,
+    &__title {
+        font-size: 32px;
+        color: #fff;
+        letter-spacing: 0.64px;
+        text-transform: uppercase;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    > div,
+    &__description {
+        font-size: 22px;
+        color: rgba(255, 255, 255, 0.68);
+        letter-spacing: 0.44px;
+        font-weight: 500;
+
+        .highlight {
+            color: #fff;
+            font-weight: bold;
+        }
+    }
+
+    .btn-post-job {
+        text-transform: uppercase;
+        padding: 15px 67px;
+        font-size: $font-size-large;
+        line-height: 18px;
+        margin-top: 38px;
+
+        @include transition(box-shadow 0.2s ease-in);
+
+        &:hover {
+            @include prefix(box-shadow, 0 2px 14px 0 rgba(0, 0, 0, 0.08), webkit ms moz);
+        }
+    }
+}
+
+/* START:Featured companies
+ ********************************************************************************* */
+.company__no-image {
+    display: block;
+    background: url('../images/no-image.svg') no-repeat 50%;
+    width: 100%;
+    height: 114px;
+}
+
+.featured-companies {
+    background-color: $container-bg;
+    position: relative;
+    font-family: $font-family;
+
+    @media all and (max-width: 991px) {
+        width: 100% !important;
+    }
+
+    &__title {
+        margin-top: 11px;
+    }
+
+    &__slider {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .featured-company {
+        padding: 0;
+        @include transition(all 0.2s ease-in);
+        &:hover {
+            background: #f3f3f3;
+            .featured-company__info {
+                @include prefix(box-shadow, 0 2px 14px 0 rgba(0, 0, 0, 0.08), webkit ms moz);
+            }
+            a {
+                background: #f3f3f3;
+            }
+        }
+        &__logo {
+            padding-right: 10px;
+            vertical-align: top;
+            min-width: 60px;
+            width: 50px;
+            position: relative;
+            display: table-cell;
+        }
+        &__image {
+            max-width: 50px;
+            max-height: 50px;
+            display: table-cell;
+            margin: 0 auto;
+            &--wrapper {
+                vertical-align: middle;
+                display: inherit;
+                width: 50px;
+                height: 50px;
+                background: #fff;
+                @include prefix(box-shadow, 0 2px 14px 0 rgba(0, 0, 0, 0.08), webkit ms moz);
+                .company__no-image {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+        }
+        &__info {
+            background: lighten($theme_button_color_3, 30%);
+            display: table-cell;
+            padding: 1px 10px;
+            @include transition(all 0.2s ease-in);
+            width: calc(100% - 63px);
+        }
+    }
+
+    .featured-company > a {
+        display: block;
+        padding: 20px 0 20px 25px;
+        text-decoration: none;
+    }
+
+    .featured-company a:hover {
+        text-decoration: none;
+    }
+
+    &__jobs,
+    &__name {
+        text-align: left;
+    }
+    &__name {
+        width: 152px;
+        color: $theme_button_color_2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        @media all and (max-width: 767px) {
+            width: 100%;
+        }
+    }
+}
+
+/* START:Jobs by
+ ********************************************************************************* */
+.jobs-by {
+    &__wrapper {
+        background: $jobs-by-bg;
+        overflow: hidden;
+    }
+
+    &__title {
+        font-size: 20px;
+        font-family: $font-family-second;
+        color: $theme_button_color_2;
+        margin: 0;
+        padding: 40px 25px;
+        border-bottom: 1px solid #E5E5E5;
+    }
+
+    .container {
+        padding: 55px 50px 50px;
+        position: relative;
+
+        @media all and (max-width: 991px) {
+            padding: 55px 15px 50px;
+        }
+
+        &:before,
+        &:after {
+            @media all and (max-width: 767px) {
+                display: block;
+                height: 60px;
+                width: 60px;
+                position: absolute;
+                top: 40px;
+            }
+        }
+
+        &:before {
+            @media all and (max-width: 767px) {
+                z-index: 9;
+                background: -webkit-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -moz-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -o-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -ms-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                left: 0;
+                width: 30px;
+                top: 45px;
+                @include prefix(transform, rotate(90deg), moz o ms webkit);
+
+            }
+        }
+
+        &:after {
+            @media all and (max-width: 767px) {
+                right: 0;
+                width: 30px;
+                top: 45px;
+                background: -webkit-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -moz-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -o-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: -ms-linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+                background: linear-gradient(0deg, $jobs-by-bg 65%, rgba($jobs-by-bg, 0) 100%, rgba($jobs-by-bg, 0) 100%);
+
+                @include prefix(transform, rotate(-90deg), moz o ms webkit);
+            }
+        }
+    }
+
+    .nav-pills {
+        text-align: center;
+        border-bottom: 1px solid #fff;
+        margin: 0 auto;
+        border-bottom: 1px solid rgba(#fff, 0.3);
+        width: 100%;
+        white-space: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+
+        @media all and (max-width: 767px) {
+            padding-bottom: 10px;
+        }
+
+        li {
+            display: inline-block;
+            float: none;
+
+            @media all and (min-width: 767px) {
+                margin: 0 20px;
+            }
+
+            @media all and (max-width: 767px) {
+                text-align: center;
+                border: none;
+
+                &.active {
+                    border: none;
+                }
+            }
+
+            a {
+                opacity: 0.7;
+                margin: 0;
+
+                @media all and (max-width: 767px) {
+                    padding-bottom: 0;
+                }
+            }
+        }
+
+        li,
+        li.active {
+            a {
+                padding: 10px 20px;
+                background: none;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: $font-size-xx-large;
+            }
+        }
+
+        li.active {
+            border-bottom: 5px solid #fff;
+
+            a {
+                opacity: 1;
+            }
+
+            @media all and (max-width: 767px) {
+                border: none;
+
+                a {
+                    display: inline-block;
+                    border-radius: 0;
+                }
+            }
+        }
+    }
+
+    a {
+        color: rgba(45,62,80,.60);
+        display: block;
+        padding: 0 25px;
+
+        &:hover {
+            color: rgba(45,62,80,.60);
+            text-decoration: none;
+        }
+    }
+}
+
+/* START:Browse by
+ ********************************************************************************* */
+.browse-by {
+    &__title {
+        width: 100%;
+        text-align: center;
+    }
+
+    &__list {
+        font-size: $font-size-large;
+        margin: 15px 0;
+
+        li {
+            line-height: 37px;
+            padding: 0;
+            @include transition(all 0.2s ease-in);
+            &:hover {
+                background: #f3f3f3;
+            }
+        }
+
+        .count {
+            color: $btn-yellow-bg;
+            font-weight: 700;
+        }
+    }
+
+    &__item {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 82%;
+        text-overflow: ellipsis;
+        vertical-align: top;
+    }
+}
+
+/* START:Subscribe
+ ********************************************************************************* */
+.alert {
+    &__messages {
+        .alert:last-child {
+            margin-bottom: 40px;
+        }
+    }
+
+    &__block {
+        background: #F8F9F9;
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    &__form {
+        padding: 0 25px 25px 25px;
+        @include prefix(box-shadow, 0 2px 30px rgba(0, 0, 0, 0.03), ms moz webkit);
+    }
+
+    &__form__input {
+        margin-bottom: 20px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        .form-control {
+            background: #fff;
+        }
+    }
+
+    .btn__subscribe {
+        padding: 10px 40px;
+        letter-spacing: 1px;
+    }
+}
+
+.subscribe {
+    &__description {
+        font-size: $font-size-large;
+
+        a {
+            font-size: $font-size-base;
+        }
+        .subscribe__title,
+        h3 {
+            margin-top: 0;
+        }
+
+        > div {
+            line-height: 26px;
+        }
+
+
+        @media all and (max-width: 767px) {
+            width: 100%;
+            margin-right: 0;
+        }
+    }
+
+    &__description__highlighted {
+        padding: 10px 20px;
+        background: $subscribe-highlight-bg;
+        margin-bottom: 25px;
+        color: #000;
+    }
+
+    &fription__text {
+        padding: 0 10px 0 20px;
+        line-height: 26px;
+        color: #a4a4a4;
+    }
+}
+
+.search-header {
+    background-size: 100%;
+}

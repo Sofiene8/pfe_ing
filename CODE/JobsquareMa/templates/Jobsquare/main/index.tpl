@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+	<meta name="keywords" content="{$KEYWORDS|escape}">
+	<meta name="description" content="{$DESCRIPTION|escape}">
+	<meta name="viewport" content="width=device-width, height=device-height,
+                                   initial-scale=1.0, maximum-scale=1.0,
+                                   target-densityDpi=device-dpi">
+	<link rel="alternate" type="application/rss+xml" title="[[Jobs]]" href="{$GLOBALS.site_url}/rss/">
+
+	<title>{if $TITLE}{tr}{$TITLE}{/tr|escape} | {/if}{$GLOBALS.settings.site_title}</title>
+	[[$HEAD]]
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">	<link href="{$GLOBALS.site_url}/templates/Jobsquare/assets/third-party/jquery-ui.css" rel="stylesheet">
+	<link href="{$GLOBALS.site_url}/templates/Jobsquare/vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="{$GLOBALS.site_url}/system/ext/jquery/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
+
+	<link href="{$GLOBALS.site_url}/templates/Jobsquare/assets/style/styles.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="{$GLOBALS.site_url}/templates/Jobsquare/assets/style/search-jobs.css" rel="stylesheet">
+
+
+
+	<style type="text/css">{$GLOBALS.theme_settings.custom_css}</style>
+	<!-- Ajout pour nouveau style  Ched  -->
+{if $GLOBALS.current_user.logged_in}
+
+
+	{if $GLOBALS.current_user.group.id == "Employer"}
+	<link href="{$GLOBALS.site_url}/templates/Jobsquare/assets/style/jobseeker/jobseeker.css" rel="stylesheet">
+		{else }
+		<link href="{$GLOBALS.site_url}/templates/Jobsquare/assets/style/jobseeker/resume.css" rel="stylesheet">
+			{/if}
+			
+{/if}
+		<!-- Ajout pour nouveau style  -->	
+
+		<!-- Ajout pour nouveau style  -->	
+	{$GLOBALS.theme_settings.custom_js}
+</head>
+
+
+
+	
+<body 
+{if $GLOBALS.current_user.group.id == "Employer"} id="jobseeker"{/if} 
+{if $GLOBALS.user_page_uri == '/edit-profile/'} class="tinyheader head2 page-edit-profile"
+{elseif $GLOBALS.user_page_uri == '/job-preview/'}  class="tinyheader head2 page-job-preview"
+{elseif $GLOBALS.user_page_uri == '/registration/'}  class="tinyheader head2 page-registration"
+{elseif $GLOBALS.user_page_uri == '/login/' }  class="tinyheader head2 page-login"
+{elseif $GLOBALS.user_page_uri == '/jobs/'}  class="tinyheader head2 page-jobs"
+{elseif $GLOBALS.user_page_uri == '/training/' }   class="tinyheader head2 page-training"
+{elseif $GLOBALS.user_page_uri == '/my-listings/'} class="tinyheader head2 page-my-listings"
+{elseif $GLOBALS.user_page_uri == '/edit-job/'} class="tinyheader head2 page-edit-job"
+{elseif $GLOBALS.user_page_uri == '/clone-job/'} class="tinyheader head2 page-edit-clone-job" 
+{elseif $GLOBALS.user_page_uri == '/blog/'} class="index homeindex blog_page" 
+{elseif $GLOBALS.user_page_uri == '/contact/'} class="index homeindex contact_page" 
+{elseif $GLOBALS.user_page_uri == '/recrutement/'} class="tinyheader head2 recrutement_page" 
+{elseif $GLOBALS.user_page_uri == '/invoices/'} class="tinyheader head2 invoices_page" 
+{elseif $GLOBALS.user_page_uri == '/details-invoice/'} class="tinyheader head2 invoices_page" 
+{elseif $GLOBALS.user_page_uri == '/system/applications/view/'} class="tinyheader head2 recrutement_page" 
+{else}
+ class="index homeindex" {/if} 
+ >
+
+{if $GLOBALS.user_page_uri == '/job-preview/' 
+|| $GLOBALS.user_page_uri == '/registration/' 
+|| $GLOBALS.user_page_uri == '/login/'  
+|| $GLOBALS.user_page_uri == '/jobs/'
+|| $GLOBALS.user_page_uri == '/training/'
+|| $GLOBALS.user_page_uri == '/edit-job/'
+|| $GLOBALS.user_page_uri == '/edit-profile/'
+|| $GLOBALS.user_page_uri == '/clone-job/'
+|| $GLOBALS.user_page_uri == '/recrutement/'
+|| $GLOBALS.user_page_uri == '/my-listings/'
+|| $GLOBALS.user_page_uri == '/invoices/'
+|| $GLOBALS.user_page_uri == '/details-invoice/'
+|| $GLOBALS.user_page_uri == '/edit-profile/' }
+  
+   {include file="../menu/headerjob.tpl"}
+	{else}
+	
+	  {include file="../menu/header.tpl"}
+	{/if}
+
+	<div id="loading"></div>
+
+	<div class="modal fade" id="message-modal" tabindex="-1" role="dialog" aria-labelledby="message-modal-label">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+					<h4 class="modal-title" id="message-modal-label">Modal title</h4>
+				</div>
+				<div class="modal-body">
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">[[Close]]</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="flash-messages">
+		{module name='flash_messages' function='display'}
+	</div>
+    {if $GLOBALS.user_page_uri == '/categories/' || $GLOBALS.user_page_uri == '/states/'
+    || $GLOBALS.user_page_uri == '/countries/' || $GLOBALS.user_page_uri == '/cities/'
+    || $GLOBALS.user_page_uri == '/job-preview/' || $GLOBALS.user_page_uri == '/resume-preview/' || $GLOBALS.user_page_uri == '/training-preview/'}
+		<div class="page-row page-row-expanded">
+			{if $GLOBALS.user_page_uri == '/resume-preview/'}
+			<div class="display-item resumepage">
+			{else}
+			<div class="display-item pages">
+			{/if}
+				{block name='main_content'}
+					{$MAIN_CONTENT}
+				{/block}
+			</div>
+		</div>
+	{else}
+		<div class="page-row page-row-expanded">
+			{if $GLOBALS.user_page_uri != '/edit-profile/' && $GLOBALS.user_page_uri != '/my-listings/' && $GLOBALS.user_page_uri != '/blog/'  && $GLOBALS.user_page_uri != '/contact/'
+			&& $GLOBALS.user_page_uri != '/login/' && $GLOBALS.user_page_uri != '/registration/' && $GLOBALS.user_page_uri != '/add-listing/' && $GLOBALS.user_page_uri != '/password-recovery/' && $GLOBALS.user_page_uri != '/applications/'}
+			<div class="container container--small {if 'banner_right_side'|banner}with-banner{/if} {if $GLOBALS.user_page_uri == '/employer-products/' || $GLOBALS.user_page_uri == '/jobseeker-products/'}with-banner__products{/if}">
+			{/if}
+				{if 'banner_right_side'|banner}
+					<div class="with-banner__wrapper">
+				{/if}
+				{block name='main_content'}
+					{$MAIN_CONTENT}
+				{/block}
+				{if 'banner_right_side'|banner}
+					</div>
+                    <div class="banner banner--right">
+                        {'banner_right_side'|banner}
+                    </div>
+				{/if}
+			</div>
+		</div>
+	{/if}
+{if $GLOBALS.user_page_uri == '/my-listings/'|| $GLOBALS.user_page_uri == '/edit-job/'|| $GLOBALS.user_page_uri == '/clone-job/'}
+{else}
+	{include file="../menu/footer.tpl"}
+{/if}
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="{$GLOBALS.site_url}/templates/Jobsquare/assets/third-party/jquery.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="{$GLOBALS.site_url}/templates/Jobsquare/vendor/twbs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<script src="{$GLOBALS.site_url}/templates/Jobsquare/assets/third-party/jquery-ui.min.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="{common_js}/main.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/templates/Jobsquare/assets/third-party/jquery.form.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/system/ext/jquery/jquery.validate.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/templates/Jobsquare/common_js/autoupload_functions.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/system/ext/jquery/imagesize.js"></script>
+	<link rel="Stylesheet" type="text/css" href="{$GLOBALS.site_url}/system/ext/jquery/css/jquery.multiselect.css" />
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.user_site_url}/system/ext/jquery/multilist/jquery.multiselect.min.js"></script>
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/templates/Jobsquare/common_js/multilist_functions.js"></script>
+	<script>
+		document.addEventListener("touchstart", function() { }, false);
+
+		var langSettings = {
+			thousands_separator : '{$GLOBALS.current_language_data.thousands_separator}',
+			decimal_separator : '{$GLOBALS.current_language_data.decimal_separator}',
+			decimals : '{$GLOBALS.current_language_data.decimals}',
+			currencySign: '{currencySign}',
+			showCurrencySign: 1,
+			currencySignLocation: '{$GLOBALS.current_language_data.currencySignLocation}',
+			rightToLeft: {$GLOBALS.current_language_data.rightToLeft}
+		};
+	</script>
+	<script language="JavaScript" type="text/javascript" src="{common_js}/floatnumbers_functions.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="{$GLOBALS.site_url}/system/ext/jquery/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	{if isset( $GLOBALS.available_datepicker_localizations[$GLOBALS.current_language] )}
+		<script type="text/javascript" src="{$GLOBALS.site_url}/system/ext/jquery/bootstrap-datepicker/i18n/bootstrap-datepicker.{$GLOBALS.current_language}.min.js" ></script>
+	{/if}
+
+	<script language="javascript" type="text/javascript">
+
+		// Set global javascript value for page
+		window.SJB_GlobalSiteUrl = '{$GLOBALS.site_url}';
+		window.SJB_UserSiteUrl   = '{$GLOBALS.user_site_url}';
+
+	</script>
+
+	{* load scripts for used indeed *}
+	{if $GLOBALS.user_page_uri == '/jobs/'}
+		{if $GLOBALS.plugins.IndeedPlugin.active == 1}
+			<script type="text/javascript" src="https://gdc.indeed.com/ads/apiresults.js"></script>
+		{/if}
+	{/if}
+
+	{js}
+
+	<script>
+		function message(title, content) {
+			var modal = $('#message-modal');
+			modal.find('.modal-title').html(title);
+			modal.find('.modal-body').html(content);
+			modal.modal('show');
+		}
+	</script>
+	<link rel="stylesheet" type="text/css" href="{$GLOBALS.site_url}/templates/Jobsquare/assets/style/cookieconsent.min.css" />
+<script src="{$GLOBALS.site_url}/templates/Jobsquare/assets/third-party/cookieconsent.min.js" data-cfasync="false"></script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000"
+    },
+    "button": {
+      "background": "#f1d600"
+    }
+  }
+})});
+</script>
+<script>
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#413D3C"
+    },
+    "button": {
+      "background": "#eb800e"
+    }
+  }
+})});
+</script>
+	<style>
+	body#jobseeker.tinyheader.head2.page-edit-profile  .navbar .navbar-right .navbar__item .navbar__link.btn__blue {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+	color:#eb800e;
+}
+		body#jobseeker.tinyheader.head2.page-edit-profile .my-account-title {
+    text-align: center;
+
+    color: #fff;
+    background: #166bd9;
+   
+}
+		body#jobseeker.tinyheader.head2.page-edit-profile .my-account-title a {
+visibility:hidden; display: none;
+   
+}
+
+
+.mt-10 { margin-top:10px}
+.mt-20 { margin-top:20px}
+.mt-30 { margin-top:30px}
+.mt-40 { margin-top:40px}
+.mt-50 { margin-top:50px}
+
+
+.mb-10 { margin-bottom:10px}
+.mb-20 { margin-bottom:20px}
+.mb-30 { margin-bottom:30px}
+.mb-40 { margin-bottom:40px}
+.mb-50 { margin-bottom:50px}
+.pt-150 { padding-top:150px}
+.pb-150 { padding-bottom:150px}
+.contact_page .slogan, .blog_page .slogan , .homeindex  .slogan{
+   
+    font-size: 12px;
+    left: 39px;
+    top: 43px;
+   
+}
+
+ .homeindex .container--small , .page-edit-profile .container--small{
+    
+    background: transparent!important;
+   
+}
+
+.recrutement_page .content-text { /* color:#fff*/ ; font-size:16px}
+
+body.recrutement_page  {
+  /*  background: #ee810c;*/
+
+}
+
+body.page-edit-profile  h1.my-account-title , body.page-my-listings  h1.my-account-title, h1.view_seeker.my-account-title {
+   
+    color: #ffffff;
+    background: #0055d9;
+    
+}
+
+
+.my-account-listings .listing-item:first-of-type {
+    margin-top: 30px;
+}
+.text-smaller { font-size:14px}
+
+.recrutement_page .container--small {
+    
+    background: transparent;
+   
+}
+.Btn--TrGreen {
+    display: inline-block;
+	 background-color: #f6f6f6;
+    border: 1px solid #32b173;
+    color: #32b173;
+	padding:15px 25px; font-size:22px;
+	position:relative;
+	margin-bottom:15px
+	
+
+}
+.Btn--TrGreen:before {
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .45s;
+    width: 100%;
+    will-change: transform;
+    background-color: #32b173; z-index:0
+}
+.Btn--TrGreen:hover {
+   color: #fff;
+}
+
+.Btn--TrGreen:hover:before {
+    transform: scaleX(1); color: #fff;
+}
+
+
+
+.Btn--TrGreen span {
+    padding-right: 24px;
+    position: relative;
+	z-index:1
+}
+
+
+.Btn--TrGreen span:after {
+	   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxNSI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiMzMkIxNzMiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiIGQ9Im0xLjk5OCA3LjE3IDEzLjgwOS0uMDAxIi8+PHBhdGggZD0ibTEwLjY0OSAxMi43MDYgNS4yODYtNS40NS01LjIzLTUuMzkzIi8+PC9nPjwvc3ZnPg==);
+
+    transition: transform .45s .3s;
+    background-position: right top -2px;
+    background-size: 100%;
+    content: "";
+    height: 17px;
+    position: absolute;
+    right: 0;
+    top: 8px;
+    width: 20px;
+	color: #32b173; 
+	z-index:2;
+}
+.Btn--TrGreen:hover span:after {
+
+	   	   background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxNSI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2U9IiNmZmYiPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJzcXVhcmUiIGQ9Im0xLjk5OCA3LjE3IDEzLjgwOS0uMDAxIi8+PHBhdGggZD0ibTEwLjY0OSAxMi43MDYgNS4yODYtNS40NS01LjIzLTUuMzkzIi8+PC9nPjwvc3ZnPg==);
+
+color: #fff; 
+
+    transform: translateX(8px);
+	color: #fff; 
+}
+
+.recrutement_page .title{
+    color: #00423e; font-size: 45px;
+    line-height: 48px;
+}
+
+.recrutement_page .t2{
+  margin-bottom: 72px
+}
+
+
+.menu_principal .nav.navbar-nav.navbar-left li:nth-child(4), 
+.menu_principal .nav.navbar-nav.navbar-left li:nth-child(5),
+.menu_principal .nav.navbar-nav.navbar-left li:nth-child(6),
+.menu_principal .nav.navbar-nav.navbar-left li:nth-child(7),
+.menu_principal .nav.navbar-nav.navbar-left li:nth-child(8)
+ { display:none}
+
+ @media (max-width: 767px) {
+    .recrutement_page .title {
+       
+        font-size: 32px;
+        line-height: 36px;
+    }
+
+	.pb-150 {
+    padding-bottom: 50px;
+}
+.pt-150 {
+    padding-top: 50px;
+}
+.page-my-listings .slogan {
+    font-size: 13px;
+    left: 42px;
+    top: 50px;
+}
+
+}
+	</style>
+	
+</body>
+</html>
