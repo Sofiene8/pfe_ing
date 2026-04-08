@@ -1,0 +1,108 @@
+.btn {
+    border-radius: 2px;
+    min-height: 34px;
+}
+
+.btn-default {
+    @extend .btn;
+    @extend .btn-default;
+    height: 34px;
+}
+
+.btn {
+    text-decoration: none;
+    min-height: 34px;
+    font-weight: normal;
+    border-radius: 2px;
+    @extend .btn;
+}
+.alert-permissions {
+    .btn {
+        @media all and (max-width: 400px) {
+            white-space: normal;
+        }
+    }
+}
+
+.btn--bordered {
+    @extend .btn;
+    @include button-variant($btn-bordered-color, $btn-bordered-bg, $btn-bordered-border);
+
+    &:hover {
+        background: $btn-bordered-color;
+        color: #fff;
+    }
+}
+
+.btn--primary {
+    @include button-variant($btn-gray-color, $btn-gray-bg, $btn-gray-border);
+    min-width: 80px;
+}
+
+.btn--secondary {
+    @extend .btn;
+    @include button-variant($btn-green-color, $btn-green-bg, $btn-green-border);
+}
+
+.btn--danger {
+    @extend .btn;
+    @include button-variant($btn-delete-color, $btn-delete-bg, $btn-delete-border);
+}
+
+.stats {
+    margin-top: 20px;
+    .btn-group {
+        margin-bottom: 20px;
+    }
+}
+
+.stats,
+.switchable-buttons {
+    .btn-group {
+        .btn:not(.btn--bordered) {
+            &.active,
+            &:hover,
+            &:focus,
+            &:active,
+            &:active:focus {
+                outline: none;
+                color: $link-color;
+                background: #e6eaed;
+                border-color: #8c8c8c;
+                @include prefix(box-shadow, none, moz webkit ms o);
+            }
+        }
+    }
+
+    .btn {
+        border-radius: 2px;
+        color: $default-color;
+
+        &:last-child:not(:first-child),
+        &:not(:first-child) {
+            border-radius: 2px;
+        }
+    }
+}
+
+.bulk {
+    display: none;
+}
+
+.login-as {
+    margin-right: 15px;
+}
+
+.btn__save {
+    min-width: 80px;
+}
+
+.btn__send-invite {
+    margin-right: 10px;
+}
+
+.admin-fields__permissions {
+    > .btn {
+        color: #797979;
+    }
+}

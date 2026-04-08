@@ -1,0 +1,1809 @@
+ body {
+    background: #f5f5f5;
+    font-family: Open Sans,sans-serif;
+    color: #001433;
+}
+ 
+ .container {
+ position:relative;
+ width:100%;
+ padding-right:24px;
+ padding-left:24px;
+ display:flex
+}
+@media screen and (min-width:992px) {
+ .container {
+  flex-direction:row;
+  width:100%;
+  padding-right:16px;
+  padding-left:16px;
+  margin:0 auto
+ }
+}
+@media screen and (min-width:1200px) {
+ .container {
+  flex-direction:row;
+  width:1170px;
+  display:block;
+ }
+}  
+ 
+.css-1gd7wsf {
+    max-width: 1170px;
+    padding: 0px 16px;
+    margin: -80px auto 0px;
+    width: 100%;
+}
+.css-1ckssea {
+    max-width: 900px;
+    width: 100%;
+    margin: 0px auto;
+    padding: 48px 0px 32px;
+}
+.css-vrm4cl {
+    display: flex;
+    cursor: default;
+}
+.css-fxcazt {
+    position: relative;
+    display: flex;
+    flex: 1 0 0px;
+}
+.css-gdpa5c {
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.css-1ubp74e {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 11px;
+    background: rgb(0, 85, 217) none repeat scroll 0% 0%;
+    color: rgb(255, 255, 255);
+    cursor: auto;
+}
+
+.css-shrb6e {
+    display: inline-block;
+    margin-top: 8px;
+    width: 112px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 15px;
+    font-weight: 600;
+    color: rgb(0, 85, 217);
+}
+.css-gdpa5c {
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.css-fxcazt::after {
+    background: rgb(235, 237, 240) none repeat scroll 0% 0%;
+    content: "";
+}
+.css-fxcazt::after {
+    height: 1px;
+    width: calc(100% - 48px);
+    display: inline-block;
+    position: absolute;
+    right: -33px;
+    top: 15px;
+}
+.css-vrm4cl {
+    cursor: default;
+}
+
+.css-fxcazt {
+    position: relative;
+    display: flex;
+    flex: 1 0 0px;
+}
+.css-gdpa5c {
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.css-u96hfe {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 11px;
+    background: rgb(235, 237, 240) none repeat scroll 0% 0%;
+    color: rgb(102, 120, 147);
+    cursor: auto;
+}
+.css-bexpki {
+    display: inline-block;
+    margin-top: 8px;
+    width: 112px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 15px;
+    font-weight: 600;
+    color: rgb(102, 120, 147);
+}
+.css-3vogbp {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+}
+.css-gdpa5c {
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.css-u96hfe {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 32px;
+    font-size: 11px;
+    background: rgb(235, 237, 240) none repeat scroll 0% 0%;
+    color: rgb(102, 120, 147);
+    cursor: auto;
+}
+.css-bexpki {
+    display: inline-block;
+    margin-top: 8px;
+    width: 112px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 15px;
+    font-weight: 600;
+    color: rgb(102, 120, 147);
+}
+.css-1wtdjp1 {
+    max-width: 800px;
+    width: 100%;
+    margin: 0px auto;
+}
+.css-174not0 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+.css-tukd06 {
+    margin-bottom: 16px;
+    display: inline-block;
+}
+.inner-bloc {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -8px;
+    margin-left: -8px;
+    margin-bottom: -12px;
+}
+. span.boxedSingleItem {
+
+    width: 33.3333%;
+
+}
+.css-1gapyfo {
+
+    height: 60px;
+
+}
+.boxedSingleItem {
+    display: inline-block;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-bottom: 12px;
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    width: 33.3333%;
+}
+.resume-bloc {
+    padding: 32px;
+    margin-bottom: 16px;
+}
+.resume-bloc {
+    margin-bottom: 12px;
+    padding: 24px 16px;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    border: 1px solid rgb(217, 221, 228);
+    border-radius: 2px;     border-top: 1px solid #0055d9;
+}
+.css-d9v5op {
+    color: rgb(128, 142, 165);
+    font-size: 12px;
+    line-height: 18px;
+    margin-top: 4px;
+}
+.css-i1y1z6 {
+    font-family: Open Sans;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 14px;
+}
+.css-1isemmb {
+    margin-left: 8px;
+}
+.css-1yq7fu5 {
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    margin-top: 24px;
+}
+.css-1yq7fu5 .switch-button {
+    align-self: flex-start;
+}
+.switch-button {
+    cursor: pointer;
+    display: inline-block;
+}
+.switch-button.is-active .switch-button__container {
+    background: rgb(52, 172, 121) none repeat scroll 0% 0%;
+    border: 1px solid rgb(52, 172, 121);
+}
+.switch-button__circle {
+
+    display: inline-block;
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    border-radius: 50%;
+    left: 1px;
+    top: 0px;
+    transition: all 0.3s ease-in-out 0s;
+
+}
+.switch-button.is-active .switch-button__circle {
+    left: calc(100% - 28px);
+}
+.switch-button__container {
+    position: relative;
+    height: 30px;
+    width: 50px;
+    display: inline-block;
+    background: rgb(235, 237, 240) none repeat scroll 0% 0%;
+    border-radius: 15px;
+    border: 1px solid rgb(204, 210, 219);
+    overflow: hidden;
+    transition: all 0.3s ease-in-out 0s;
+}
+.css-ozgns8 {
+    display: block;
+    font-style: italic;
+    font-size: 14px;
+    margin: 0px 10px 0px 20px;
+}
+.css-da0el5 {
+
+    color: rgb(0, 85, 217);
+    cursor: pointer;
+    font-size: 14px;
+
+}
+.css-1scoqbg {
+    border-width: 1px;
+    border-style: solid;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: rgb(127, 85, 0);
+    background-color: rgb(255, 246, 230);
+    border-color: rgb(255, 229, 179);
+}
+.css-15r58nl {
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    color: rgb(0, 20, 51);
+    background-color: rgb(250, 250, 251);
+    font-size: 14px;
+    font-weight: normal;
+    padding: 0px 12px;
+    border: 1px solid rgb(217, 221, 228);
+    border-radius: 2px;
+}
+.css-1ac03ny {
+    height: 40px;
+    position: relative;
+}
+.css-znsm0t {
+    display: inline-block;
+    width: 100%;
+    
+}
+
+.boxedSingleItem {
+    display: inline-block;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-bottom: 12px;
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    width: 32.3333%;
+}
+. span.boxedSingleItem {
+    width: 33.3333%;
+}
+.css-1gapyfo {
+    height: 60px;
+}
+.boxedSingleItem * {
+    box-sizing: border-box;
+}
+.boxedSingleItem .panel-body {
+    padding: 10px 16px;
+    background-color: rgb(250, 250, 251);
+    border: 1px solid rgb(235, 237, 240);
+    line-height: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+.boxedSingleItem > div {
+    height: 100%;
+}
+.inner-bloc {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -8px;
+    margin-left: -8px;
+    margin-bottom: -12px;
+}
+.boxedSingleItem .selected .panel-body {
+    background: rgb(230, 239, 255) none repeat scroll 0% 0%;
+    border-color: rgb(77, 147, 255);
+}
+.boxedSingleItem .selected .panel-body .title {
+   
+    color: rgb(0, 85, 217);
+}
+.css-tukd06 {
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.css-1xujd69 {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline;
+    line-height: 20px;
+    letter-spacing: -0.45px;
+    color: rgb(0, 20, 51);
+}
+.css-wgn4vk {
+    font-weight: normal;
+    margin: 0px 5px;
+    font-style: italic;
+    font-size: 14px;
+}
+.css-1ugyivz {
+    font-size: 14px;
+   /* font-style: italic;*/
+    line-height: 18px;
+	color: #0055d9;
+    font-weight: 400;
+}
+.custom-selectbox {
+   
+}
+.Select, .Select div, .Select input, .Select span {
+   
+    box-sizing: border-box;
+}
+.Select {
+    position: relative;
+}
+.Select-control {
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    color: #333;
+    cursor: default;
+    display: table;
+    border-spacing: 0;
+    border-collapse: separate;
+    height: 36px;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.Select--multi .Select-control .Select-multi-value-wrapper {
+    max-width: 500px;
+    padding: 8px;
+    margin-bottom: -4px;
+}
+.Select--multi .Select-multi-value-wrapper {
+    display: inline-block;
+}
+.Select, .Select div, .Select input, .Select span {
+
+      box-sizing: border-box;
+
+}
+.Select--single > .Select-control .Select-value, .Select-placeholder {
+    bottom: 0;
+    color: #aaa;
+    left: 0;
+    line-height: 34px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.Select-placeholder {
+
+    color: rgb(128, 142, 165);
+    font-size: 14px;
+    line-height: 38px;
+
+}
+.Select--multi .Select-input {
+    vertical-align: middle;
+    margin-left: 10px;
+    padding: 0;
+}
+.Select-input > input {
+    width: 100%;
+    background: none transparent;
+    border: 0;
+    box-shadow: none;
+    cursor: default;
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    margin: 0;
+    outline: none;
+    line-height: 17px;
+    padding: 8px 0 12px;
+    -webkit-appearance: none;
+}
+.Select--multi .Select-control .Select-multi-value-wrapper .Select-input input {
+    padding: 0px;
+    color: rgb(0, 20, 51);
+}
+.boxed-checkbox {
+    display: inline-flex;
+    -moz-box-align: center;
+    align-items: center;
+    margin-right: 12px;
+    border-radius: 2px;
+    border: 1px solid rgb(235, 237, 240);
+    margin-bottom: 12px;
+    background-color: rgb(250, 250, 251);
+    outline: currentcolor none medium;
+    box-shadow: none;
+    transition: all 0.2s ease 0s;
+    font-size: 15px;
+    padding: 10px 12px;
+    cursor: pointer;
+    text-align: left;
+}
+.css-1lylxjf {
+    font-size: 15px;
+    color: rgb(77, 97, 130);
+}
+.css-tjx49 {
+    display: inline-flex;
+    line-height: 1em;
+    width: 20px;
+    height: 20px;
+}
+.css-7oyirr {
+    display: flex;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    -moz-box-align: center;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-direction: row-reverse;
+}
+.css-txeug1 {
+    display: inline-flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 12px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    min-height: 40px;
+    line-height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 85, 217);
+}
+.css-1pssweo {
+    position: relative;
+    display: flex;
+    flex: 1 0 0px;
+}
+.css-vrm4cl {
+    display: flex;
+    cursor: default;
+}
+.css-1haac7k {
+    height: 12px;
+    width: 12px;
+    vertical-align: middle;
+}
+.css-gdpa5c {
+    display: flex;
+    flex-direction: column;
+    -moz-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.css-1pssweo::after {
+    background: rgb(0, 85, 217) none repeat scroll 0% 0%;
+    content: "";
+}
+.css-1pssweo::after {
+    height: 1px;
+    width: calc(100% - 48px);
+    display: inline-block;
+    position: absolute;
+    right: -33px;
+    top: 15px;
+}
+.css-wzp6tc:hover {
+    background-color: rgb(217, 221, 228);
+}
+.css-wzp6tc {
+    display: inline-flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 12px;
+    border: 1px solid rgb(217, 221, 228);
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    min-height: 40px;
+    line-height: 32px;
+    color: rgb(77, 97, 130);
+    background-color: rgb(235, 237, 240);
+}
+.css-1kqwv1a:hover {
+    background-color: rgb(0, 70, 178);
+}
+.css-1kqwv1a {
+    display: inline-flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 12px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    min-height: 40px;
+    line-height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 85, 217);
+}
+.css-qijrzv {
+
+    margin-bottom: 10px;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+
+}
+.css-esj582 {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline;
+    line-height: 20px;
+    letter-spacing: -0.45px;
+    color: rgb(0, 20, 51);
+}
+.css-djskp8 {
+    font-weight: normal;
+    margin: 0px 5px;
+    font-size: 14px;
+}
+.css-16ghou {
+
+    color: rgb(128, 142, 165);
+    font-size: 12px;
+
+}
+.css-vzfgfo {
+    color: rgb(128, 142, 165);
+    display: block;
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+.css-1q81t12 {
+    display: inline-flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 12px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    min-height: 40px;
+    line-height: 32px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 85, 217);
+    margin-right: 12px;
+}
+.css-3kct3w {
+    display: inline-flex;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+    font-size: 15px;
+    padding: 0px 12px;
+    border: 1px solid rgb(217, 221, 228);
+    border-radius: 2px;
+    text-decoration: none;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    min-height: 40px;
+    line-height: 32px;
+    color: rgb(77, 97, 130);
+    background-color: rgb(235, 237, 240);
+    margin-right: 12px;
+}
+.css-1xd4xqc {
+    display: flex;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.custom-selectbox__label {
+    display: inline-block;
+    margin-bottom: 4px;
+    color: rgb(77, 97, 130);
+    font: 600 14px / 20px "Open Sans";
+}
+.resumesteps {  /* 
+    padding-top:30px;      
+    margin-top: 30px;*/
+}
+.resumedisplay {   
+    padding-top:40px;      
+    margin-top: 40px;
+}
+
+.boxeresumecontact {
+    display: inline-block;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-bottom: 12px;
+    min-width: 200px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+. span.boxeresumecontact {
+
+    width: 70%;
+
+}
+.css-1gapyfo {
+
+    height: 50%;
+
+}
+
+.boxeresumecontact > div {
+    height: 100%;
+}
+
+.boxeresumecontact .selected .panel-body .title {
+    font-size: 15px;
+    color: rgb(0, 85, 217);
+}
+.boxeresumecontact * {
+    box-sizing: border-box;
+}
+.boxeresumecontact .panel-body {
+    padding: 10px 16px;
+    background-color: rgb(250, 250, 251);
+    border: 1px solid rgb(235, 237, 240);
+    line-height: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: left;
+	
+}
+.boxeresumecontact > div {
+    height: 100%;
+}
+.show-data  {
+    background: rgb(230, 239, 255) none repeat scroll 0% 0%;
+    border-color: rgb(77, 147, 255);
+	 display: inline-block;
+    padding-right: 8px;
+    padding-left: 8px;
+    margin-bottom: 12px;
+	  margin-left: 0px;
+	  
+    min-width: 200px;
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+	 -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: center;
+}
+.boxedSingleItemContact {
+    
+    display: inline-block;
+    padding-right: 0;
+    padding-left: 0;
+    margin-bottom: 5px;
+    min-width: 155px;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    color: rgb(0, 85, 217);
+}
+. span.boxedSingleItemContact {
+
+    width: 25%;
+
+}
+.css-1gapyfo {
+
+    height: 50%;
+
+}
+.boxedSingleItemContact > div {
+    height: 100%;
+}
+
+.boxedSingleItemContact .selected .panel-body .title {
+    font-size: 15px;
+    color: rgb(0, 85, 217);
+}
+.boxedSingleItemContact * {
+    box-sizing: border-box;
+}
+.boxedSingleItemContact .panel-body {
+    padding: 10px 16px;
+    background-color: rgb(250, 250, 251);
+    border: 1px solid rgb(235, 237, 240);
+    line-height: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: left;
+	
+}
+.boxedSingleItemContact > div {
+    height: 100%;
+}
+/***********************************************************************************/
+
+@media (min-width: 767px){
+.sidebar {
+    width: auto;margin-bottom: 30px;
+}}
+
+
+.text-right {
+   /*
+    width: 100%;*/
+}
+
+.btn__back_resume {
+   
+    display: inline-block;
+    margin-top: 15px!important;
+    margin-bottom: 15px;
+    color: #747274;
+}
+
+.btn__back_resume:before {
+   
+    display:none;
+}
+
+#editListingForm.form {
+   
+    margin-top: 0;
+}
+ .desc_title{
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 300;
+    font-style: italic;
+    margin: 0px 4px;
+    display: block;
+}
+
+
+ .desc_title strong,  .desc_title b{
+    
+    font-weight: 400;
+    
+}
+
+.tinyheader .page-row-expanded {
+   
+    background: #f5f5f5;
+}
+
+.hidden-to-jobseeker {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: rgb(89, 108, 138);
+    padding: 24px 16px;
+    overflow: hidden;
+    background: rgb(245, 245, 245);
+    border-radius: 2px;
+    border-width: 1px;
+    border-style: dashed;
+    border-color: rgb(179, 187, 201);
+    border-image: initial;
+}
+
+
+.hidden-to-jobseeker  .boxedSingleItemContact .panel-body {
+    padding: 7px 10px;
+    background-color: rgb(250, 250, 251);
+    border: 1px dashed rgb(179, 187, 201);
+    line-height: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: center;
+    justify-content: center;
+    -moz-box-align: center;
+    align-items: left;
+    font-size: 12px;
+}
+
+
+h2.resume_main-title {
+       display: flex;
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgb(8, 61, 146);
+    margin-bottom: 16px;
+    line-height: 1;
+    font-size: 18px;
+    font-weight: 500;
+    display: inline;
+    line-height: 20px;
+    letter-spacing: -0.35px;
+    
+}
+
+.form .form-group.field-group{
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 16px;margin-top:15px;
+    padding:0;
+}
+
+
+.form .resume-bloc  .form-group .complex {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(216, 216, 216, 0.7);
+
+	
+	background-color: rgb(252, 252, 252);
+    padding: 12px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(235, 237, 240);
+    border-image: initial;
+    border-radius: 2px;
+	
+	    border-top: 2px solid #ea800e;
+}
+
+.form .resume-bloc .form-group__add {
+    margin-left: 0;
+    re: absolute;
+    bottom: 15px;
+    position: relative;
+    padding-left: 0;
+}
+
+.form .form-group.field-group .form-control:focus {
+    border-color: #0055d9;
+   
+}
+
+.form .form-group.field-group .form-label {
+    padding-top: 10px;
+    color: #000;
+    width: auto;
+}
+
+
+.boxedSingleItem .panel-body {
+    font-size: 13.5px;
+    padding: 10px 0px;
+}
+
+
+.form .form-label.desc_title {width: auto;
+    padding-top: 8px;}
+	
+	.boxedSingleItem  p { margin-bottom:0px;}
+	
+	
+	.section-title { margin-bottom:15px}
+	
+	
+	form .form-group .complex-wrapper {
+    padding-bottom: 0;
+}
+
+h3.resume_main-title {
+    font-size: 16px;
+}
+
+
+.resume-bloc .details-body__title {
+    font-size: 16px;
+    color: #0055d9;
+    /* font-family: 'Roboto Slab', serif; */
+    font-weight: 400;
+    text-transform: none;
+	margin-top:0;
+}
+
+.infocv .inner-bloc {
+    display: block;
+   
+}.infocv {
+   padding-top:30px
+   
+}
+/*-----------edit resume--------------*/
+.template-cv form {
+   
+}
+
+
+.resume-bloc button[disabled], html .resume-bloc input[disabled] {
+    cursor: default;
+    background: #ccc;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    border-radius: 3px;
+    float: left;
+    color: #fff;
+    display: inline-block;
+    font-size: 13px;
+}
+
+ html .resume-bloc input.active{
+    cursor: default;
+    background: #0055d9;
+    border: 1px solid #0055d9;
+    padding: 5px 10px;
+    border-radius: 3px;
+    float: left;
+    color: #fff;
+    display: inline-block;
+    font-size: 13px; cursor:pointer;
+}
+.resume-bloc .section-title form {
+   
+    display: inline-block;
+    float:right;
+}
+.background-img-template {
+    height: 320px;
+    background-size: cover;
+    box-shadow: 7px 5px 30px rgba(72,73,121,.15);
+    position: relative;
+}
+
+.cv-template-color {
+    height: 36px;
+}
+.cv-color {
+    padding: 8px 7px;
+    display: table;
+    float: left;
+}
+.cv-color a {
+    height: 20px;
+    width: 20px;
+    display: block;
+    border-radius: 50%;
+    cursor: pointer;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    border: solid .1px #0000002e;
+}
+a:not([href]):not([tabindex]) {
+    color: inherit;
+    text-decoration: none;
+}
+
+.dashicons, .dashicons-before:before {
+    font-family: dashicons;
+    display: inline-block;
+    line-height: 1;
+    font-weight: 400;
+    font-style: normal;
+    speak: none;
+    text-decoration: inherit;
+    text-transform: none;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    vertical-align: top;
+    text-align: center;
+    transition: color .1s ease-in;
+}
+.cv-color a>i.fas, .cv-template-color a>span.dashicons {
+    color: #fff;
+}
+.background-img-template input[type="submit"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin-top: 0!important;
+}
+.background-img-template {
+    height: 320px;
+    background-size: cover;
+    box-shadow: 7px 5px 30px rgba(72,73,121,.15);
+    position: relative;
+}
+@media screen and (min-width: 740px)
+.col4 {
+    display: table-cell;
+    padding: 2%;
+    width: 25%;
+}
+.cv-template-color a>span.dashicons {
+    position: relative;
+    right: 1px;
+}
+.background-img-template:hover input[type="submit"] {
+    position: absolute;
+    background: rgba(42,84,132,.61);
+    color: #fff;
+    opacity: 1;
+    margin-top: 0!important;
+    font-family: 'anton_regular',sans-serif;
+    letter-spacing: 2px;
+    font-size: 22px;
+    transition: 0.3s;
+}
+ input[type="submit"], input[type="submit"] {
+    cursor: pointer;
+    background: #184979;
+}
+
+.css-1vh6i3x {
+    max-width: 810px;
+    width: 100%;
+    margin: 0px auto;
+}
+.css-b9pwbv, .alertbleu {
+    font-size: 14px;
+    color: rgb(0, 50, 127);
+    background-color: rgb(230, 239, 255);
+    margin-bottom: 24px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: rgb(179, 209, 255);
+    padding: 8px 12px;
+}
+
+.css-g50631 {
+    
+    display: inline-flex;
+    margin-right: 4px;
+    vertical-align: text-bottom;
+    border-radius: 2px;
+}
+
+.css-uzhbcc {
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: -0.35px;
+    line-height: 22px;
+    margin-right: 8px;
+    color: rgb(77, 97, 130);
+}
+.css-1xr94rl {
+    display: inline;
+}
+.css-1ez1kl4 {
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    min-width: 80px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(0, 85, 217);
+    height: 28px;
+    min-height: 28px;
+    font-size: 14px;
+    line-height: 13px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: color 0.2s ease 0s, background-color 0.2s ease 0s, border-color 0.2s ease 0s;
+    padding: 0px 8px;
+}
+.css-2m6wmx {
+    font-size: 14px;
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: -0.35px;
+    line-height: 22px;
+    color: rgb(0, 20, 51);
+}
+.css-tjx49 {
+    display: inline-flex;
+    line-height: 1em;
+    width: 21px;
+    height: 21px;
+}
+.css-8qkzbz {
+    margin-bottom: 16px;
+    padding: 24px;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(217, 221, 228);
+    border-image: initial;
+    border-radius: 2px;
+}
+.pc-improve-profile-container .jobseeker-sidebar__item:first-of-type {
+    padding: 0;
+} 
+.jobseeker-sidebar__item:last-of-type {
+    border-bottom: none;
+}
+.jobseeker-sidebar__item:first-of-type {
+    padding-top: 0;
+    padding-bottom: 16px;
+}
+
+.profile-stats__title {
+    font-size: 16px;
+    margin-bottom: 8px;
+    line-height: 20px;
+	    font-weight: bold;
+}
+.profile-stats__profile-views {
+    margin-bottom: 8px;
+    line-height: 16px;
+}
+.profile-stats__profile-views {
+    font-style: italic;
+    font-size: 12px;
+    margin-bottom: 16px;
+    color: #808ea5;
+}
+.progress-bar {
+    height: 15px;
+    background-color: #d8d8d8;
+}
+
+.progress-bar__inner {
+    background: #0055d9;
+    height: 100%;
+}
+.profile-stats__profile-strength {
+    margin-top: 8px;
+    line-height: 16px;
+}
+.profile-stats__profile-strength {
+    margin-top: 16px;
+    color: #808ea5;
+    font-size: 12px;
+}
+.css-8qkzbz {
+    margin-bottom: 16px;
+    padding: 24px;
+    background: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(217, 221, 228);
+    border-image: initial;
+    border-radius: 2px;
+	clear: both;
+}
+.pc-improve-profile-container {
+    margin-bottom: 0;
+    margin-top: 16px;
+}
+
+.css-2h1fct, .alertorange {
+    font-size: 14px;
+    color: rgb(127, 85, 0);
+    background-color: rgb(255, 246, 230);
+    margin-bottom: 16px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 12px;
+    border-radius: 4px;
+    border-color: rgb(255, 229, 179);
+}
+
+
+.alertblue {
+    font-size: 14px;
+    color: rgb(0, 50, 127);
+    background-color: rgb(230, 239, 255);
+    margin-bottom: 24px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    border-color: rgb(179, 209, 255);
+    padding: 8px 12px;
+}
+
+.alert-rouge {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+
+	font-size: 14px;
+    margin-bottom: 24px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+.css-vm99bc {
+    width: calc(100% - 360px);
+    max-width: calc(100% - 360px);
+    flex: 1 1 0%;
+}
+.css-1v52m5x {
+    float: right;
+    margin-left: 8px;
+    margin-top: -8px;
+    margin-right: -4px;
+    line-height: 0.9;
+    background-color: transparent;
+    cursor: pointer;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+    padding: 8px;
+}
+.css-s2dgtn {
+    font-size: 13px;
+    color: rgb(177, 33, 33);
+    background-color: rgb(254, 224, 224);
+    margin-bottom: 12px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 12px;
+    border-radius: 4px;
+    border-color: rgb(254, 193, 193);
+}
+.css-b80bsd {
+    display: inline-flex;
+    line-height: 1em;
+    width: 16px;
+    height: 16px;
+}
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    margin-right: 17px;
+    margin-top: -1px;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+}
+.delete-file {
+    color: red;
+}
+
+
+.details-body__title {
+    color: #0055d9;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    text-transform: none;
+    font-size: 17px;
+}
+
+
+.resume-bloc.hidden-to-jobseeker .btn.btn__blue {
+    background: #0055d9;
+    font-size: 13px;
+    padding: 9px;
+    border: 1px solid #0055d9;
+    border-radius: 3px;
+	    margin-bottom: 10px;
+    width: 100%;
+}
+.resume-bloc.hidden-to-jobseeker .btn.btn__orange {
+    background: #eb800e;
+    border-color: #d3730d;
+    font-size: 13px;
+    padding: 9px;
+    
+    border-radius: 3px;
+	    margin-bottom: 10px;
+    width: 100%;
+}
+
+.tinyheader .resume-info .content-text {
+    
+    text-align: justify; color: #4d6182;
+}
+
+
+.resume-bloc  .fa { color:#0055d9;}
+
+.listing-item-date {
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(77, 97, 130);}
+	
+	.listing-item-education {
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(77, 97, 130);}
+	
+		.listing-item-company {
+    font-size: 13px;
+    font-style: italic;
+    color: rgb(77, 97, 130);}
+	
+	
+	
+	.listing-item__title {
+    color: #413f50;
+    font-weight: 500;
+    font-size: 16px;
+}
+	.detail-cv .col-md-6 { padding-left:0;}
+	
+	
+	.resume_main-title  {
+    font-size: 14px;
+}
+
+
+.infocv .section-title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+
+.resume-jobseeker { max-width:1200px; margin: 0 auto;}
+
+
+.alertbleu a:focus {
+        color: #fff;
+}
+
+
+.linkedin ,.linkedin .custom-selectbox__label {color:#2d7aaf; }
+.facebook,.facebook   .custom-selectbox__label {color:#395aa1; }
+.twitter, .twitter  .custom-selectbox__label { color:#1077b1; }
+.youtube,.youtube   .custom-selectbox__label {color:#e04b37; }
+.behance,.behance   .custom-selectbox__label {color:#000000; }
+.instagram,.instagram   .custom-selectbox__label {color:#8134af; }
+.github,.github   .custom-selectbox__label {color:#1a1e22; }
+.stackoverflow,.stackoverflow   .custom-selectbox__label {color:#ec7c23; }
+.blog ,.blog  .custom-selectbox__label {color:#e78130; }
+.siteperso,.siteperso   .custom-selectbox__label {color:#333333; }
+
+
+.complex-block li {
+    padding-left: 5px;
+    margin-left: 25px; word-break: break-word;
+}
+
+
+.sidebar {
+ background:#fff;
+ color:#001433;
+ border:1px solid #d9dde4;
+ border-radius:2px;
+ overflow:hidden;
+ align-items:flex-start
+}
+.sidebar__list-item {
+ padding:15px 24px;
+ border-bottom:1px solid #ebedf0;
+ font-size:14px;
+ line-height:20px;
+ transition:all .3s;
+ position:relative;
+ display:block; 
+ color:#333
+}
+.sidebar__list-item:hover {
+ background:#f7faff
+}
+.sidebar__list-item.is-active {
+ color:#0055d9
+}
+.sidebar__list-item.is-active:before {
+ content:"";
+ position:absolute;
+ background:#0055d9;
+ height:100%;
+ width:4px;
+ left:0;
+ top:0
+}
+.sidebar__list-item:last-child {
+ border:0
+}
+
+.pc-improve-profile-container {
+    margin-bottom: 0;
+    margin-top: 16px;
+}
+
+.row {
+    display: block;
+    /* margin-right: -8px; */
+    /* margin-left: -8px; */
+    flex-wrap: b;
+    width: 100%;
+}
+
+.listing-resume-bloc { list-style:none; margin-left: 0;
+    padding-left: 0;}
+	
+	
+	.listresume .media-body {display: block;
+    width: auto;}
+	
+	
+	.tinyheader .listresume a.btn.btn__blue {
+    font-size: 13px;
+    padding: 0 10px;
+    color: #fff;
+    line-height: 35px;
+    border-radius: 3px;
+    background: #0055d9;
+    border-color: #0055d9;
+    width: auto;
+    min-width: auto;
+}
+
+.cv-color a.selected:before {    
+ content: '';
+    display: inline-block;
+    position: relative;
+    border-style: solid;
+    border-width: 2px 2px 0 0;
+    height: 6px;
+    width: 8px;
+    width: 10px;
+    left: 0px;
+    top: -3px;
+    -moz-transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    transform: rotate(135deg); color:#fff}
+	
+	
+	.checkedcv{
+    background: #1f4c9282;
+    height: 100%;
+}
+
+
+.listing-item__views {
+   
+    color: red;
+}
+
+
+.joblist-for-resume-profile .listing-item__views {
+   
+    color: #949494;
+}
+
+
+
+
+
+
+@media (min-width: 992px) {
+.tinyheader .container.page-resume {
+   display:flex;
+}
+
+}
+
+
+.meter {
+   
+    max-height: 8px;
+    
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+
+ .listresume h4{
+    font-size: 13px;
+    color: #333;
+}
+
+
+ .listresume .listing-item__info--item {
+ 
+    float:initial; 
+}
+
+
+ .listresume  .listing-item__info--status {
+       border-left: 0;
+    border-right: none;
+    padding-left: 24px;
+}
+
+
+
+@media (max-width: 767px){
+.sidebar {
+    width:100%;
+	margin-bottom: 20px; display:none
+}
+
+.pc-improve-profile-container { margin-bottom:20px}
+
+body.tinyheader {
+   
+    padding-top: 122px;
+}
+
+
+}
+
+
+.ui-datepicker-trigger {
+  
+    top: 47px;
+
+}
+
+
+
+.boxed-checkbox.selected, .boxed-checkbox[aria-checked="true"]{
+    border: #0055d9 1px solid;
+    background: #e6efff;
+}
+
+
+body.tinyheader .ui-widget-content {
+    color: #ccc;
+    border: 1px solid #0055d9;
+    background: #fbfbfb ;
+    color: #0055d9;
+    font-size: 12px;
+    padding: 10px;
+}
+
+
+/*.tinyheader .btns {
+   
+    font-size: 13px;
+    padding: 6px 10px;
+    color: #666;
+    line-height: 35px;
+    border-radius: 3px;
+    background: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    width: auto;
+    min-width: auto;
+}*/
+
+
+.tinyheader .btns {
+    font-size: 13px;
+    padding: 6px 10px;
+    color: #0055d9;
+    line-height: 35px;
+    border-radius: 3px;
+    background: #ebeef3;
+    border: 1px solid #dbe0e8;
+    width: auto;
+    min-width: auto;
+	white-space:nowrap;
+}
+
+ .joblist-for-resume-profile {
+    clear: both;
+    padding: 20px;
+    margin-bottom: 10px;
+    border: 1px solid #0055d9;
+    border-radius: 5px;
+}
+
+
+ .joblist-for-resume-profile .job-title a {
+  color: #0055d9;
+    text-decoration: none!important;
+    margin-bottom: 10px;
+    display: block;
+}
+
+
+.btns {
+    font-size: 13px;
+    padding: 6px 10px;
+    color: #666;
+    line-height: 35px;
+    border-radius: 3px;
+    background: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    width: auto;
+    min-width: auto;
+}
+
+
+ .tinyheader  .banner--top {
+    min-height: 60px;
+    display: none;
+}
+
+
+.offres-profil { 
+    color: #ee400c;
+    font-size: 18px;
+    border-bottom: 2px solid #f0400c;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+
+.joblist-for-resume-profile .listing-item__date {
+   
+    font-size: 15px;
+}
+
+
+.red { color:red}
+.vert {     color: #20b570;     white-space: nowrap;}
+
+
+
+.joblist-for-resume-profile  { font-size:14px}
+.orange {     color: #eb800e;  white-space: nowrap;}
+
+
+.listing-item__applies {
+    padding: 0 0 0 10px;
+    border-left: 1px solid #9a9a9a;
+    color: #9a9a9a;
+}
+
+
+.my-account-title a { 
+    
+    font-size: 14px;
+    font-weight: 400;
+    padding: 5px 7px;
+    margin: 5px 15px;
+    line-height: 30px;
+    border: 1px solid #33b14d;
+    border-radius: 3px;
+    background: #42c25d;
+    color: #fff;
+    vertical-align: middle; white-space: nowrap;
+	
+	}
+	
+	
+	
+
+.my-account-title a .fa{ 
+    
+padding-right:5px;
+	
+	}
+
+
+    a.add.btn.btn__blue{
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+
+.form .form-group.field-group .form-label {
+  
+    color: #0055d9;
+    
+    font-size: 13px;
+}
+
+.form .resume-bloc  .form-group .complex {
+    margin-bottom: 0px!important;
+    
+}

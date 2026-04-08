@@ -1,0 +1,181 @@
+
+
+{literal}
+<style>
+.tinyheader .page-row-expanded {
+    height: auto;
+    background: #ffffff;
+}.connexion_block  {
+     display: flex;
+    align-content: center;
+    align-items: center;
+	padding:20px 0px 70px;
+	flex-wrap: wrap;
+	
+}
+.page_connexion_header { padding-top:30px}
+.espace_pub {background: #e8f1f9; border-radius:7px}
+.connexion_block h1, .page_connexion_header h1 {
+    font-family: Rza, Rza-fallback, Georgia, serif;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: -1px;
+    line-height: 50px;
+    text-size-adjust: 100%;
+    vertical-align: baseline;
+    word-break: break-word;
+    margin-bottom: 40px;
+	color: #0055d9;
+}
+.connexion_block ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+.connexion_block li {
+	    color: #6e6c6f;
+	font-family: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.32px;
+}
+
+.connexion_block strong {
+    color: #000;
+    font-family: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    padding-left: 5px;
+}
+
+.connexion_block li { list-style:none; margin-bottom:24px}
+.connexion_block a.btn_connexion_Candidat {
+    font-family: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.32px;
+    line-height: 39px;
+    background-color: #0055d9;
+    border: 2px solid #0055d9;
+    padding-left: 44px;
+    padding-right: 44px;
+    color: #fff;
+    display: block;
+    border-radius: 25px;
+    margin-bottom: 20px;
+	text-align: center;
+}
+
+.connexion_block a.btn_connexion_Candidat:hover {
+
+    background: #fff;
+   
+
+    color: #0055d9;
+  
+}
+.connexion_block a.btn_connexion_Employeur {
+    font-family: "Neue Montreal", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.32px;
+    line-height: 39px;
+    background: #fff;
+    border: 2px solid #0055d9;
+    padding-left: 44px;
+    padding-right: 44px;
+    color: #0055d9;
+    display: block;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.connexion_block  img {
+    vertical-align: top;
+    margin-top: 3px;
+    fill: aliceblue;
+	width:20px; 
+	height:20px;
+}
+.connexion_block a.btn_connexion_Employeur:hover {
+
+    background: #0055d9;
+   
+
+    color: #fff;
+  
+}
+	@media(max-width: 767px) {
+		.connexion_block {
+   
+   /* flex-direction: row-reverse;*/
+   flex-wrap: wrap-reverse;
+}
+
+.page_connexion_header {
+    padding: 70px 20px 0px;
+}
+.mt-50 {
+    margin-top: 0px !important;
+    margin-bottom: 30px;
+}
+	}
+</style>
+{/literal}
+
+
+
+
+
+	<div class="container">
+
+<div class="row " >	
+	<div class="page_connexion_header">
+    <h1>Rejoignez nous</h1>
+    </div>
+    </div><div class="row " >
+   <div class="connexion_block " > 
+	
+	<div class="col-md-8">
+<div class="">
+
+
+<ul>
+<li><img alt="Offres d'emploi en Maroc" src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/gift-card.png" height="24px" width="24px"> 
+<strong>Inscription Gratuite</strong>
+<br>Rejoignez Jobsquare.ma sans frais et bénéficiez d'un accompagnement sur mesure.
+
+</li>
+<li><img alt="Publiez une offre d'emploi et embauchez les meilleurs talents en Maroc" src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/talent.png" height="24px" width="24px"> 
+<strong>Recruteurs : Captez les meilleurs talents</strong>
+<br>Postez votre offre et simplifiez votre recherche de talents avec notre aide.
+</li>
+<li><img alt="Travaillez avec les meilleurs entreprise en Maroc" src="{$GLOBALS.site_url}/templates/Jobsquare/assets/images/target.png" height="24px" width="24px"> 
+<strong>Candidats : Trouvez l'emploi qui vous correspond</strong>
+<br>Optimisez votre CV en ligne pour vous démarquer et saisir l'emploi idéal.
+
+</li>
+</ul>
+	
+</div>
+</div>
+<div class="col-md-4 mt-50 bn1">
+
+{include file="errors.tpl"}
+
+	{foreach from=$user_groups_info item=user_group_info}
+		<a href="?user_group_id={$user_group_info.id}{if $smarty.request.network}&network={$smarty.request.network|escape:'url'}{/if}"
+		class="btn_connexion_[[$user_group_info.name]]"
+		
+		>Je suis un [[$user_group_info.name]]</a>
+	{/foreach}
+	<p class="mt-20"><small>Vous avez déjà un compte? <a href="https://www.jobsquare.ma/login/">Se connecter</a></small></p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+	

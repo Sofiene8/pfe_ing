@@ -1,0 +1,891 @@
+{literal}
+<script src="https://use.fontawesome.com/7e203bcaaf.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ VARIABLES ============ */
+.listing-results {
+  --jd-red: #ec2b4d;
+  --jd-red-dark: #d43d5e;
+  --jd-red-light: #fdf2f5;
+  --jd-green: #009688;
+  --jd-green-light: #fdecef;
+  --jd-dark: #1a1d2e;
+  --jd-gray: #6b7280;
+  --jd-gray-light: #f5f6f8;
+  --jd-border: #e8eaed;
+}
+
+/* ============ HIDE NAVBAR BOTTOM LINE + SPACING ============ */
+.navbar.navbar-default.menu_principal { box-shadow: none !important; border-bottom: none !important; }
+.menu-bar { margin-top: 24px; }
+
+/* ============ RESET OLD STYLES ============ */
+.listing-results .details-header.page-detail-annonce { background: transparent !important; padding: 0 !important; margin: 0 !important; border: none !important; }
+.listing-results .details-header .container { max-width: 1200px; margin: 0 auto; background: transparent !important; padding: 0 !important; }
+.listing-results .top-annonce.tpan { display: none !important; }
+.listing-results #stickytop { display: none !important; }
+.listing-results .detail-offre { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+.listing-results .detail-offre.notfeatured { background: transparent !important; }
+.listing-results .row { margin: 0; }
+.listing-results .col-md-9 { width: 100%; padding: 0; float: none; }
+.listing-results .col-md-3 { width: 100%; padding: 0; float: none; }
+.listing-results .profilecompany.content-card { display: none !important; }
+
+/* ============ STICKY BAR ============ */
+.jd-sticky-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1050;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid var(--jd-border);
+  padding: 10px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  font-family: 'DM Sans', sans-serif;
+}
+.jd-sticky-bar.jd-visible { transform: translateY(0); }
+.jd-sticky-left { display: flex; align-items: center; gap: 14px; }
+.jd-sticky-logo {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--jd-gray-light); border: 1px solid var(--jd-border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.jd-sticky-logo img { width: 100%; height: 100%; object-fit: cover; }
+.jd-sticky-title { font-size: 14px; font-weight: 700; color: var(--jd-dark); }
+.jd-sticky-meta { font-size: 12px; color: var(--jd-gray); }
+.jd-sticky-right { display: flex; gap: 8px; align-items: center; }
+.jd-sticky-btn-apply {
+  padding: 8px 24px; border: none; border-radius: 8px;
+  background: var(--jd-red); color: white; font-size: 13px;
+  font-weight: 700; font-family: 'DM Sans', sans-serif; cursor: pointer;
+}
+.jd-sticky-btn-apply:hover { background: var(--jd-red-dark); }
+.jd-sticky-btn-share {
+  padding: 8px 14px; border: 1.5px solid var(--jd-border); border-radius: 8px;
+  background: #fff; color: var(--jd-gray); font-size: 14px; cursor: pointer;
+}
+
+/* ============ LAYOUT ============ */
+.jd-page {
+  max-width: 1200px; margin: 0 auto; padding: 24px;
+  font-family: 'DM Sans', sans-serif;
+}
+.jd-layout {
+  display: grid; grid-template-columns: 1fr 300px; gap: 20px;
+}
+
+/* ============ BREADCRUMB ============ */
+.jd-breadcrumb {
+  font-size: 13px; color: var(--jd-gray); margin-bottom: 16px;
+}
+.jd-breadcrumb a { color: var(--jd-dark); text-decoration: none; }
+.jd-breadcrumb a:hover { text-decoration: underline; color: var(--jd-red);  }
+
+/* ============ HEADER CARD ============ */
+.jd-header {
+  background: #fff; border-radius: 14px;
+  border: 1.5px solid var(--jd-border); overflow: hidden;
+  grid-column: 1 / -1;
+}
+.jd-header-accent {
+  height: 4px;
+  /*background: linear-gradient(90deg, var(--jd-red) 0%, var(--jd-red-dark) 100%);*/
+}
+.jd-header-inner { padding: 28px 32px; display: flex; gap: 22px; }
+.jd-company-logo {
+  width: 68px; height: 68px; border-radius: 14px;
+  background: var(--jd-gray-light); border: 1.5px solid var(--jd-border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.jd-company-logo img { width: 100%; height: 100%; object-fit: contain; }
+.jd-header-info { flex: 1; }
+.jd-title {
+  font-size: 22px; font-weight: 700; line-height: 1.3;
+  margin-bottom: 8px; color: var(--jd-dark);
+}
+.jd-meta {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--jd-gray); margin-bottom: 18px; flex-wrap: wrap;
+}
+.jd-meta a { color: var(--jd-red); text-decoration: none; font-weight: 600; }
+.jd-meta a:hover { text-decoration: underline; }
+.jd-meta .jd-sep { color: #ddd; }
+.jd-meta .jd-verified {
+  display: inline-flex; align-items: center; gap: 3px;
+  color: #0055D9; font-size: 12px;
+}
+.jd-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.jd-btn-apply {
+  padding: 11px 30px; border: none; border-radius: 10px;
+  background: var(--jd-red); color: white; font-size: 14px; font-weight: 700;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s;
+  text-decoration: none; display: inline-block; text-align: center;
+}
+.jd-btn-apply:hover { background: var(--jd-red-dark); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(231,76,111,0.25); color: white; text-decoration: none; }
+.jd-btn-sec {
+  padding: 10px 16px; border: 1.5px solid var(--jd-border); border-radius: 10px;
+  background: #fff; color: var(--jd-gray); font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: 0.2s;
+}
+.jd-btn-sec:hover { border-color: var(--jd-red); color: var(--jd-red); }
+.jd-first-badge { font-size: 12px; color: var(--jd-green); font-weight: 600; margin-left: 4px; }
+
+.jd-header-bottom {
+  padding: 10px 32px; background: var(--jd-gray-light);
+  border-top: 1px solid var(--jd-border);
+  display: flex; justify-content: space-between;
+  font-size: 12px; color: var(--jd-gray);
+}
+.jd-header-bottom strong { color: var(--jd-dark); }
+
+/* share container inside header */
+.jd-share-container { position: relative; display: inline-block; }
+.jd-share-icons {
+  display: none; position: absolute; top: 100%; right: 0; z-index: 10;
+  background: #fff; border: 1.5px solid var(--jd-border); border-radius: 10px;
+  padding: 8px 12px; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-top: 4px; white-space: nowrap;
+}
+.jd-share-icons.jd-show { display: flex; }
+.jd-share-icons a { color: var(--jd-gray); font-size: 18px; transition: 0.2s; text-decoration: none; }
+.jd-share-icons a:hover { color: var(--jd-red); }
+
+/* ============ CONTENT CARD ============ */
+.jd-content {
+  background: #fff; border-radius: 14px;
+  border: 1.5px solid var(--jd-border); padding: 32px;
+}
+.jd-section { margin-bottom: 26px; padding-bottom: 26px; border-bottom: 1px solid var(--jd-border); }
+.jd-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.jd-section-title {
+  font-size: 15px; font-weight: 700; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px; color: var(--jd-dark);
+}
+.jd-section-title .jd-icon {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--jd-red-light);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.jd-section p, .jd-section .details-body__content { font-size: 14px; color: #444; line-height: 1.8; }
+.jd-section .details-body__content ul { list-style: none; padding: 0; }
+.jd-section .details-body__content ul li {
+  font-size: 14px; color: #444; line-height: 1.75;
+  padding: 4px 0 4px 20px; position: relative;
+}
+.jd-section .details-body__content ul li::before {
+  content: ''; position: absolute; left: 0; top: 12px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--jd-red); opacity: 0.4;
+}
+
+/* Info grid */
+.jd-info-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  margin-bottom: 8px;
+}
+.jd-info-box {
+  padding: 12px 16px;
+  background: var(--jd-gray-light);
+  border-radius: 8px;
+  border: 1px solid var(--jd-border);
+}
+.jd-info-box .jd-label { font-size: 11px; color: var(--jd-gray); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.jd-info-box .jd-value { font-size: 14px; font-weight: 600; color: var(--jd-green); }
+
+/* Keywords */
+.jd-keywords { display: flex; gap: 6px; flex-wrap: wrap; }
+.jd-keyword {
+  font-size: 12px; font-weight: 500; padding: 4px 12px;
+  background: var(--jd-gray-light); border: 1px solid var(--jd-border);
+  border-radius: 20px; color: var(--jd-gray); cursor: pointer; transition: 0.2s;
+  text-decoration: none; display: inline-block;
+}
+.jd-keyword:hover { border-color: var(--jd-red); color: var(--jd-red); background: var(--jd-red-light); text-decoration: none; }
+
+/* Bottom CTA */
+.jd-bottom-cta {
+  margin-top: 20px; padding: 22px;
+  background: var(--jd-gray-light); border-radius: 12px; text-align: center;
+}
+.jd-bottom-cta p { font-size: 14px; color: var(--jd-gray); margin-bottom: 10px; }
+
+/* ============ SIDEBAR ============ */
+.jd-sidebar { display: flex; flex-direction: column; gap: 14px; }
+.jd-side-card {
+  background: #fff; border-radius: 14px;
+  border: 1.5px solid var(--jd-border); padding: 20px;
+}
+.jd-side-card h3, .jd-side-card .card-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--jd-gray);
+  margin-bottom: 12px; padding-bottom: 10px;
+  border-bottom: 1.5px solid var(--jd-border);
+}
+
+/* Company sidebar card */
+.jd-company-side { text-align: center; }
+.jd-company-side .jd-logo-lg {
+  width: 52px; height: 52px; border-radius: 12px;
+  background: var(--jd-gray-light); border: 1.5px solid var(--jd-border);
+  margin: 0 auto 10px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.jd-company-side .jd-logo-lg img { width: 100%; height: 100%; object-fit: contain; }
+.jd-company-side .jd-name { font-size: 16px; font-weight: 700; margin-bottom: 3px; color: var(--jd-dark); }
+.jd-company-side .jd-loc { font-size: 12px; color: var(--jd-gray); margin-bottom: 14px; }
+.jd-company-side .jd-desc {
+  font-size: 13px; color: #555; line-height: 1.6;
+  text-align: left; margin-bottom: 14px;
+  padding-top: 12px; border-top: 1px solid var(--jd-border);
+}
+.jd-company-side .jd-link {
+  display: inline-block; padding: 8px 18px;
+  border: 1.5px solid var(--jd-red); border-radius: 8px;
+  color: var(--jd-red); font-size: 13px; font-weight: 600;
+  text-decoration: none; transition: 0.2s;
+}
+.jd-company-side .jd-link:hover { background: var(--jd-red); color: #fff; }
+
+/* Sidebar module overrides */
+.jd-side-card .similar-job, .jd-side-card .most-searched { margin: 0; padding: 0; }
+.jd-side-card .similar-job .listing-compact, .jd-side-card .most-searched .listing-compact { border: none; margin: 0; }
+.jd-side-card .content-card { background: transparent !important; border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; }
+.jd-side-card a { color: var(--jd-red); transition: 0.2s; }
+.jd-side-card a:hover { color: var(--jd-red-dark); }
+
+/* Reset old city/category listing styles in sidebar */
+.jd-side-card .similar-job { background: transparent !important; border: none !important; padding: 0 !important; margin: 0 !important; min-height: auto !important; width: 100% !important; }
+.jd-side-card .similar-job.plus_city_listing { border: none !important; }
+.jd-side-card .city-listing, .jd-side-card .categoy-listing { width: 100% !important; padding: 0 !important; float: none !important; }
+.jd-side-card .city-listing ul, .jd-side-card .categoy-listing ul { list-style: none !important; padding: 0 !important; margin: 0 !important; }
+.jd-side-card .city-listing ul li,
+.jd-side-card .categoy-listing ul li,
+.jd-side-card .city-listing ul li:nth-child(odd),
+.jd-side-card .city-listing ul li:nth-child(even),
+.jd-side-card .categoy-listing ul li:nth-child(odd),
+.jd-side-card .categoy-listing ul li:nth-child(even) {
+  background: none !important; border-left: none !important; padding: 4px 0 4px 14px !important;
+  margin: 0 !important; list-style: none !important; color: var(--jd-dark) !important;
+  position: relative;
+}
+.jd-side-card .city-listing ul li::before,
+.jd-side-card .categoy-listing ul li::before {
+  content: '\2022'; position: absolute; left: 0; color: var(--jd-red); opacity: 0.5;
+}
+.jd-side-card .city-listing ul li a,
+.jd-side-card .categoy-listing ul li a {
+  color: var(--jd-dark) !important; font-size: 13px !important; text-decoration: none !important;
+  transition: padding-left 0.2s;
+}
+.jd-side-card .city-listing ul li a:hover,
+.jd-side-card .categoy-listing ul li a:hover { padding-left: 4px; }
+.jd-side-card .city-listing h4,
+.jd-side-card .categoy-listing h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--jd-green);
+  margin: 0 0 12px; padding-bottom: 10px;
+  border-bottom: 1.5px solid var(--jd-border);
+}
+.jd-side-card .col-md-4 { width: 100% !important; padding: 0 !important; float: none !important; }
+
+/* Featured listings in sidebar - single column */
+.jd-side-card .featured-jobs { grid-template-columns: 1fr; gap: 10px; margin-bottom: 0; }
+.jd-side-card .featured-card { padding: 12px 14px; font-size: 13px; }
+.jd-side-card .featured-card::before { margin-right: 10px; }
+.jd-side-card .featured-info__title { font-size: 13px !important; }
+.jd-side-card .featured-btn { padding: 5px 12px; font-size: 11px; }
+.jd-side-card h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--jd-green); margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1.5px solid var(--jd-border); }
+.jd-side-card .featured-card {
+    padding: 0;
+    font-size: 13px;
+    border: none;
+}
+.job-card__tag {
+    font-size: 12px;
+    padding: 3px;
+}
+/* CTA cards */
+.jd-cta-dark {
+  background: var(--jd-dark) !important; border-color: var(--jd-dark) !important; color: #fff; text-align: center;
+}
+.jd-cta-dark .card-title { color:  var(--jd-green) !important; border-bottom-color: rgba(255,255,255,0.08) !important; }
+.jd-cta-dark p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; margin-bottom: 12px; }
+.jd-cta-dark .jd-cta-btn {
+  display: inline-block; padding: 9px 22px;
+  background: var(--jd-green); color: #fff; border-radius: 8px;
+  text-decoration: none; font-size: 13px; font-weight: 700;
+}
+.jd-cta-dark .jd-cta-btn:hover { background: var(--jd-red-dark); color: #fff; }
+
+.jd-cta-light {
+  border-color: var(--jd-red) !important; border-style: dashed !important; text-align: center;
+}
+.jd-cta-light .card-title { color: var(--jd-red) !important; border-bottom: none !important; text-transform: none !important; letter-spacing: 0 !important; font-size: 15px !important; margin-bottom: 6px !important; }
+.jd-cta-light p { font-size: 13px; color: var(--jd-gray); }
+.jd-cta-light a { color: var(--jd-red); font-weight: 600; }
+
+/* Below-grid blocks */
+.jd-below-grid {
+  max-width: 1200px; margin: 0 auto; padding: 0 24px 40px;
+}
+.jd-below-grid .content-card { background: #fff; border-radius: 14px; border: 1.5px solid var(--jd-border); padding: 20px; margin-bottom: 16px; }
+.jd-below-grid .listing__featured,
+.jd-below-grid .listing__featured-training { background: transparent; }
+.jd-below-grid .listing__featured .container,
+.jd-below-grid .listing__featured-training .container { max-width: 100%; padding: 0; margin: 0; }
+.jd-below-grid .section-header h2 {
+  font-size: 18px; font-weight: 700; color: var(--jd-dark);
+  margin-bottom: 16px; font-family: 'DM Sans', sans-serif;
+}
+.jd-below-grid .featured-jobs { margin-bottom: 12px; }
+.jd-below-grid .view-more, .jd-below-grid .view-more-training {
+  text-align: center; margin-top: 8px; margin-bottom: 20px;
+}
+.jd-below-grid .see-more-jobs, .jd-below-grid .see-more-trainings {
+  color: var(--jd-red); font-weight: 600; font-size: 14px; text-decoration: none;
+}
+.jd-below-grid .see-more-jobs:hover, .jd-below-grid .see-more-trainings:hover { text-decoration: underline; }
+
+/* ============ PREVIEW MODE ============ */
+.jd-preview-btns { margin-bottom: 16px; }
+.jd-preview-btns form { display: flex; gap: 10px; }
+.jd-preview-btns .btn { border-radius: 10px; }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .jd-layout { grid-template-columns: 1fr; }
+  .jd-header { grid-column: 1; }
+  .jd-header-inner { flex-direction: column; padding: 20px; }
+  .jd-info-grid { grid-template-columns: 1fr; }
+  .jd-sticky-bar { padding: 8px 16px; }
+  .jd-page { padding: 12px; }
+  .jd-content { padding: 20px; }
+  .jd-header-bottom { flex-direction: column; gap: 4px; }
+}
+
+/* ============ HIDE OLD ELEMENTS ============ */
+.listing-results .job-top-wrapper.stikydetail { display: none !important; }
+.listing-results .infos_job_details .col-md-4 { width: auto; float: none; padding: 0; }
+.listing-results .infos_job_details { display: none !important; }
+.listing-results .details-body__title { display: none !important; }
+.listing-results .bootstrap-tagsinput { display: none !important; }
+.listing-results .details-breadcrumbs { display: none !important; }
+.listing-results .btn__back { display: none !important; }
+.listing-results .results.text-left { display: none !important; }
+
+/*************/
+
+.job-card .job-card__tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+</style>
+{/literal}
+<link rel="stylesheet" href="../../system/ext/dist/app.css">
+{title} Offre d'emploi {$listing.Title} {/title}
+{keywords} offre d'emploi {$listing.Title}, offres d'emploi {$listing.user.CompanyName|escape}, recrutement chez {$listing.user.CompanyName|escape}{display property='id_Job_MotsCls' assign='tags'}{if $tags!=""}, {$tags|replace:',':', '}{/if}
+<!--{assign var="tab" value=","|explode:$tags}
+{if $tab|@count >0 && $tab[0]!="" },
+{foreach from=$tab key=key item=tag}
+{if $tag!=""}{$tag|trim|escape}, {/if}
+{/foreach}
+{/if}-->
+   {/keywords}
+{description} {$listing.JobDescription|strip_tags|truncate:165} {/description}
+{head}
+	{module name="miscellaneous" function="opengraph_meta" listing=$listing}
+{/head}
+
+{* Alert for checkout *}
+{if $smarty.request.isBoughtNow}
+	<div class="alert alert-bought-now text-center content-text"> {if $listing.active|status == 'pending'}
+	[[Your job will be published as soon as it is reviewed and approved.]]
+	{else}
+	[[You have successfully posted your job.]] <br/>
+	<a href="{$GLOBALS.site_url}/my-listings/job/" class="link">[[View your job stats in "My Account" section]]
+		{/if} <a href="#" class="alert__close"> </a> </div>
+{/if}
+
+{* Assign variables *}
+{foreach from=$form_fields item=list_value}
+   {if $list_value.id ==id_Job_Vacancies}
+    {assign var="id_Job_position" value={display property=$list_value.id}}
+   {/if}
+{/foreach}
+
+{display property='id_Job_ExperienceNeeded' assign='Job_ExperienceNeeded'}
+{display property='id_Job_CareerLevel' assign='Job_CareerLevel'}
+{display property='EmploymentType' assign='EmploymentType'}
+{display property='id_Job_Rmunrationpropose' assign='Rmunrationpropose'}
+{display property='id_Job_Niveaudtudes' assign='Job_Niveaudtudes'}
+{display property='id_Job_Langue' assign='Job_Langue'}
+{display property='id_Job_Genre' assign='Job_Genre'}
+
+{* Apply URL logic *}
+{if !$resumeListingSID}
+{if isset($listing.ApplicationSettings.add_parameter) && $listing.ApplicationSettings.add_parameter == 2}
+{assign var='isApplied' value=false}
+{if $listing.user.isJobg8 && $listing.jobType == 'APPLICATION'}
+{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/apply-now-external/?listing_id={$listing.id}{/capture}
+{else}
+{capture assign='url'}
+{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+{/capture}
+{/if}
+{else}
+{capture assign='url'}
+{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+{/capture}
+{/if}
+{capture assign='modalTitle'}
+{assign var="job_title" value=$listing.Title|escape}
+{assign var="company_name" value=$listing.user.CompanyName|escape}
+[[Apply to $job_title at $company_name]]
+{/capture}
+{/if}
+
+<div class="listing-results">
+
+{* ============ STICKY BAR ============ *}
+<div class="jd-sticky-bar" id="jdStickyBar">
+  <div class="jd-sticky-left">
+    {if $listing.user.Logo.file_url}
+    <div class="jd-sticky-logo"><img src="{$listing.user.Logo.file_url}" alt=""></div>
+    {/if}
+    <div>
+      <div class="jd-sticky-title">{$listing.Title|escape}</div>
+      <div class="jd-sticky-meta">{$listing.user.CompanyName|escape} {if $listing|location}· {assign var="location" value=$listing|location}{assign var="parts" value=","|explode:$location}{assign var="total" value=$parts|@count}{if $parts[$total-2]}{$parts[$total-2]},{/if}{if $parts[$total-1]}{$parts[$total-1]}{/if}{/if}</div>
+    </div>
+  </div>
+  <div class="jd-sticky-right">
+    {if !$resumeListingSID}
+    {if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+    {if $isActive}
+    <button type="button" class="jd-sticky-btn-apply"
+      data-toggle="modal"
+      data-target="#apply-modal"
+      data-href="{$url}"
+      data-applied='{if $isApplied}applied{/if}'
+      data-title="{$modalTitle}">Postuler</button>
+    {/if}
+    {/if}
+    {/if}
+  </div>
+</div>
+
+<div class="jd-page">
+
+{* Breadcrumb *}
+<div class="jd-breadcrumb hidden-xs">
+  <a href="{$GLOBALS.site_url}" alt="Emploi Maroc" title="Emploi Maroc">Emploi Maroc</a> &raquo; <a href="{$GLOBALS.site_url}{$breadCrumbs_link}" alt="[[{$breadCrumbs_html}]]" title="[[{$breadCrumbs_html}]]">[[{$breadCrumbs_html}]]</a> &raquo; {$listing.Title|escape}
+</div>
+
+{* Preview mode: back + edit buttons *}
+{if $url == "/my-job-details/{$listing.id}/"}
+<a href="{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}" class="jd-btn-sec" style="margin-bottom:16px;display:inline-block"> &laquo; [[Back]] </a>
+{javascript}
+<script type="text/javascript">
+if (window.history && window.history.pushState) {
+	window.history.pushState('forward', null, '');
+	$(window).on('popstate', function() {
+		window.location.href = '{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}';
+	});
+}
+</script>
+{/javascript}
+{/if}
+
+<div class="jd-layout">
+
+{* ============ HEADER CARD ============ *}
+<div class="jd-header" id="jdHeader">
+  <div class="jd-header-accent"></div>
+  <div class="jd-header-inner">
+    {if ($listing.user.featured == 1 || $listing.featured == 1) && $listing.user.Logo.file_url}
+    <div class="jd-company-logo">
+      <a href="{if $listing.user.isJobg8}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.CompanyName|pretty_url}/{else}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/{/if}">
+        <img src="{$listing.user.Logo.file_url}" alt="{$listing.user.CompanyName|escape}">
+      </a>
+    </div>
+    {/if}
+    <div class="jd-header-info">
+      <h1 class="jd-title">{$listing.Title|escape}</h1>
+      <div class="jd-meta">
+        <a href="{if $listing.user.isJobg8}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.CompanyName|pretty_url}/{else}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/{/if}">{$listing.user.CompanyName|escape}</a>
+        {if $listing.user.featured == 1 || $listing.featured == 1}
+        <span class="jd-verified">
+          <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><path d="M7.851 1.465a.253.253 0 0 1 .038.104.253.253 0 0 1-.038.105L3.196 7.229c-.075.07-.13.104-.168.104-.063 0-.125-.029-.187-.086L.205 4.885l-.056-.052A.253.253 0 0 1 .11 4.73c0-.011.013-.04.038-.087l.037-.034c.349-.348.623-.614.823-.799.074-.07.124-.104.15-.104.049 0 .111.035.186.104l1.496 1.354L6.58.701c.024-.023.061-.034.111-.034A.32.32 0 0 1 6.823.7l1.028.764Z" id="v_a"></path></defs><g fill="none" fill-rule="evenodd"><path d="m14.686 6.089.218-2.096-1.925-.857a.278.278 0 0 1-.141-.141l-.857-1.926-2.096.22a.28.28 0 0 1-.192-.052L7.987 0 6.28 1.237a.28.28 0 0 1-.191.051L3.992 1.07l-.856 1.926a.276.276 0 0 1-.141.14l-1.926.858.22 2.096a.278.278 0 0 1-.052.191L0 7.987l1.237 1.706c.04.056.058.124.051.192l-.219 2.096 1.926.857a.278.278 0 0 1 .14.14l.857 1.926 2.097-.219.027-.001c.059 0 .116.018.163.053l1.708 1.237 1.706-1.237a.277.277 0 0 1 .192-.052l2.096.22.857-1.926a.277.277 0 0 1 .14-.141l1.926-.857-.218-2.096a.277.277 0 0 1 .051-.192l1.237-1.706-1.237-1.707a.277.277 0 0 1-.051-.191Z" fill="#0055D9"></path><use fill="#FFF" fill-rule="nonzero" xlink:href="#v_a" transform="translate(4 4)"></use></g></svg>
+        </span>
+        {/if}
+        {if $listing|location}
+        <span class="jd-sep">&middot;</span>
+        <span class="job-card__tag job-card__tag--location">
+        {assign var="location" value=$listing|location}
+        {assign var="parts" value=","|explode:$location}
+        {assign var="total" value=$parts|@count}
+        {if $parts[$total-2]}{$parts[$total-2]},{/if}{if $parts[$total-1]}{$parts[$total-1]}{/if}
+        {/if}</span>
+        {assign var="myDate" value=$listing.activation_date}
+        <span class="jd-sep">&middot;</span>
+        <span class="job-card__tag job-card__tag--date">
+        {if $myDate|timeAgo eq "à l\'instant"}{else}Il y a {/if}{$myDate|timeAgo}</span>
+      </div>
+
+      {* Actions: Apply + Share (not in preview mode) *}
+      {if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'}
+      <div class="jd-actions">
+        {if !$resumeListingSID}
+        {if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+        {if $isActive}
+        <button type="button" class="jd-btn-apply"
+          href="{$applyBtn_onClick}"
+          data-toggle="modal"
+          data-target="#apply-modal"
+          data-href="{$url}"
+          data-applied='{if $isApplied}applied{/if}'
+          data-title="{$modalTitle}">Postuler maintenant</button>
+        {/if}
+        {/if}
+        {/if}
+
+        <div class="jd-share-container">
+          <button class="jd-btn-sec jd-share-toggle"><i class="fa-solid fa-share"></i> Partager</button>
+          <div class="jd-share-icons">
+            <a href="https://www.facebook.com/sharer/sharer.php?u={$GLOBALS.site_url}/job/{$listing.id}" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.linkedin.com/shareArticle?mini=true&url={$GLOBALS.site_url}/job/{$listing.id}" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://twitter.com/intent/tweet?url={$GLOBALS.site_url}/job/{$listing.id}" target="_blank"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://api.whatsapp.com/send?text={$GLOBALS.site_url}/job/{$listing.id}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        {if $count_applicants < 5}
+        {if !$resumeListingSID}
+        {if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+        {if $isActive}
+        <span class="jd-first-badge">Soyez le 1<sup>er</sup> à postuler</span>
+        {/if}{/if}{/if}
+        {/if}
+      </div>
+      {/if}
+
+      {* Preview mode buttons *}
+      {if $GLOBALS.user_page_uri == '/job-preview/' || $GLOBALS.user_page_uri == '/my-job-details/'}
+      <div class="jd-preview-btns" style="margin-top:14px">
+        <form action="{$referer}" method="post">
+          <input type="hidden" name="from-preview" value="1" />
+          <input type="submit" name="edit_temp_listing" value="[[Edit]]" class="jd-btn-sec" id="listing-preview" />
+          {if $contract_id == 0 && !$checkouted}
+          <input type="hidden" name="proceed_to_checkout" />
+          <input type="submit" name="action_add" value="[[Post]]" class="jd-btn-apply" />
+          {else}
+          <input type="submit" name="action_add" value="[[Post]]" class="jd-btn-apply" />
+          {/if}
+        </form>
+      </div>
+      {/if}
+    </div>
+  </div>
+  <div class="jd-header-bottom">
+    <span>Postes vacants : <strong>{if {$id_Job_position|intval}>1}{$id_Job_position|intval} postes ouverts{else}1 poste ouvert{/if}</strong></span>
+    {foreach from=$form_fields item=list_value}
+    {if $list_value.caption == 'Date d\'expiration'}
+    {if {display property=$list_value.id}}
+    <span>Expire le <strong>{display property=$list_value.id}</strong></span>
+    {/if}
+    {/if}
+    {/foreach}
+  </div>
+</div>
+
+{* ============ CONTENT CARD ============ *}
+<div class="jd-content">
+
+  {* Content sections (description, profil, etc.) *}
+  {foreach from=$form_fields item=list_value}
+  {if $list_value.caption != 'Location' && $list_value.id != 'Title' && $list_value.id != 'ApplicationSettings' && $list_value.id != 'JobCategory' && $list_value.id != 'EmploymentType' && $list_value.id != 'id_Job_Experience' && $list_value.id != 'id_Job_CareerLevel' && $list_value.id != 'id_Job_Vacancies' && $list_value.id != id_Job_Langue && $list_value.id != id_Job_Niveaudtude && $list_value.id != id_Job_Rmunrationpropose && $list_value.id != id_Job_Genre && $list_value.id != 'email_notify'}
+
+  {if $list_value.caption == 'Date d\'expiration'}
+    {* already shown in header bottom - skip *}
+  {elseif $list_value.id == 'id_Job_MotsCls'}
+    {* Info grid section - placed just before keywords *}
+    <div class="jd-section">
+      <h2 class="jd-section-title"><span class="jd-icon">&#128204;</span> Informations cl&eacute;s</h2>
+      <div class="jd-info-grid">
+        {foreach from=$form_fields item=info_value}
+        {if $info_value.id == 'EmploymentType' || $info_value.id == 'id_Job_Experience'|| $info_value.id == 'id_Job_CareerLevel' || $info_value.id == 'id_Job_Vacancies'|| $info_value.id == id_Job_Langue || $info_value.id == id_Job_Niveaudtude || $info_value.id == id_Job_Rmunrationpropose || $info_value.id ==id_Job_Genre}
+        {if $info_value.id == id_Job_Vacancies}
+          <div class="jd-info-box">
+            <div class="jd-label">Postes vacants</div>
+            <div class="jd-value">{if {display property=$info_value.id}>1}{display property=$info_value.id} postes ouverts{else}1 poste ouvert{/if}</div>
+          </div>
+        {else}
+          {if {display property=$info_value.id}}
+          <div class="jd-info-box">
+            <div class="jd-label">{$info_value.caption|escape}</div>
+            <div class="jd-value">{display property=$info_value.id}</div>
+          </div>
+          {/if}
+        {/if}
+        {/if}
+        {/foreach}
+      </div>
+    </div>
+    {* Keywords section *}
+    {display property='id_Job_MotsCls' assign='tags'}
+    {assign var="parts" value=","|explode:$tags}
+    {if $parts|@count >0 && $parts[0]!="" }
+    <div class="jd-section">
+      <h2 class="jd-section-title"><span class="jd-icon">&#127991;&#65039;</span> Mots-cl&eacute;s</h2>
+      <div class="jd-keywords">
+        {foreach from=$parts key=key item=tag}
+        <a class="jd-keyword" href="{$GLOBALS.site_url}/jobs/?listing_type%5Bequal%5D=Job&action=search&keywords%5Ball_words%5D={$tag|trim}&GooglePlace%5Blocation%5D%5Bvalue%5D=&GooglePlace%5Blocation%5D%5Bradius%5D=50">{$tag|trim}</a>
+        {/foreach}
+      </div>
+    </div>
+    {/if}
+  {else}
+    {if {display property=$list_value.id}}
+    <div class="jd-section">
+      <h2 class="jd-section-title"><span class="jd-icon">&#128203;</span> {$list_value.caption|escape}</h2>
+      <div class="details-body__content content-text">{display property=$list_value.id}</div>
+    </div>
+    {/if}
+  {/if}
+
+  {/if}
+  {/foreach}
+
+  {* Bottom CTA *}
+  {if !$resumeListingSID}
+  {if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+  {if $isActive}
+  <!--<div class="jd-bottom-cta">
+    <p>Cette offre vous int&eacute;resse ?</p>
+    <button type="button" class="jd-btn-apply"
+      href="{$applyBtn_onClick}"
+      data-toggle="modal"
+      data-target="#apply-modal"
+      data-href="{$url}"
+      data-applied='{if $isApplied}applied{/if}'
+      data-title="{$modalTitle}">Postuler maintenant</button>
+  </div>-->
+  {/if}
+  {/if}
+  {/if}
+
+</div>
+
+{* ============ SIDEBAR ============ *}
+{if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'}
+<div class="jd-sidebar">
+
+  {* Company card *}
+  {if $listing.user.featured == 1}
+  <div class="jd-side-card jd-company-side">
+    {if $listing.user.Logo.file_url}
+    <div class="jd-logo-lg">
+      <a href="{if $listing.user.isJobg8}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.CompanyName|pretty_url}/{else}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/{/if}">
+        <img src="{$listing.user.Logo.file_url}" alt="{$listing.user.CompanyName|escape}">
+      </a>
+    </div>
+    {/if}
+    <div class="jd-name">{$listing.user.CompanyName|escape}</div>
+    {if $listing|location}<div class="jd-loc">{assign var="location" value=$listing|location}{assign var="parts" value=","|explode:$location}{assign var="total" value=$parts|@count}{if $parts[$total-2]}{$parts[$total-2]},{/if}{if $parts[$total-1]}{$parts[$total-1]}{/if}</div>{/if}
+    <p class="jd-desc">{$listing.user.CompanyDescription|strip_tags|truncate:180}</p>
+    <a class="jd-link" href="{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/">Voir les offres &rarr;</a>
+  </div>
+  {/if}
+
+  {* City listings *}
+  <div class="jd-side-card">
+    {module name="classifieds" function="plus_city_listings" items_count="5" listing_type="Job" listing_id=$listing.id}
+  </div>
+
+  {* Category listings *}
+  <div class="jd-side-card">
+    {module name="classifieds" function="plus_category_listings" items_count="9" listing_type="Job" listing_id=$listing.id}
+  </div>
+
+  {* Featured listings *}
+  <div class="jd-side-card">
+    {module name="classifieds" function="plus_featured_listings" items_count="4" listing_type="Job" listing_id=$listing.id}
+  </div>
+
+  {* CTA dark - candidat *}
+  <div class="jd-side-card jd-cta-dark">
+    <div class="card-title">D&eacute;couvrez plus d'emplois</div>
+    <p>Rejoignez Jobsquare et d&eacute;couvrez toutes les entreprises qui recrutent au Maroc.</p>
+    <a class="jd-cta-btn" href="{$GLOBALS.site_url}/registration/?user_group_id=JobSeeker">Rejoignez-nous</a>
+  </div>
+
+  {* CTA light - employeur *}
+  <div class="jd-side-card jd-cta-light">
+    <div class="card-title">Employeur ?</div>
+    <p>Inscrivez-vous et <a href="{$GLOBALS.site_url}/registration/?user_group_id=Employer">publiez vos offres</a> gratuitement.</p>
+  </div>
+
+  {* Banner right side for non-featured *}
+  {if $listing.user.featured != 1 && $listing.featured != 1}
+  {module name="banners" function="show_banners" group="Dispaly_right"}
+  {/if}
+
+</div>
+{/if}
+
+</div>{* /jd-layout *}
+</div>{* /jd-page *}
+
+{* ============ BELOW-GRID BLOCKS ============ *}
+{if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'}
+<div class="jd-below-grid">
+  {module name="classifieds" function="featured_listings_sponsorise" items_count="2" listing_type="Job" listing_id=$listing.id}
+  <div class="content-card offres-emploi-similaire">
+    {module name="classifieds" function="featured_listings_interne" items_count="10" listing_type="Job" listing_id=$listing.id}
+  </div>
+  {module name="classifieds" function="plus_training_listings" items_count="10" listing_type="Training" listing_id=$listing.id}
+</div>
+{/if}
+
+{* Mobile breadcrumb *}
+<div class="jd-breadcrumb hidden-md hidden-lg" style="padding:10px">
+  <a href="{$GLOBALS.site_url}">Emploi Maroc</a> &raquo; <a href="{$GLOBALS.site_url}{$breadCrumbs_link}">[[{$breadCrumbs_html}]]</a> &raquo; {$listing.Title|escape}
+</div>
+
+</div>{* /listing-results *}
+
+{* ============ FOOTER BAR ============ *}
+<div class="details-footer {if $GLOBALS.user_page_uri == '/job-preview/'}job-preview{/if}" id="footerjob">
+	<div class="container"> {if $GLOBALS.user_page_uri == '/job-preview/'}
+		<div class="form-group job-preview__btns col-xs-12">
+			<form action="{$referer}" method="post">
+				<input type="hidden" name="from-preview" value="1" />
+				<input type="submit" name="edit_temp_listing" value="[[Edit]]" class="btn btn-apply btn-primary btn-lg btn-block" id="listing-preview" />
+				{if $contract_id == 0 && !$checkouted}
+				<input type="hidden" name="proceed_to_checkout" />
+				<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+				{else}
+				<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+				{/if}
+			</form>
+		</div>
+		{else}
+		{if !$resumeListingSID}
+		{if isset($listing.ApplicationSettings.add_parameter) && $listing.ApplicationSettings.add_parameter == 2}
+		{assign var='isApplied' value=false}
+		{if $listing.user.isJobg8 && $listing.jobType == 'APPLICATION'}
+		{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/apply-now-external/?listing_id={$listing.id}{/capture}
+		{else}
+		{if !$GLOBALS.settings.loggedin_apply || $GLOBALS.current_user.logged_in}
+		{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/system/classifieds/application_redirect/?listing_id={$listing.id}{/capture}
+		{else}
+		{capture assign='url'}
+		{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+		{/capture}
+		{/if}
+		{/if}
+		{else}
+		{capture assign='url'}
+		{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+		{/capture}
+		{/if}
+		{capture assign='modalTitle'}
+		{assign var="job_title" value=$listing.Title|escape}
+		{assign var="company_name" value=$listing.user.CompanyName|escape}
+		[[Apply to $job_title at $company_name]]
+		{/capture}
+		{/if}
+		{/if}
+		{*{debug}*}
+		{if !$resumeListingSID}
+		{if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+		{if $isActive}
+		<div class="col-md-4"><a class="btn btn-apply btn-primary btn-lg btn-block"
+					href="{$applyBtn_onClick}"
+					data-toggle="modal"
+					data-target="#apply-modal"
+					data-href="{$url}"
+					data-applied='{if $isApplied}applied{/if}'
+					data-title="{$modalTitle}"> [[Apply Now]] </a></div>
+		{else} <br>
+		<span> <span><b> Désolé, cette offre n'est plus disponible.</b></span></span>
+		{/if}
+		{/if}
+		{else}
+		{if $resumeListingSID == 'createResume'}
+		<div class="col-md-4"><a target="_self" class="btn btn-apply btn-primary btn-lg btn-block" href="{$GLOBALS.site_url}/add-listing/?listing_type_id=Resume&redirectBackToJobID={$listing.id}&productSID=8&proceed_to_posting=1">[[Apply Now]]</a></div>
+		{else}
+		<div class="col-md-4"><a target="_self" class="btn btn-apply btn-primary btn-lg btn-block" href="{$GLOBALS.site_url}/edit-resume/?listing_id={$resumeListingSID}&redirectBackToJobID={$listing.id}">[[Apply Now]]</a></div>
+		{/if}
+
+		{/if}
+		<div class="social-share pull-right"> <span class="social-share__title"> [[Share this job]]: </span> {if !$myListing}
+			<div class="social-share__icons"> <span class='st_facebook_large' displayText='Facebook'></span> <span class='st_twitter_large' displayText='Tweet'></span> <span class='st_googleplus_large' displayText='Google +'></span> <span class='st_linkedin_large' displayText='LinkedIn'></span> <span class='st_pinterest_large' displayText='Pinterest'></span> <span class='st_email_large' displayText='Email'></span> </div>
+			{/if} </div>
+	</div>
+</div>
+{literal}
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "3f1014ed-afda-46f1-956a-a51d42078320", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+{/literal}
+{javascript}
+<script type="text/javascript">
+		dockDetailsFooter();
+		$(window).on('resize orientationchange', function(){
+			dockDetailsFooter();
+		});
+
+		function dockDetailsFooter() {
+			$(".details-footer").affix({
+				offset: {
+					bottom: function () {
+						return (this.bottom = $('.footer').outerHeight(true))
+					}
+				}
+			});
+		}
+        {if !$resumeListingSID}
+		$('.details-footer .btn-apply').on('click', function(e) {
+			if ($(this).attr('href') != '') {
+				e.preventDefault();
+				e.stopPropagation();
+				window.open($(this).attr('href'));
+			}
+		});
+        {/if}
+
+		$('.alert__close').on('click', function(e) {
+			e.preventDefault();
+			$(this).closest('.alert').hide();
+		});
+
+		// Sticky bar
+		var jdStickyBar = document.getElementById('jdStickyBar');
+		var jdHeader = document.getElementById('jdHeader');
+		if (jdStickyBar && jdHeader) {
+			window.addEventListener('scroll', function() {
+				if (jdHeader.getBoundingClientRect().bottom < 0) {
+					jdStickyBar.classList.add('jd-visible');
+				} else {
+					jdStickyBar.classList.remove('jd-visible');
+				}
+			});
+		}
+
+		// Share toggle
+		$(document).on('click', '.jd-share-toggle', function(e) {
+			e.stopPropagation();
+			$(this).siblings('.jd-share-icons').toggleClass('jd-show');
+		});
+		$(document).on('click', function() {
+			$('.jd-share-icons').removeClass('jd-show');
+		});
+	</script>
+{/javascript}

@@ -1,0 +1,674 @@
+{title}[[Edit a {$listingTypeID|escape}]]{/title}
+
+	<!--Back -->
+
+						<div class="container">
+								   
+							<div class=" text-right">
+								{if $url == "/my-resume-details/{$listing.id}/"}
+									<a href="{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}"
+									   class="btn__back btn__back_resume">
+										 &raquo; [[Back]]
+									</a>
+									{javascript}
+										<script type="text/javascript">
+											if (window.history && window.history.pushState) {
+												window.history.pushState('forward', null, '');
+												$(window).on('popstate', function() {
+													window.location.href = '{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}';
+												});
+											}
+										</script>
+									{/javascript}
+								{else}
+									{if $backPage && is_numeric($searchID)}
+										<a href="{$GLOBALS.site_url}/resumes/?searchID={$searchID}&action=search&listings_per_page={$backPage * 20}#{$listing.id}"
+										   class="btn__back btn__back_resume ">
+											&laquo; [[Back]]
+										</a>
+									{else}
+										<a href="javascript:history.go(-1)"
+										   class="btn__back btn__back_resume">
+											&laquo; [[Back]]
+										</a>
+									{/if}
+								{/if}
+							</div>
+						
+						   
+						</div>
+				
+				<!--Back -->
+
+<!-- Menu Vertical Edit CV a gauche-->
+<div class=" col-md-3">
+<nav class="sidebar">
+	<a class="sidebar__list-item {if $currentPage.order == 1}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Interests/{$listingSID}" aria-current="page">Intérêts Professionnels</a>
+	<a class="sidebar__list-item {if $currentPage.order == 2}is-active {/if}"  href="{$GLOBALS.site_url}/edit-resume/General/{$listingSID}">Informations  Générales</a>
+	<a class="sidebar__list-item  {if $currentPage.order == 3}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Professional/{$listingSID}">Informations  Professionnelles</a>
+	<a class="sidebar__list-item  {if $currentPage.order == 4}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Experience/{$listingSID}">Experience </a>
+	<a class="sidebar__list-item  {if $currentPage.order == 5}is-active {/if}" href="{$GLOBALS.site_url}/edit-resume/Education/{$listingSID}">Education </a>
+   <a class="sidebar__list-item  {if $GLOBALS.user_page_uri == '/resume/'}is-active {/if}" href=" {if $GLOBALS.user_page_uri == '/resume/'}#{else}{$GLOBALS.site_url}/resume/{$listingSID}{/if}">Visualiser votre CV</a>
+			
+	</nav>
+</div>
+
+<!---->
+
+
+
+{if $currentPage.order == 1}
+
+	
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+	      {if $form_field.id == 'id_Resume_careerlevel'}
+	
+							{assign var=Resume_CareerLevel value=$form_field}
+         {elseif $form_field.id == "EmploymentType"}	
+					{assign var=EmploymentType value=$form_field}
+		{elseif $form_field.id == "Title"}	
+					{assign var=DesiredTitle value=$form_field}
+		{elseif $form_field.id == "JobCategory"}	
+					{assign var=JobCategory value=$form_field}
+		{elseif $form_field.id == "salary"}	
+					{assign var=salary value=$form_field}
+		{elseif $form_field.id == "id_Resume_CurrentStatus"}	
+					{assign var=id_Resume_CurrentStatus value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+		{elseif $form_field.id == "access_type"}	
+					{assign var=ResumeAccessType value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+	
+
+	<div id="resumesteps" class="resumesteps resume-info col-md-9">
+		<div class=" ">
+			
+			<div class="css-1wtdjp1 exkztdf0">
+			
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				
+				    {if $redirectBackToJobID}				
+					
+				   <div class="css-1scoqbg e128p6kr0">
+					  <div>[[Pour pouvoir postuler, veuillez mettre à jour votre CV Tanitjobs. Vous devez avoir au minimum un CV complet à 90%.]]
+					  </div>
+				  </div>
+				  {else}
+				  {include file='field_errors.tpl'}
+				  {/if}
+					<div class=" resume-bloc ">
+						<div class="section-title"><h2 class="resume_main-title">Quel est votre niveau d'experience Professionnelle?</h2></div>
+						<div class=" eh8qwvv0">
+							<div class="inner-bloc e67rya20">
+							{input property=$Resume_CareerLevel.id}
+							</div>
+						</div>
+					</div>
+					
+					<div class=" resume-bloc ">
+						<div class="section-title">
+							<h2 class="resume_main-title">À quel (s) type (s) d'emploi êtes-vous ouvert (e)?</h2>
+							
+								
+								 <span class="desc_title"> — Type d'emploi désiré</span>
+						
+				
+						  
+						</div>
+					<div class="css-pbed7v e8my37z0">
+						<div class="css-14nywfj">
+							{input property=$EmploymentType.id}
+								
+						</div>
+					</div>
+				</div>
+			<div class="section-validation-error resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quel est le nom de poste / fonction  qui décrit ce que vous recherchez?</h2>
+					 <span class="desc_title"> — Titre du poste désiré</span>
+					
+				</div>
+				   {input property=$DesiredTitle.id}
+				
+			</div>
+			<div class="section-validation-error resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quels sont les domaines d'activites qui vous intéressent?</h2>
+					 <span class="desc_title"> — Max 5</span>
+						
+					</div>
+					
+					<div class="custom-selectbox">
+						<div class="Select custom-selectbox__select  is-clearable is-searchable Select--multi">
+							<div class="Select-control">
+								
+									{input property=$JobCategory.id}
+							</div>
+						</div> 
+					</div>
+				</div>
+				<div class="section-validation-error resume-bloc ">
+					<div class="section-title">
+						<h2 class="resume_main-title">Quel est le salaire minimum que vous accepteriez?</h2>
+						 <span class="desc_title"> — Ajoutez un salaire net (c-à-d, Le montant final que vous voulez recevoir après les taxes).
+							
+						</span>
+					</div>
+					<div class="css-bl1ilx e14ozvww0">
+						<div class="css-1f2c5hb e14ozvww1">
+							<div class="text-field-wrapper css-znsm0t">
+								<div class="css-1ac03ny">
+												
+									{input property=$salary.id}
+									<span class="css-wgn4vk e1gqe2o91">
+						<span> NB: </span>
+							<span class="css-1ugyivz e1gqe2o94">Le montant en Dinars Marocn</span>
+						</span>
+					
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="section-validation-error resume-bloc ">
+					<div class="section-title">
+						<h2 class="resume_main-title">Quel est votre statut actuel? </h2>
+						 <span class="desc_title"> — Pourquoi vous êtes à la recherche d'un emploi?
+							
+						</span>
+					</div>
+					<div class="custom-selectbox">
+						<div class="Select custom-selectbox__select  is-clearable is-searchable Select--single">
+							<div class="Select-control">
+								{input property=$id_Resume_CurrentStatus.id}
+							</div>
+						</div> 
+					</div>
+					<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$ResumeAccessType.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Laissez les entreprises me trouver sur Tanitjobs.com. (Recommandé)</h1>
+							<p class="css-d9v5op e1v8ucbs1">En activant cette option, vous augmenterez vos chances de vous faire chasser par les entreprises qui recherchent dans notre base de données.</p>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+	  
+					<div class="css-7oyirr">
+						<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+						<input type="submit" name="preview_listing" value="Sauvegarder et continuer" class="css-txeug1 e1eq3cmo0" id="listingPreview"/>
+					</div>
+			
+			
+			</form>
+		</div>
+	</div>
+	<div class="css-1t08rlo evbdj4a0">
+		<div class="Toastify"></div>
+	</div>
+	<div></div>
+</div>
+
+{elseif $currentPage.order == 2}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+			
+	      {if $form_field.id == 'Objective'}
+				{assign var=Objective value=$form_field}
+         {elseif $form_field.id == "Photo"}	
+				{assign var=Photo value=$form_field}
+		{elseif $form_field.id == "Phone"}	
+					{assign var=Phone value=$form_field}
+		{elseif $form_field.id == "Motorized"}	
+					{assign var=Motorized value=$form_field}
+					{elseif $form_field.id == "GooglePlace"}	
+					{assign var=GooglePlace value=$form_field}
+		{elseif $form_field.id == "OtherPhone"}	
+					{assign var=OtherPhone value=$form_field}
+		{elseif $form_field.id == "Licence"}	
+					{assign var=Licence value=$form_field}
+		
+		{elseif $form_field.id == "access_type"}	
+					{assign var=ResumeAccessType value=$form_field}			
+
+		{elseif $form_field.id == "Location"}	
+					{assign var=Location value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+
+
+ <div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+	<div class="css-1wtdjp1 exkztdf0">
+	
+		
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+				 
+	
+	<div class="section-validation-error resume-bloc ">
+			<div class="section-title"><h2 class="resume_main-title">Vos informations personnelles</h2></div>
+			<div class="css-rpi6b5 e6pv2vl0"><div class="text-field-wrapper css-znsm0t">
+				<label for="fname" class="css-ybizro ebed2s31">Photo</label>
+					<div class="css-1ac03ny">
+					
+						{input property=$Photo.id}
+					</div>
+			</div>
+			
+			    <div class="css-rpi6b5 e6pv2vl0 " style="margin-top: 20px;">
+				           
+							<div class="text-field-wrapper css-znsm0t  ">
+								<div class="css-1ac03ny ">
+									   <span class="css-tukd06 e1gqe2o92">
+						<label class="custom-selectbox__label">Objectifs et Motivations </h1>
+						
+				              	</span>			
+									{input property=$Objective.id}
+									
+				
+								</div>
+							</div>
+				</div>
+			
+		</div>
+		
+	
+	
+</div>
+<div class=" resume-bloc ">
+	<div class="section-title">
+		<h2 class="resume_main-title">Votre emplacement</h2>
+	</div>
+	<div class="css-rpi6b5 e6pv2vl0">
+		<div class="custom-selectbox">
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					
+					<div class="css-1ac03ny">
+						{input property=$Location.id}
+					</div>
+				</div>
+		    </div>
+			
+			<div class="css-rpi6b5 e6pv2vl0">
+				<div class="text-field-wrapper css-znsm0t">
+					<label class="custom-selectbox__label">Adresse</label>
+					 <span class="desc_title"> — Rue, Appt, Résidence, cité ...
+							
+						</span>
+				
+					<div class="css-1ac03ny">
+						{input property=$GooglePlace.id}
+					</div>
+				</div>
+		    </div>
+			
+		</div>
+	</div>
+	
+		
+		<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$Licence.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Avez-vous un permis de conduire valide? </h1>
+							<p class="css-d9v5op e1v8ucbs1">Si vous choisissez de mentionner votre permis de conduire sur votre CV, réfléchissez bien au préalable à ce que cela apporte à votre candidature et si cela est bien nécessaire pour le poste que vous cherchez.</p>
+						</div>
+						
+		</div>
+		<div class="css-1yq7fu5 e1v8ucbs0">
+					{input property=$Motorized.id}
+						
+						<div class="css-1isemmb">
+							<h1 type="H6" class="css-i1y1z6 ehwvnb90">Êtes - vous motorisé?</h1>
+							<p class="css-d9v5op e1v8ucbs1">Prenez d’abord le temps de regarder les avantages et inconvénients à mettre en avant votre scooter, moto ou voiture sur votre CV.</p>
+						</div>
+						
+		</div>
+		
+	</div>
+	<div class="section-validation-error resume-bloc ">
+		<div class="section-title">
+			<h2 class="resume_main-title">Informations de contact</h2>
+		</div>
+		<div class="css-rpi6b5 e6pv2vl0">
+			<div class="text-field-wrapper css-znsm0t">
+				<label for="mnumber" class="css-ybizro ebed2s31">Numéro de portable</label>
+				<div class="css-1ac03ny">
+					{input property=$Phone.id}
+				</div>
+			</div>
+		</div>
+		<div class="css-rpi6b5 e6pv2vl0">
+			<div class="text-field-wrapper css-znsm0t">
+				<label for="ophone" class="css-ybizro ebed2s31">Autre télephone
+					<span class="css-y7u1of">— Optionnel</span>
+				</label>
+				<div class="css-1ac03ny">
+					{input property=$OtherPhone.id}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="css-7oyirr">
+	  <input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Sauvegarder et continuer</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Interests/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+<div class="Toastify"></div>
+</div>
+<div>
+</div>
+</div>
+    
+{elseif $currentPage.order == 3}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	      {if $form_field.id == 'Objective'}
+				{assign var=Objective value=$form_field}
+         {elseif $form_field.id == "id_Job_Langue"}	
+				{assign var=id_Job_Langue value=$form_field}
+		{elseif $form_field.id == "Skills"}	
+					{assign var=Skills value=$form_field}
+		{elseif $form_field.id == "Education"}	
+					{assign var=Education value=$form_field}
+		{elseif $form_field.id == "Study"}	
+					{assign var=Study value=$form_field}
+		{elseif $form_field.id == "WorkExperience"}	
+					{assign var=WorkExperience value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+		{elseif $form_field.id == "Resume"}	
+					{assign var=Resume value=$form_field}
+		{/if} 
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+	
+		<div class="css-1wtdjp1 exkztdf0">
+			
+			
+		
+				<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				
+				  
+				  {include file='field_errors.tpl'}
+			
+				
+			
+			<div class="resume-bloc ">
+				<div class="section-title">
+					<h2 class="resume_main-title">Quelles langues connaissez-vous?
+						<span class="css-wgn4vk e1gqe2o91">— Vous pouvez ajouter plusieurs</span>
+					</h2>
+				</div>
+				
+				<div name="talentLanguageForm">
+					<div class="css-eio8xc e6pv2vl3">
+						
+							{input property=$id_Job_Langue.id}
+						
+					</div>
+					</div>
+				<div>
+			</div>
+			<div class="container mt-30">
+				<div class="col-6"></div>
+			</div>
+			<div class="container mt-30">
+				<div class="col-6"></div>
+			</div>
+		</div>
+		<div class="resume-bloc ">
+			<div class="section-title">
+				<h2 class="resume_main-title">De quelles compétences, outils, technologies et domaines d'expertise disposez-vous?</h2>
+				 <span class="desc_title"> — Prenez le temps de comprendre quelles sont les compétences essentielles pour le poste auquel vous postulez.
+				</span>
+			</div>
+			<div type="full-width" class="css-41u6q2 e6pv2vl0">
+				<div class="custom-selectbox"> 
+					  {input property=$Skills.id}
+				</div>
+			</div>
+		</div>
+	<div class="upload-cv resume-bloc ">
+		<div class="section-title">
+			<h1 class="css-esj582 e12vjvm83">Télécharger votre CV</h1>
+			<span class="css-djskp8 e12vjvm82">
+				<span class="css-16ghou"> — Optionnelle</span>
+			</span>
+		</div>
+		<span class="css-vzfgfo">Fichiers accepter: <b>.docx</b>, <b>.doc</b> or <b>.pdf</b>, avec une taille maximale de 5MB</span>
+		<div class="css-6n7j50" style="position: relative;" aria-disabled="false">
+			
+		  {input property=$Resume.id}
+		  </div>
+	</div>
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider </button>
+		<a href="{$GLOBALS.site_url}/edit-resume/General/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+{elseif $currentPage.order == 4}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+		{if $form_field.id == "WorkExperience"}	
+					{assign var=WorkExperience value=$form_field}
+		{elseif $form_field.id == "Experience"}	
+					{assign var=Experience value=$form_field}
+	
+		{/if} 
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+		<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+				  
+					<div class="resume-bloc " style="overflow: hidden;">
+					   <div class="section-title">
+						<h2 class="resume_main-title">Quel est le nombre d'années de votre expérience?</h2>
+						</div>
+						<div class=" eh8qwvv0">
+							<div class="inner-bloc e67rya20">
+							{input property=$Experience.id}
+							</div>
+						</div>
+					</div>
+					<div class=" resume-bloc " style="overflow: hidden;">
+					<div class="section-title">
+							<span class="css-tukd06 e1gqe2o92">
+								<h2 class="resume_main-title">Détails de l'expérience</h2>
+							</span>
+							<div>
+						       <span class="desc_title"> — <b>Important:</b> Classez vos expériences de la plus récente à la plus ancienne.
+									
+								  </span>
+								    </div>
+								  <div>
+								  
+                                 <span class="desc_title"> — 
+										Ajouter votre expérience <b>la plus récente</b> (votre dernière expérience ou votre expérience actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Expérience</b> pour ajouter d'autres.
+									</span>
+								  
+								  </div>
+				     </div>
+					 	<div  class="form-group form-group__complex field-group">
+							
+										
+
+
+    							{input property=$WorkExperience.id}
+							  </div>
+						
+				
+					</div>
+				 
+				
+	
+	
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Professional/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+{elseif $currentPage.order == 5}
+
+
+	{foreach from=$form_fields item=form_field}
+		{$form_field=$form_field scope=global}
+		
+	    
+			{if $form_field.id == "Education"}	
+					{assign var=Education value=$form_field}
+		{elseif $form_field.id == "Study"}	
+					{assign var=Study value=$form_field}
+						{/if}
+      	 	
+	{/foreach}
+					
+					
+<div id="resumesteps" class="resumesteps resume-info col-md-9">
+	<div class="e14sx70q0">
+		
+		<div class="css-1wtdjp1 exkztdf0">
+		
+			<form method="post" action="" enctype="multipart/form-data" {if isset($listing.ApplicationSettings)}onsubmit="return validateForm('editListingForm');"{/if} id="editListingForm" class="form">
+						<input type="hidden" name="action" value="save_info" />
+						
+						<input type="hidden" name="listing_id" id="listing_id" value="{$listing.id}" />
+
+						{set_token_field}
+				  
+				  {include file='field_errors.tpl'}
+				  
+						<div class="section-validation-error resume-bloc " style="overflow: hidden;">
+						<span class="css-tukd06 e1gqe2o92"><h2 class="resume_main-title">Quel est votre niveau d'étude actuel?</h2>
+							<span class="css-wgn4vk e1gqe2o91">
+								<span> — </span>
+								<span class="css-1ugyivz e1gqe2o94">Si vous étudiez actuellement, sélectionnez votre prochain diplôme.</span>
+							</span>
+						</span>
+						<div class="inner-bloc e67rya20">
+								{input property=$Study.id}
+						</div>
+						</div>
+						<div class="section-validation-error resume-bloc " style="overflow: hidden;">
+						
+							<div class="section-title">
+								<h2 class="resume_main-title">Détails des études</h2> 
+								
+							
+							 <span class="desc_title"> — <b>Important:</b> Classez vos études de la plus récente à la plus ancienne.</span>
+							 <br>
+							 <span class="desc_title">
+										 — Ajouter votre <b>dernier diplôme </b> (votre dernière formation ou niveau d'étude actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Etude</b> pour ajouter d'autres.
+									</span>
+							 
+                                
+								  
+								   <span class="desc_title"> — Ajouter votre <b>dernier diplôme </b> (votre dernière formation ou niveau d'étude actuelle).  Puis cliquez sur le bouton <b>Ajouter une nouvelle Etude</b> pour ajouter d'autres.</span>
+								  </div>
+							
+									<div  class="form-group form-group__complex field-group">
+									{input property=$Education.id}
+									
+								</div>
+								
+							
+						
+				        
+			</div>
+				
+	
+	
+	<div class="css-7oyirr">
+	<input type="hidden" name="action_add" id="hidden_action_add" value=""/>
+		<button type="submit" class="css-1kqwv1a e1eq3cmo0">Valider</button>
+		<a href="{$GLOBALS.site_url}/edit-resume/Experience/{$listingSID}" style="background-color: white; border: 1px solid rgb(235, 237, 240);" class="css-wzp6tc e1eq3cmo0">Retour</a>
+	</div>
+</form>
+</div>
+</div>
+<div class="css-1t08rlo evbdj4a0">
+	<div class="Toastify">
+</div>
+</div>
+<div>
+</div>
+</div>
+{/if}

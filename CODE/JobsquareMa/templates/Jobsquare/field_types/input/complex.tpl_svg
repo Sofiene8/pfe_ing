@@ -1,0 +1,280 @@
+{foreach from=$form_fields item=form_field}
+{if $form_field.id == "WE_From" }
+{assign var="complexField" value="WorkExperience"}
+{/if}
+{if $form_field.id == "ED_From" }
+{assign var="complexField" value="Education"}
+{/if}
+{/foreach}
+{assign var="complexField" value=$complexField scope=global} {* nwy: Если не очистить переменную то в последующих полях начинаются проблемы (некоторые воспринимаются как комплексные)*}
+
+
+<div class="complex-wrapper">
+	
+	<div id='complexFields_{$complexField}' class="complex clearfix">
+		{foreach from=$complexElements key="complexElementKey" item="complexElementItem"}
+			{if $complexElementKey != 1}
+				<div id='complexFieldsAdd_{$complexField}_{$complexElementKey}' class="clearfix complex">
+			{/if}
+			{foreach from=$form_fields item=form_field}
+				{if $form_field.id == "ED_From" || $form_field.id == "WE_From"}
+				
+				      {if $form_field.id == "WE_From"}
+					  {assign var="WE_From" value=$form_field.value scope=global}
+
+					      <div class="form-group ">
+								
+									
+									<span class="desc_title"> — Faites ressortir <b>les dates</b> (ex. juin 2014 à avril 2020) pour chaque poste.
+									</span>
+							
+							</div>
+							
+							{/if} 
+							
+							{if $form_field.id == "ED_From"}
+							{assign var="ED_From" value=$form_field.value scope=global}
+					      <div class="form-group ">
+								<span class="desc_title"> — Faites ressortir <b>les dates</b> (ex. juin 2014 à avril 2020) pour chaque Etude ou Formation.
+								</span>
+								
+							</div>
+							
+							{/if} 
+					
+					<div class="form-group form-group__half form-group__range" id="datefrom_{$complexField}_{$complexElementKey}">
+					   <label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</label>
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					</div>
+					{elseif $form_field.id == "ED_To" || $form_field.id == "WE_To"}
+					
+					{if $form_field.id == "ED_To"}
+				
+				
+					{if $ED_From!="" && $form_field.value == ""}
+					{else}
+					<div class="form-group form-group__half form-group__range" id="dateto_{$complexField}_{$complexElementKey}">
+						<label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</label>
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					</div>
+					{/if}
+					{/if}
+					
+					
+				{if $form_field.id == "WE_To"}
+				
+				{$WE_From}{$form_field.list_values.id}jjjjjjjjjjjjjjjj
+				{if $WE_From!="" && $form_field.value == ""}
+				{else}
+					<div class="form-group form-group__half form-group__range" id="dateto_{$complexField}_{$complexElementKey}">
+						<label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</label>
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					</div>
+					{/if}
+					{/if}	
+					
+				{elseif $form_field.id == "ED_DegreeSpecialty" || $form_field.id == "WE_JobTitle"}
+					
+					  
+							
+					
+					<div class="form-group ">
+					<label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if} {if $form_field.id == "WE_JobTitle"}
+					     
+								<span class="desc_title">— Indiquez <b>le poste</b> et <b>l’entreprise</b>.</span>
+							
+							
+							{/if} 
+							</label>
+						
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					
+	
+					</div>
+					
+					
+					
+				{elseif $form_field.id == "ED_UniversityInstitution" || $form_field.id == "WE_Company"}
+					<div class="form-group">
+						<label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</label>
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					</div>
+				
+				{elseif $form_field.id == "WE_Iworkhere" || $form_field.id == "WE_Istudyhere"}
+				  
+					<div class="form-group ">													
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+						<label class="form-label desc_title"><b>{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</b></label>
+							
+					</div>
+					
+				 			
+				   
+				{else}
+				  				
+					<div class="form-group ">
+						<label class="form-label custom-selectbox__label">{tr}{$form_field.caption}{/tr|escape:'html'} {if $form_field.is_required}*{/if}</label>
+						{if $form_field.id == "WE_Description"}
+						
+						  <div><span class="desc_title"> — Présentez brièvement <b>vos missions</b> sous forme de liste en privilégiant les verbes d’actions : réaliser, gérer, préparer, entretenir, organiser, planifier...
+							
+						</span><br>
+								<span class="desc_title"> — <i><b> À noter</b></i> : s’il s’agit d’une petite structure, vous pouvez décrire en une ligne son activité pour que cela soit plus parlant pour le recruteur.
+									</span>
+								
+						   </div>
+							{/if}
+												
+						{input property=$form_field.id complexParent=$complexField complexStep=$complexElementKey}
+					</div>
+					
+				   
+				   
+				   
+				   
+				{/if}
+			{/foreach}
+			{if $complexElementKey != 1}
+				<div class="form-group text-right form-group__remove">
+					<button class="css-wzp6tc e1eq3cmo0" onclick='removeComplexField_{$complexField}({$complexElementKey}); return false;' >[[Remove]]</button>
+				</div>
+				<div  class="clearfix"></div>
+				</div>
+			{elseif $complexElementKey == 1}
+				</div>
+			{/if}
+		{/foreach}
+ 
+</div>
+ <div class="form-group form-group__add">
+    {assign var="field_caption" value=$caption|tr}
+	<a class="add btn btn__white" onclick='addComplexField_{$complexField}(); return false;' > [[Ajouter une nouvelle $field_caption]]</a>
+  </div>
+
+
+
+
+
+{javascript}
+<script type="text/javascript">
+
+	var i_{$complexField} = {$complexElementKey} + 1;
+
+	var dFormat = '{$GLOBALS.current_language_data.date_format}';
+	dFormat = dFormat.replace('%m', "mm");
+	dFormat = dFormat.replace('%d', "dd");
+	dFormat = dFormat.replace('%Y', "yyyy");
+
+	$('.form-control__visible').datepicker({
+		language: '{$GLOBALS.current_language}',
+		autoclose: true,
+		format: 'mm.yyyy',
+		startView: 1,
+		minViewMode: 1,
+		startDate: new Date(1940, 1 - 1, 1),
+		endDate: '+10y',
+	});
+
+	$('.form-control__visible').on('change', function() {
+		$(this).closest('.form-group').find('input[type="hidden"]').val($(this).data('datepicker').getFormattedDate(dFormat));
+	});
+	
+
+	function addComplexField_{$complexField}() {
+		{if $complexField=="WorkExperience"}
+		tinymce.remove();
+		{/if}
+		
+		var id = "complexFieldsAdd_{$complexField}_" + i_{$complexField};
+		var oldField = $('#complexFields_{$complexField}');
+		var newField = oldField.clone();
+
+		
+		$("<div id='" + id + "'/>").addClass('complex clearfix').appendTo($('#complexFields_{$complexField}').closest('.complex-wrapper'));
+		newField.removeClass('complex clearfix');
+		newField.append('<div class="form-group text-right form-group__remove"><button class="remove btn btn__white" onclick="removeComplexField_{$complexField}(' + i_{$complexField} + '); return false;">[[Remove]]<\/button><\/div>');
+        newField.append('<div class="clearfix"><\/div>');
+		var str = newField.html();
+		var newStr = str.replace(/\[1]/g, '['+i_{$complexField}+']');
+		newField.html(newStr);
+		newField.find('textarea').each(function(){
+			$(this).val('');
+		});
+		newField.appendTo('#' + id);
+	{if $complexField=="WorkExperience"}
+tinymce.init(tinyconfig);
+		{/if}
+		
+	
+		var id_date="dateto_{$complexField}_"+i_{$complexField};
+		var id_datefrom="datefrom_{$complexField}_"+i_{$complexField};
+		$('#' + id + ' input[type=text]').val('');
+		$('#' + id + ' input[type=checkbox]').attr('checked',false);
+		 
+			
+		
+		$("#" + id + " .form-group__range input").attr('value', ''); //почему то только так обнуляется значение в инпуте
+		
+		$("#" + id + " .form-group__range" ).first().attr('id', id_datefrom);
+		$("#" + id + " .form-group__range" ).last().attr('id', id_date);
+		$('#' + id + ' input[type=checkbox]').change(function() {
+
+				if(this.checked) {
+					//Do stuff
+					
+					//alert("hhh");
+				$("#" + id_date).hide();
+				}
+				else{
+				$("#" + id_date).show();
+				}
+			}); 
+			
+		$('.form-control__visible').datepicker({
+			language: '{$GLOBALS.current_language}',
+			autoclose: true,
+			format: 'mm.yyyy',
+			startView: 1,
+			minViewMode: 1,
+			startDate: new Date(1940, 1 - 1, 1),
+			endDate: '+10y'
+		});
+	
+		$('.form-control__visible').on('change', function() {
+			$(this).closest('.form-group').find('input[type="hidden"]').val($(this).data('datepicker').getFormattedDate(dFormat));
+		});
+
+		$('.ui-datepicker-trigger').on('click', function () {
+			$(this).closest('.form-group').find('.form-control__visible').focus();
+		});
+
+		i_{$complexField}++;
+
+	}
+
+	function removeComplexField_{$complexField}(id) {
+		$('#complexFieldsAdd_{$complexField}_' + id).remove();
+	}
+	
+
+			
+function changeDate(id1,key,complexField1) {
+	var id_date1="dateto_"+complexField1+"_"+key;
+				if(id1.checked) {
+					//Do stuff
+					
+				$("#" + id_date1).hide();
+				//var pid = $("#"+check_id).parents('.complex').attr('id');
+				//alert(pid);
+				//$("[id^="+id_date1+"]" ).first().hide();
+				
+				
+				}
+				else{
+						$("#" + id_date1).show();
+				//	$("[id^="+id_date1+"]" ).first().show();
+				}	
+}
+</script>
+{/javascript}
+{assign var="complexField" value=false scope=global} {* nwy: Если не очистить переменную то в последующих полях начинаются проблемы (некоторые воспринимаются как комплексные)*}

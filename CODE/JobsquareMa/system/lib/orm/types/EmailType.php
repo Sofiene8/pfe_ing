@@ -1,0 +1,44 @@
+<?php
+
+class SJB_EmailType extends SJB_Type
+{
+    protected $default_template = 'email.tpl';
+
+    function getPropertyVariablesToAssign()
+    {
+        return [
+            'id' => $this->property_info['id'],
+            'value' => $this->property_info['value'],
+        ];
+    }
+
+    function isValid()
+    {
+        $email = $this->property_info['value'];
+		$atom = '[-a-z0-9!#$%&\'*+\\/=?^_`{|}~]';
+		$domain = '([a-z0-9]([-a-z0-9]*[a-z0-9]+)?)';
+		//$regexmail ="/^[a-zA-Z0-9\\._-]+@[a-zA-Z0-9\\._]+\\.[a-zA-Z]{2,}$/";
+		$regexmail = '/^' . $atom . '+' . '(\.' . $atom . '+)*' . '@' . '(' . $domain . '{1,63}\.)+' .$domain . '{2,63}$/i';
+		
+    /*   if (
+           !preg_match($regexmail, $email) ||
+          !getmxrr(preg_replace('/.+@/u', '', $email), $hosts)
+       ) {
+            return 'NOT_VALID_EMAIL_FORMAT';
+      }*/
+
+		 if(!$this->valid_email($email)){
+		 return 'NOT_VALID_EMAIL_FORMAT';
+		}
+       // if (
+      //      !preg_match($regexmail, $email)
+       // ) {
+       //     return 'NOT_VALID_EMAIL_FORMAT';
+       // }
+        return true;
+    }
+	function valid_email($str) {
+return (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $str)) ? FALSE : TRUE;
+}
+
+}

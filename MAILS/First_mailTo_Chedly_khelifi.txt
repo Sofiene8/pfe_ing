@@ -1,0 +1,44 @@
+Bonjour Monsieur Chedly El Khelifi,
+
+J'espère que vous allez bien. Je me permets de vous écrire dans le cadre de mon stage PFE que j'ai l'honneur d'effectuer sous votre encadrement professionnel.
+
+Suite à nos échanges, j'ai entamé le travail sur le chapitre d'analyse de besoin de mon rapport. Le projet porte sur la refonte et l'amélioration intelligente de la plateforme TanitJobs, en migrant la base de données de MySQL vers MongoDB (NoSQL) et en intégrant un système de recommandation intelligent basé sur l'IA.
+
+Problématiques identifiées
+
+Après une étude approfondie du site TanitJobs et une analyse concurrentielle (LinkedIn, Indeed, Keejob ,...), j'ai identifié les problématiques suivantes :
+
+1.Recherche limitée par mots-clés:
+     -Aucune compréhension sémantique du contenu des offres
+2.Absence de recommandation personnalisée & CV non exploit : 
+     -Tous les utilisateurs voient les mêmes résultats
+     -le fichier PDF reste statique, sans extraction ni matching intelligent
+4.Volume de données assez important :  
+     -le schéma MySQL inadapté au stockage de vecteurs et données semi-structurées
+
+Solutions étudiées (étude comparative)
+1.Robot IA + extraction mots-clés du CV :
+	(-) Coûteux, pas sémantique
+2.RAG avec API + Fine-tuning d'un LLM Cloud (OpenAI/Groq):
+	(-) Coût récurrent, dépendance externe
+	(-) Nécessite plus de ressources (GPU, données, temps)
+3.ML non-supervisé (K-Means clustering):
+	(-) Résultat pas précise 
+4.Embeddings locaux + MongoDB Vector Search + LLM local:
+	a.Sentence-Transformers (modèle all-MiniLM-L6-v2) pour convertir les descriptions d'offres et les CV en vecteurs sémantiques (embeddings)
+	b.MongoDB Atlas avec Vector Search pour stocker et rechercher par similarité cosinus
+	c.Un score de pertinence (%) affiché pour chaque offre recommandée
+	d.Content-Based Filtering pour la recommandation hybride
+
+
+Afin d'avancer efficacement, j'aurais besoin de votre aide sur les points suivants :
+
+Accès aux données de la plateforme TanitJobs (base de données, structure des tables, ou export des offres et profils utilisateurs)
+Votre validation sur l'approche technique proposée
+Vos remarques ou orientations supplémentaires concernant les fonctionnalités attendues
+
+Je reste entièrement à votre disposition pour une réunion (de préférence à vos bureaux de lac  ) afin de discuter de ces points plus en détail.
+
+Cordialement, 
+Soltani Souhail 
+

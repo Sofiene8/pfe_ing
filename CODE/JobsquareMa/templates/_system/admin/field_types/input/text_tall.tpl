@@ -1,0 +1,1 @@
+{WYSIWYGEditor name="{$id}" class="inputText" width="100%" height="400" type=$wysiwygType value=$value conf="Admin"}

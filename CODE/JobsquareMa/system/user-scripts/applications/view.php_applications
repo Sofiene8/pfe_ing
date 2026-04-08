@@ -1,0 +1,249 @@
+<?php
+
+class SJB_Applications_View extends SJB_Function
+{
+    private $pages;
+    private $totalPages;
+    private $currentPage;
+
+    public function execute()
+    {
+        $tp = SJB_System::getTemplateProcessor();
+
+        $appsPerPage = SJB_H::isThemeSupportsDND() ? 9999 : 10;
+        $this->currentPage = SJB_Request::getVar('page', 1);
+        $currentUser = SJB_UserManager::getCurrentUser();
+        $appJobId = SJB_Request::getVar('appJobId', false, null, 'int');
+        $displayTemplate = 'view.tpl';
+        $errors = [];
+
+        // не бум пускать незарегенных
+        if (SJB_UserManager::isUserLoggedIn() === false) {
+            $tp->assign('ERROR', 'NOT_LOGIN');
+            $tp->display('../miscellaneous/error.tpl');
+            return;
+        }
+
+        $filename = SJB_Request::getVar('filename', false);
+
+        if ($filename) {
+            $appsID = SJB_Request::getVar('appsID', false);
+            if ($appsID) {
+                $file = SJB_UploadFileManager::openApplicationFile2($filename, $appsID);
+				
+                if (!$file) {
+                    $errors['NO_SUCH_FILE'] = true;
+                }
+            } elseif (SJB_Request::getVar('listing_id')) {
+                $file = SJB_UploadFileManager::openFile($filename, SJB_Request::getVar('listing_id'));
+                if (!$file) {
+                    $errors['NO_SUCH_FILE'] = true;
+                }
+            } else {
+                $errors['NO_SUCH_APPS'] = true;
+            }
+        }
+
+        if (!is_numeric($this->currentPage) || $this->currentPage < 1) {
+            $this->currentPage = 1;
+        }
+
+        if ($currentUser->getUserGroupSID() == SJB_UserGroup::EMPLOYER) {
+            $action = SJB_Request::getVar('action');
+            if ($action && !SJB_Applications::isAppBelongsTyEmployer(SJB_Request::getVar('id'), $currentUser->getID())) {
+                echo SJB_System::executeFunction('miscellaneous', 'function_is_not_accessible');
+                return;
+            }
+
+            switch ($action) {
+                case 'delete':
+                    // todo: deprecated since SL-333 + DND
+                    SJB_Applications::hide(SJB_Request::getVar('id'));
+                    echo 'ok';
+                    exit();
+                    break;
+                case 'set_status':
+                    SJB_Applications::setStatus(
+                        SJB_Request::getVar('id'),
+                        SJB_Request::getVar('status'),
+                        SJB_Request::getVar('order')
+                    );
+                    if (!SJB_Session::getValue('set_application_status_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('set_application_status_' . SJB_Request::getVar('id'), true);
+
+                    }
+                    break;
+                case 'notes':
+                    SJB_Applications::setNotes(
+                        SJB_Request::getVar('id'),
+                        SJB_Request::getVar('notes')
+                    );
+                    if (!SJB_Session::getValue('set_application_notes_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('set_application_notes_' . SJB_Request::getVar('id'), true);
+
+                    }
+                    break;
+                case 'contact':
+                    if (!SJB_Session::getValue('applicant_contacted_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('applicant_contacted_' . SJB_Request::getVar('id'), true);
+                    }
+
+                    $app = SJB_Applications::getBySID(SJB_Request::getVar('id'));
+                    $email = new SJB_Email($app['email']);
+                    $email->setText('<div style="white-space: pre-line;">' . SJB_Request::getVar('message') . '</div>');
+                    $email->setSubject(SJB_Request::getVar('subject'));
+                    $email->setReplyTo($currentUser->getPropertyValue('username'));
+                    if ($email->send()) {
+                        echo 'ok';
+                    } else {
+                        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+                    }
+                    exit();
+                case 'application_view':
+                    if (!SJB_Session::getValue('applicant_viewed_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('applicant_viewed_' . SJB_Request::getVar('id'), true);
+                    }
+                    echo 'ok';
+                    exit();
+                    break;
+            }
+
+            $jobs = SJB_DB::query('select `Title` as `title`, `sid` as `id` from `listings` where `user_sid` = ?n', $currentUser->sid);
+
+            $listingTitle = null;
+            foreach ($jobs as $job) {
+                if ($job['id'] == $appJobId)
+                    $listingTitle = $job['title'];
+            }
+            if (empty($listingTitle) && SJB_HelperFunctions::isThemeSupportsDND()) {
+                echo SJB_System::executeFunction('miscellaneous', '404_not_found');
+                return;
+            }
+            $apps = $this->executeApplicationsForEmployer($appsPerPage, $appJobId, $currentUser);
+
+            if (empty($apps) && $this->currentPage > 1) {
+                $this->currentPage = 1;
+                $apps = $this->executeApplicationsForEmployer($appsPerPage, $appJobId, $currentUser);
+            }
+			
+
+            foreach ($apps as $i => $app) {
+                $apps[$i]['job'] = SJB_ListingManager::getListingInfoBySID($apps[$i]['listing_id']);
+                if (isset($apps[$i]['resume']) && !empty($apps[$i]['resume'])) {
+                    $resume = SJB_ListingManager::getObjectBySID($apps[$i]['resume']);
+                    if ($resume && $resume->active == SJB_Listing::STATUS_ACTIVE) {
+                        $apps[$i]['resumeInfo'] = $apps[$i]['resumeInfo'] = SJB_ListingManager::createTemplateStructureForListing($resume);
+                    }
+                }
+                // если это анонимный соискатель - то возьмем имя из пришедшего поля 'username'
+                if ($apps[$i]['jobseeker_id'] == 0) {
+                    $apps[$i]['user']['FirstName'] = $apps[$i]['username'];
+                } else {
+                    $apps[$i]['user'] = SJB_UserManager::getUserInfoBySID($apps[$i]['jobseeker_id']);
+                }
+            }
+
+            $tp->assign('appsPerPage', $appsPerPage); // todo: deprecated since DND
+            $tp->assign('currentPage', $this->currentPage); // todo: deprecated since DND
+            $tp->assign('pages', $this->pages); // todo: deprecated since DND
+            $tp->assign('totalPages', $this->totalPages); // todo: deprecated since DND
+            $tp->assign('appJobs', $jobs); // todo: deprecated since DND
+            $tp->assign('current_filter', $appJobId); // todo: deprecated since DND
+            $tp->assign('listing_title', $listingTitle); // todo: deprecated since DND
+        } else { // jobseeker
+
+            $apps = SJB_Applications::getByJobseeker($currentUser->sid);
+			//var_dump($apps);exit;
+            for ($i = 0; $i < count($apps); ++$i) {
+                $apps[$i]['job'] = SJB_ListingManager::getListingInfoBySID($apps[$i]['listing_id']);
+                $apps[$i]['company'] = SJB_UserManager::getUserInfoBySID($apps[$i]['job']['user_sid']);
+				//nombre de vue par offre postule
+				$count_apps = SJB_Applications::getCountAppsByJob($apps[$i]['listing_id']);
+			
+				$apps[$i]['candidats'] = $count_apps ;
+            }
+		
+            $displayTemplate = 'view_seeker.tpl';
+        }
+
+        if (empty($apps)) {
+            $errors['APPLICATIONS_NOT_FOUND'] = true;
+        }
+
+        $statuses = [];
+        $as = json_decode(SJB_Settings::getValue('application_statuses'), true);
+        foreach ($as as $status) {
+            $statuses[$status['name']] = 0;
+        }
+        foreach ($apps as $key => $app) {
+            foreach ($as as $asItem) {
+				
+                if ($asItem['name'] == $app['status']) {
+                    $apps[$key]['status'] = $app['status'] = $asItem['name'];
+                }
+            }
+            if (!array_key_exists($app['status'], $statuses)) {
+                $apps[$key]['status'] = key($statuses);
+            }
+            $statuses[$apps[$key]['status']]++;
+        }
+//var_dump($apps);exit;
+        $tp->assign('applications', $apps);
+        $tp->assign('errors', $errors);
+        $tp->assign('statuses', $statuses);
+        $tp->display($displayTemplate);
+    }
+
+    private function executeApplicationsForEmployer($appsPerPage, $appJobId, SJB_User $currentUser)
+    {
+        $limit['countRows'] = $appsPerPage;
+        $limit['startRow'] = $this->currentPage * $appsPerPage - ($appsPerPage);
+        $apps = [];
+        if ($appJobId) {
+            if (SJB_Applications::isUserOwnsAppsByAppJobId($currentUser->getID(), $appJobId)) {
+                $allAppsCountByJobID = SJB_Applications::getCountAppsByJob($appJobId);
+                $this->setPaginationInfo($appsPerPage, $allAppsCountByJobID);
+                $apps = SJB_Applications::getByJob($appJobId, $limit);
+            }
+        } else {
+            $allAppsCount = SJB_Applications::getCountApplicationsByEmployer($currentUser->getSID());
+            $this->setPaginationInfo($appsPerPage, $allAppsCount);
+            $apps = SJB_Applications::getByEmployer($currentUser->getSID(), $limit);
+        }
+        return $apps;
+    }
+
+    /**
+     * @param $appsPerPage
+     * @param $appsCount
+     */
+    private function setPaginationInfo($appsPerPage, $appsCount)
+    {
+        $this->totalPages = ceil($appsCount / $appsPerPage);
+        if (empty($this->totalPages)) {
+            $this->totalPages = 1;
+        }
+
+        $this->pages = [];
+        for ($i = $this->currentPage - 2; $i < $this->currentPage + 3; $i++) {
+            if ($i == $this->totalPages) {
+                break;
+            } else {
+                if ($i > 0) {
+                    $this->pages[] = $i;
+                }
+                if ($i * $appsPerPage > $appsCount) {
+                    break;
+                }
+            }
+        }
+
+        if (array_search(1, $this->pages) === false) {
+            array_unshift($this->pages, 1);
+        }
+        if (array_search($this->totalPages, $this->pages) === false) {
+            array_push($this->pages, $this->totalPages);
+        }
+    }
+
+}

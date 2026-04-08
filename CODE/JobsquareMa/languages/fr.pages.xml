@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE translation2 [
+<!ELEMENT translation2 (languages,pages)>
+<!ELEMENT languages (lang*)>
+<!ELEMENT lang (#PCDATA)>
+<!ATTLIST lang id ID #REQUIRED>
+<!ELEMENT pages (page*)>
+<!ELEMENT page (string*)>
+<!ATTLIST page key CDATA #REQUIRED>
+<!ELEMENT string (tr*)>
+<!ATTLIST string key CDATA #REQUIRED>
+<!ELEMENT tr (#PCDATA)>
+<!ATTLIST tr lang IDREF #REQUIRED>
+]>
+
+<translation2>
+  <languages>
+    <lang id="fr"/>
+  </languages>
+  <pages>
+    <page key="Frontend">
+      <string key="&quot;How to Apply&quot; by url is empty">
+        <tr lang="fr"> &quot;Comment postuler&quot; par url est vide </tr>
+      </string>
+      <string key="&quot;How to Apply&quot; wrong email format">
+        <tr lang="fr"> « Comment faire une demande » format incorrect email </tr>
+      </string>
+      <string key="$category_name jobs">
+        <tr lang="fr"> $category_name annonces </tr>
+      </string>
+      <string key="$category_name jobs from $site_name">
+        <tr lang="fr"> $category_name jobs de $site_name </tr>
+      </string>
+      <string key="$companies_number Companies">
+        <tr lang="fr"> $companies_number Entreprises </tr>
+      </string>
+      <string key="$jobs_number $category_name jobs">
+        <tr lang="fr"> $jobs_number $category_name jobs </tr>
+      </string>
+      <string key="$jobs_number job(s)">
+        <tr lang="fr"> $jobs_number annonce(s) </tr>
+      </string>
+      <string key="$jobs_number job(s) at $company_name">
+        <tr lang="fr"> $jobs_number annonce(s) à $company_name </tr>
+      </string>
+      <string key="$jobs_number jobs found">
+        <tr lang="fr"> $jobs_number annonces trouvées </tr>
+      </string>
+      <string key="$jobs_number jobs found in $location">
+        <tr lang="fr"> $jobs_number d&apos;emplois trouvés dans $location </tr>
+      </string>
+      <string key="$jobs_number training(s)">
+        <tr lang="fr"> $jobs_number Formation(s) </tr>
+      </string>
+      <string key="$resumes_number resumes found">
+        <tr lang="fr"> $resumes_number CV trouvée(s) </tr>
+      </string>
+      <string key="$trainings_number trainings found">
+        <tr lang="fr"> $trainings_number Formations trouvées </tr>
+      </string>
+      <string key="$trainings_number trainings found in $location">
+        <tr lang="fr"> $trainings_number d&apos;Formation trouvés dans $location </tr>
+      </string>
+      <string key="404 Page Not Found">
+        <tr lang="fr"> 404 Page Not Found </tr>
+      </string>
+      <string key="&lt;b&gt;e.g.&lt;/b&gt; https://youtu.be/XXXXXXXXXXX">
+        <tr lang="fr"> &lt;b&gt;e.g.&lt;/b&gt; https://youtu.be/XXXXXXXXXXX </tr>
+      </string>
+      <string key="A new job alert has been created for you!">
+        <tr lang="fr"> Une nouvelle alerte d&apos;emploi a été créée ! </tr>
+      </string>
+      <string key="About $company_name">
+        <tr lang="fr"> A propos de  $company_name </tr>
+      </string>
+      <string key="Account Settings">
+        <tr lang="fr"> Mon profil </tr>
+      </string>
+      <string key="Active">
+        <tr lang="fr"> Active </tr>
+      </string>
+      <string key="Add $field_caption">
+        <tr lang="fr"> Ajouter $field_caption </tr>
+      </string>
+      <string key="All Jobs">
+        <tr lang="fr"> Toutes les offres </tr>
+      </string>
+      <string key="Amount">
+        <tr lang="fr"> Montant </tr>
+      </string>
+      <string key="Any">
+        <tr lang="fr"> Tout </tr>
+      </string>
+      <string key="Applicants">
+        <tr lang="fr"> Candidats </tr>
+      </string>
+      <string key="Applied">
+        <tr lang="fr"> Postuler </tr>
+      </string>
+      <string key="Apply">
+        <tr lang="fr"> Postuler </tr>
+      </string>
+      <string key="Apply Discount">
+        <tr lang="fr"> Appliquer une remise </tr>
+      </string>
+      <string key="Apply Now">
+        <tr lang="fr"> Postuler maintenant </tr>
+      </string>
+      <string key="Apply Now Training">
+        <tr lang="fr"> Pré-inscription </tr>
+      </string>
+      <string key="Apply to $job_title at $company_name">
+        <tr lang="fr"> Postuler à $job_title chez $company_name </tr>
+      </string>
+      <string key="Are you sure you want to delete your profile?">
+        <tr lang="fr"> Êtes-vous sûr de vouloir supprimer votre profil? </tr>
+      </string>
+      <string key="Are you sure you&apos;d like to cancel your subscription?">
+        <tr lang="fr"> Êtes-vous sûr de vouloir annuler votre abonnement? </tr>
+      </string>
+      <string key="Back">
+        <tr lang="fr"> Retour </tr>
+      </string>
+      <string key="Bill To">
+        <tr lang="fr"> Facturer </tr>
+      </string>
+      <string key="Blog">
+        <tr lang="fr"> Blog </tr>
+      </string>
+      <string key="Buy">
+        <tr lang="fr"> Acheter </tr>
+      </string>
+      <string key="By Email">
+        <tr lang="fr"> Par email </tr>
+      </string>
+      <string key="By URL">
+        <tr lang="fr"> Par URL </tr>
+      </string>
+      <string key="Cancel">
+        <tr lang="fr"> Annuler </tr>
+      </string>
+      <string key="Canceled">
+        <tr lang="fr"> Annulé </tr>
+      </string>
+      <string key="Categories">
+        <tr lang="fr"> Catégories </tr>
+      </string>
+      <string key="Change Password">
+        <tr lang="fr"> Changer Mot de passe </tr>
+      </string>
+      <string key="Checkout">
+        <tr lang="fr"> Panier </tr>
+      </string>
+      <string key="Choose account type">
+        <tr lang="fr"> Choisissez le type de compte </tr>
+      </string>
+      <string key="City">
+        <tr lang="fr"> Ville </tr>
+      </string>
+      <string key="Click to select">
+        <tr lang="fr"> Cliquez pour sélectionner </tr>
+      </string>
+      <string key="Close">
+        <tr lang="fr"> Fermer </tr>
+      </string>
+      <string key="Comments">
+        <tr lang="fr"> Commentaires </tr>
+      </string>
+      <string key="Companies">
+        <tr lang="fr"> Entreprises </tr>
+      </string>
+      <string key="Companies on $site_name">
+        <tr lang="fr"> Entreprises sur $site_name </tr>
+      </string>
+      <string key="Company">
+        <tr lang="fr"> Entreprise </tr>
+      </string>
+      <string key="Company Description">
+        <tr lang="fr"> Description de l&apos;entreprise </tr>
+      </string>
+      <string key="Company Name">
+        <tr lang="fr"> Nom de l&apos;entreprise </tr>
+      </string>
+      <string key="Company Profile">
+        <tr lang="fr"> Profil de l&apos;entreprise </tr>
+      </string>
+      <string key="Confirm Password">
+        <tr lang="fr"> Confirmer le mot de passe </tr>
+      </string>
+      <string key="Continue">
+        <tr lang="fr"> Continuer </tr>
+      </string>
+      <string key="Country">
+        <tr lang="fr"> Pays </tr>
+      </string>
+      <string key="Cover letter">
+        <tr lang="fr"> Lettre de Motivation </tr>
+      </string>
+      <string key="Create Employer Profile">
+        <tr lang="fr"> Créer votre espace employeur </tr>
+      </string>
+      <string key="Create Job Alert">
+        <tr lang="fr"> Créer une alerte emploi </tr>
+      </string>
+      <string key="Create Job Seeker Profile">
+        <tr lang="fr"> Créer votre  profil candidat </tr>
+      </string>
+      <string key="Create New Resume">
+        <tr lang="fr"> Ajouter CV </tr>
+      </string>
+      <string key="Create alert">
+        <tr lang="fr"> Créer une alerte </tr>
+      </string>
+      <string key="Create an account">
+        <tr lang="fr"> Créer un compte </tr>
+      </string>
+      <string key="Current Search">
+        <tr lang="fr"> Recherche en cours </tr>
+      </string>
+      <string key="Daily">
+        <tr lang="fr"> Chaque jour </tr>
+      </string>
+      <string key="Degree or Specialty">
+        <tr lang="fr"> Diplôme ou spécialité </tr>
+      </string>
+      <string key="Delete Job">
+        <tr lang="fr"> Supprimer offre </tr>
+      </string>
+      <string key="Delete Resume">
+        <tr lang="fr"> Supprimer le CV </tr>
+      </string>
+      <string key="Delete Training">
+        <tr lang="fr"> Supprimer Formation </tr>
+      </string>
+      <string key="Delete profile">
+        <tr lang="fr"> Supprimer le profil </tr>
+      </string>
+      <string key="Description">
+        <tr lang="fr"> Description </tr>
+      </string>
+      <string key="Desired Job Title">
+        <tr lang="fr"> Titre du poste désiré </tr>
+      </string>
+      <string key="Discount code">
+        <tr lang="fr"> Code de réduction </tr>
+      </string>
+      <string key="Download PDF">
+        <tr lang="fr"> Télécharger PDF </tr>
+      </string>
+      <string key="Edit">
+        <tr lang="fr"> Modifier </tr>
+      </string>
+      <string key="Edit Job">
+        <tr lang="fr"> Modifier l&apos;offre </tr>
+      </string>
+      <string key="Edit Resume">
+        <tr lang="fr"> METTRE A JOUR VOTRE CV </tr>
+      </string>
+      <string key="Edit Training">
+        <tr lang="fr"> Modifier Formation </tr>
+      </string>
+      <string key="Edit your resume in &quot;My Account&quot; section">
+        <tr lang="fr"> Modifiez votre CV dans la section &quot;Mon compte&quot; </tr>
+      </string>
+      <string key="Education">
+        <tr lang="fr"> Formations </tr>
+      </string>
+      <string key="Email">
+        <tr lang="fr"> Email </tr>
+      </string>
+      <string key="Email me jobs from $company_name">
+        <tr lang="fr"> Envoyez moi un courriel à partir de $company_name </tr>
+      </string>
+      <string key="Email me jobs like this">
+        <tr lang="fr"> Créer une alerte </tr>
+      </string>
+      <string key="Email me trainings like this">
+        <tr lang="fr"> Créer une alerte </tr>
+      </string>
+      <string key="Employer">
+        <tr lang="fr"> Employeur </tr>
+      </string>
+      <string key="Employer Registration">
+        <tr lang="fr"> Compte employeur </tr>
+      </string>
+      <string key="Expiration Date">
+        <tr lang="fr"> Date d&apos;expiration </tr>
+      </string>
+      <string key="Expired">
+        <tr lang="fr"> Expiré </tr>
+      </string>
+      <string key="Expires">
+        <tr lang="fr"> Expire </tr>
+      </string>
+      <string key="FREE resume evaluation by a professional resume expert from $job_board_audience">
+        <tr lang="fr"> Évaluation gratuite du CV par un expert  de $ job_board_audience </tr>
+      </string>
+      <string key="Featured">
+        <tr lang="fr"> En Vedette </tr>
+      </string>
+      <string key="Featured Companies">
+        <tr lang="fr"> Ils recrutent </tr>
+      </string>
+      <string key="Featured Jobs">
+        <tr lang="fr"> Offres à la une </tr>
+      </string>
+      <string key="Featured Trainings">
+        <tr lang="fr"> Formations à la une </tr>
+      </string>
+      <string key="File format is not supported">
+        <tr lang="fr"> Le format de fichier n&apos;est pas adéquat </tr>
+      </string>
+      <string key="File size shouldn&apos;t be larger than 5 MB.">
+        <tr lang="fr"> La taille du fichier ne doit pas dépasser 5 Mo. </tr>
+      </string>
+      <string key="Find Companies">
+        <tr lang="fr"> Rechercher </tr>
+      </string>
+      <string key="Find Jobs">
+        <tr lang="fr"> Rechercher </tr>
+      </string>
+      <string key="Find Resumes">
+        <tr lang="fr"> Rechercher </tr>
+      </string>
+      <string key="Find Trainings">
+        <tr lang="fr"> Rechercher </tr>
+      </string>
+      <string key="Forgot Your Password?">
+        <tr lang="fr"> Mot de passe oublié? </tr>
+      </string>
+      <string key="From">
+        <tr lang="fr"> De </tr>
+      </string>
+      <string key="Full Name">
+        <tr lang="fr"> Nom &amp; Prénom: </tr>
+      </string>
+      <string key="Hidden">
+        <tr lang="fr"> Caché </tr>
+      </string>
+      <string key="How to Apply">
+        <tr lang="fr"> Comment Postuler </tr>
+      </string>
+      <string key="How would you like to pay">
+        <tr lang="fr"> Comment désirez-vous régler </tr>
+      </string>
+      <string key="I agree to the terms of use">
+        <tr lang="fr"> J&apos;accepte les conditions d&apos;utilisation </tr>
+      </string>
+      <string key="I already have a Job Seeker account.">
+        <tr lang="fr"> J&apos;ai déjà un compte chercheur d&apos;emploi </tr>
+      </string>
+      <string key="I already have an Employer account.">
+        <tr lang="fr"> J&apos;ai déjà un compte Employeur. </tr>
+      </string>
+      <string key="Image format is not supported">
+        <tr lang="fr"> le format d&apos;image n&apos;est pas pris en charge </tr>
+      </string>
+      <string key="Invalid discount code">
+        <tr lang="fr"> Code de réduction invalide </tr>
+      </string>
+      <string key="Invoice">
+        <tr lang="fr"> Facture </tr>
+      </string>
+      <string key="Job Description">
+        <tr lang="fr"> Description de l&apos;offre </tr>
+      </string>
+      <string key="Job Postings">
+        <tr lang="fr"> Offres d&apos;emploi </tr>
+      </string>
+      <string key="Job Seeker">
+        <tr lang="fr"> Candidat </tr>
+      </string>
+      <string key="Job Seeker Registration">
+        <tr lang="fr"> Compte Candidat </tr>
+      </string>
+      <string key="Job Title">
+        <tr lang="fr"> Titre de l&apos;offre </tr>
+      </string>
+      <string key="Job Type">
+        <tr lang="fr"> Type d&apos;emploi </tr>
+      </string>
+      <string key="Jobs">
+        <tr lang="fr"> Annonce </tr>
+      </string>
+      <string key="Jobs at $company_name">
+        <tr lang="fr"> Offres chez  $company_name </tr>
+      </string>
+      <string key="Jobs at $company_name on $site_name">
+        <tr lang="fr"> Offres chez  $company_name sur $site_name </tr>
+      </string>
+      <string key="Jobs by Category">
+        <tr lang="fr"> Emploi par catégorie </tr>
+      </string>
+      <string key="Jobs by City">
+        <tr lang="fr"> Emploi par ville </tr>
+      </string>
+      <string key="Jobs by Country">
+        <tr lang="fr"> Emploi par pays </tr>
+      </string>
+      <string key="Jobs by State">
+        <tr lang="fr"> Emploi  par État </tr>
+      </string>
+      <string key="Jobs in $location">
+        <tr lang="fr"> Emploi en $location </tr>
+      </string>
+      <string key="Jobs in $location from $site_name">
+        <tr lang="fr"> Offres à $location sur $site_name </tr>
+      </string>
+      <string key="Keep me signed in">
+        <tr lang="fr"> Rester connecté </tr>
+      </string>
+      <string key="Keywords">
+        <tr lang="fr"> Mots Clés </tr>
+      </string>
+      <string key="Latest Jobs">
+        <tr lang="fr"> Dernières Offres </tr>
+      </string>
+      <string key="Latest Trainings">
+        <tr lang="fr"> Dernières formations </tr>
+      </string>
+      <string key="Less">
+        <tr lang="fr"> Moins de </tr>
+      </string>
+      <string key="Let Employers Find My Resume">
+        <tr lang="fr"> Laissez les employeurs trouver mon CV </tr>
+      </string>
+      <string key="Live Jobs">
+        <tr lang="fr"> Offres d&apos;emploi </tr>
+      </string>
+      <string key="Live Trainings">
+        <tr lang="fr"> Offres de formation </tr>
+      </string>
+      <string key="Load more">
+        <tr lang="fr"> VOIR PLUS </tr>
+      </string>
+      <string key="Location">
+        <tr lang="fr"> Emplacement (Adresse) </tr>
+      </string>
+      <string key="Logo">
+        <tr lang="fr"> Logo </tr>
+      </string>
+      <string key="Logout">
+        <tr lang="fr"> Déconnexion </tr>
+      </string>
+      <string key="Make Hidden">
+        <tr lang="fr"> Faire caché </tr>
+      </string>
+      <string key="Make Visible">
+        <tr lang="fr"> Rendre visible </tr>
+      </string>
+      <string key="Monthly">
+        <tr lang="fr"> Mensuel </tr>
+      </string>
+      <string key="More">
+        <tr lang="fr"> Plus </tr>
+      </string>
+      <string key="My Account">
+        <tr lang="fr"> Mon compte </tr>
+      </string>
+      <string key="My Applications">
+       <!-- <tr lang="fr"> Mes candidatures </tr>-->
+		<tr lang="fr">  Suivi de mes réponses </tr>
+      </string>
+      <string key="My Resume">
+        <tr lang="fr"> Mon CV </tr>
+      </string>
+      <string key="My Resumes">
+        <tr lang="fr"> Mon CV </tr>
+      </string>
+      <string key="Never Expire">
+        <tr lang="fr"> Ne s &apos;expire jamais </tr>
+      </string>
+      <string key="Next">
+        <tr lang="fr"> Suivant </tr>
+      </string>
+      <string key="No">
+        <tr lang="fr"> Non </tr>
+      </string>
+      <string key="Order Information">
+        <tr lang="fr"> Informations sur la commande </tr>
+      </string>
+      <string key="Password">
+        <tr lang="fr"> Mot de Passe </tr>
+      </string>
+      <string key="Password Recovery">
+        <tr lang="fr"> Récupérer mon mot de passe </tr>
+      </string>
+      <string key="Passwords did not match">
+        <tr lang="fr"> Mot de passe incorrect </tr>
+      </string>
+      <string key="Pending Approval">
+        <tr lang="fr"> En attente de validation </tr>
+      </string>
+      <string key="Personal Summary">
+        <tr lang="fr"> Résumé personnel </tr>
+      </string>
+      <string key="Phone">
+        <tr lang="fr"> Téléphone </tr>
+      </string>
+      <string key="Photo">
+        <tr lang="fr"> Photo </tr>
+      </string>
+      <string key="Place Order">
+        <tr lang="fr"> Commander </tr>
+      </string>
+      <string key="Please accept the Terms of Use to Register">
+        <tr lang="fr"> Veuillez accepter les conditions d&apos;utilisation pour vous inscrire </tr>
+      </string>
+      <string key="Please enter &apos;$field_caption&apos;">
+        <tr lang="fr"> Veuillez saisir votre  &apos;$field_caption&apos; </tr>
+      </string>
+      <string key="Please enter valid">
+        <tr lang="fr"> Entrez valide </tr>
+      </string>
+      <string key="Please enter valid YouTube link">
+        <tr lang="fr"> Veuillez saisir un lien YouTube valide </tr>
+      </string>
+      <string key="Please enter valid email address">
+        <tr lang="fr"> Veuillez saisir une adresse email valide </tr>
+      </string>
+      <string key="Please enter your email address and we&apos;ll send you a link to reset your password right away!">
+        <tr lang="fr"> Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe tout de suite! </tr>
+      </string>
+      <string key="Please include your comments.">
+        <tr lang="fr"> Veuillez ajouter un commentaire </tr>
+      </string>
+      <string key="Please provide your full name.">
+        <tr lang="fr"> Veuillez saisir votre nom &amp; prénom </tr>
+      </string>
+      <string key="Position">
+        <tr lang="fr"> Lieu </tr>
+      </string>
+      <string key="Post">
+        <tr lang="fr"> Ajouter </tr>
+      </string>
+      <string key="Post a Job">
+        <tr lang="fr"> Ajouter  une offre </tr>
+      </string>
+      <string key="Post a Resume">
+        <tr lang="fr"> Publier un CV </tr>
+      </string>
+      <string key="Post a job">
+        <tr lang="fr"> Ajouter  une offre </tr>
+      </string>
+      <string key="Post a training">
+        <tr lang="fr"> Ajouter  une formation </tr>
+      </string>
+      <string key="Preview">
+        <tr lang="fr"> Aperçu </tr>
+      </string>
+      <string key="Preview and share your job.">
+        <tr lang="fr"> Prévisualisez et partagez votre offre </tr>
+      </string>
+      <string key="Preview your resume.">
+        <tr lang="fr"> Prévisualisez votre CV. </tr>
+      </string>
+      <string key="Previous">
+        <tr lang="fr"> précédent </tr>
+      </string>
+      <string key="Pricing">
+        <tr lang="fr"> Prix </tr>
+      </string>
+	   <string key="Products">
+        <tr lang="fr"> Nos produits </tr>
+      </string>
+      <string key="Proceed to posting your new job.">
+        <tr lang="fr"> Ajouter une nouvelle offre </tr>
+      </string>
+      <string key="Proceed to posting your resume.">
+        <tr lang="fr"> Ajouter votre CV </tr>
+      </string>
+      <string key="Proceed to searching candidates.">
+        <tr lang="fr"> Procéder à la recherche de candidats. </tr>
+      </string>
+      <string key="Purchased">
+        <tr lang="fr"> Acheté </tr>
+      </string>
+      <string key="Purchased Products">
+        <tr lang="fr"> Produits commandés </tr>
+      </string>
+      <string key="Refine Search">
+        <tr lang="fr"> Affiner la recherche </tr>
+      </string>
+      <string key="Refine by $field_caption">
+        <tr lang="fr"> Affiner par $field_caption </tr>
+      </string>
+      <string key="Register">
+        <tr lang="fr"> Enregistrer </tr>
+      </string>
+      <string key="Registration">
+        <tr lang="fr"> enregistrement </tr>
+      </string>
+      <string key="Remove">
+        <tr lang="fr"> Supprimer </tr>
+      </string>
+      <string key="Reset my password">
+        <tr lang="fr"> Réinitialiser mon mot de passe </tr>
+      </string>
+      <string key="Resume Search">
+        <tr lang="fr"> Recherche de CV </tr>
+      </string>
+      <string key="Resume file">
+        <tr lang="fr"> Télécharger CV </tr>
+      </string>
+      <string key="Resume file is required">
+        <tr lang="fr"> Le fichier CV est requis </tr>
+      </string>
+      <string key="Resumes">
+        <tr lang="fr"> CVs </tr>
+      </string>
+      <string key="Save">
+        <tr lang="fr"> SAUVEGARDER </tr>
+      </string>
+      <string key="Search within">
+        <tr lang="fr"> Recherchez dans </tr>
+      </string>
+      <string key="Select">
+        <tr lang="fr"> Sélectionnez </tr>
+      </string>
+      <string key="Select Product">
+        <tr lang="fr"> Sélectionnez un produit </tr>
+      </string>
+      <string key="Select your resume">
+        <tr lang="fr"> Sélectionnez votre CV </tr>
+      </string>
+      <string key="Send Payment To">
+        <tr lang="fr"> Envoyez le paiement à </tr>
+      </string>
+      <string key="Send application">
+        <tr lang="fr"> Envoyez une demande </tr>
+      </string>
+      <string key="Share">
+        <tr lang="fr"> Partager </tr>
+      </string>
+      <string key="Share this job">
+        <tr lang="fr"> Partagez cette offre </tr>
+      </string>
+      <string key="Share this training">
+        <tr lang="fr"> Partagez cette formation </tr>
+      </string>
+      <string key="Sign in">
+        <tr lang="fr"> Connexion </tr>
+      </string>
+      <string key="Sign in with LinkedIn">
+        <tr lang="fr"> Connexion avec LinkedIn </tr>
+      </string>
+      <string key="Sign in with Facebook">
+        <tr lang="fr"> Sign in with Facebook </tr>
+      </string>
+      <string key="Sign me in">
+        <tr lang="fr"> Inscrivez-moi </tr>
+      </string>
+      <string key="Sign up">
+        <tr lang="fr"> Inscription </tr>
+      </string>
+      <string key="Sorry, that job is no longer available. Here are some results that may be similar to the job you were looking for.">
+        <tr lang="fr"> Désolé, cette offre  n&apos;est plus disponible. Voici quelques résultats qui peuvent être semblables au poste que vous recherchiez. </tr>
+      </string>
+      <string key="Sorry, we can not find the page you were looking for">
+        <tr lang="fr"> Désolé, nous ne pouvons pas trouver la page que vous recherchiez. </tr>
+      </string>
+      <string key="Sorry, we don&apos;t currently have any jobs for this search. Please try another search.">
+        <tr lang="fr"> Désolé, nous n&apos;avons actuellement aucun emploi pour cette recherche. Essayez une autre </tr>
+      </string>
+      <string key="Sorry, we don&apos;t currently have any resumes for this search. Please try another search.">
+        <tr lang="fr"> Désolé, nous n&apos;avons actuellement aucun CV pour cette recherche. Essayez une autre recherche. </tr>
+      </string>
+      <string key="Sorry. There are no are no products available.">
+        <tr lang="fr"> Désolé, il n&apos;y a pas de produits disponibles. </tr>
+      </string>
+      <string key="Sorry. You don&apos;t have permissions to post jobs.">
+        <tr lang="fr"> Désolé, vous n&apos;avez pas les autorisations pour publier votre offre </tr>
+      </string>
+      <string key="Sorry. You don&apos;t have permissions to post resume.">
+        <tr lang="fr"> Désolé  vous n&apos;avez pas le droit de publier votre CV. </tr>
+      </string>
+      <string key="Sorry. You don&apos;t have permissions to search resumes.">
+        <tr lang="fr"> Désolé. Vous n&apos;avez  pas l&apos;autorisations pour rechercher des CV. </tr>
+      </string>
+      <string key="State">
+        <tr lang="fr"> Etat </tr>
+      </string>
+      <string key="Submit">
+        <tr lang="fr"> Envoyer </tr>
+      </string>
+      <string key="Subtotal">
+        <tr lang="fr"> Total HT </tr>
+      </string>
+      <string key="Tax">
+        <tr lang="fr"> TVA </tr>
+      </string>
+      <string key="Thank you for your purchase!">
+        <tr lang="fr"> Merci pour votre achat! </tr>
+      </string>
+      <string key="Thank you very much for your message. We will respond to you as soon as possible.">
+        <tr lang="fr"> Votre message a été envoyé avec succès </tr>
+      </string>
+      <string key="Thank you! Your account will be active as soon as it is reviewed and approved.">
+        <tr lang="fr"> Ce compte n&apos;est pas encore activé. Vous ne pouvez donc pas l&apos;utiliser. Un agent va l&apos;activer le plutôt possible. Veuillez nous contacter pour toute information. Support :	+216 79 49 36 84 ou +216 23 344 320 Service commercial :	+216 23 846 101 ou +216 29 344 320 </tr>
+      </string>
+      <string key="Thank you! Your application has been sent.">
+        <tr lang="fr"> Votre demande a été envoyée . </tr>
+      </string>
+      <string key="Thank you. We&apos;ve sent you an email containing a link to reset your password. If you haven&apos;t received it yet, please check junk or spam mail folder.">
+        <tr lang="fr"> Nous vous avons envoyé un courrier électronique contenant un lien pour réinitialiser votre mot de passe. Si vous ne l&apos;avez pas encore reçu, vérifiez le dossier de courrier indésirable ou spam. </tr>
+      </string>
+      <string key="The date format is incorrect">
+        <tr lang="fr"> Le format de la date est incorrect </tr>
+      </string>
+      <string key="There are no applications for &quot;$listing_title&quot;">
+        <tr lang="fr"> Aucune application pour &quot;$listing_title&quot; </tr>
+      </string>
+      <string key="There was an error during file upload">
+        <tr lang="fr"> Une erreur s&apos;est produite lors du téléchargement du fichier </tr>
+      </string>
+      <string key="This application will be removed permanently. Are you sure?">
+        <tr lang="fr"> Cette application sera supprimée . Êtes-vous sûr? </tr>
+      </string>
+      <string key="This email address is already in use.">
+        <tr lang="fr"> Cette adresse email est déjà utilisée. </tr>
+      </string>
+      <string key="To">
+        <tr lang="fr"> À </tr>
+      </string>
+      <string key="Total">
+        <tr lang="fr"> Total TTC </tr>
+      </string>
+      <string key="Training Postings">
+        <tr lang="fr"> Annonces de formation </tr>
+      </string>
+      <string key="Under construction">
+        <tr lang="fr"> En construction </tr>
+      </string>
+      <string key="University or Institution">
+        <tr lang="fr"> Université ou établissement </tr>
+      </string>
+      <string key="Upload Resume">
+        <tr lang="fr"> Télécharger le CV </tr>
+      </string>
+      <string key="Upload your resume">
+        <tr lang="fr"> Télécharger votre CV </tr>
+      </string>
+      <string key="View Job">
+        <tr lang="fr"> Voir détail </tr>
+      </string>
+      <string key="View Resume">
+        <tr lang="fr"> Voir détail </tr>
+      </string>
+      <string key="View Training">
+        <tr lang="fr"> Voir détail </tr>
+      </string>
+      <string key="View all jobs">
+        <tr lang="fr"> Voir Toutes les Offres </tr>
+      </string>
+      <string key="View all trainings">
+        <tr lang="fr"> Voir Toutes les formations </tr>
+      </string>
+      <string key="View details and Apply">
+        <tr lang="fr"> Voir détail et postuler </tr>
+      </string>
+      <string key="View your job stats in &quot;My Account&quot; section">
+        <tr lang="fr"> Consultez les statistiques de votre  offre dans la section &quot;Mon compte&quot; </tr>
+      </string>
+      <string key="Website">
+        <tr lang="fr"> Site Web </tr>
+      </string>
+      <string key="Weekly">
+        <tr lang="fr"> Hebdomadaire </tr>
+      </string>
+      <string key="Work Experience">
+        <tr lang="fr"> Expériences  professionnelles - Stages </tr>
+      </string>
+      <string key="Wrong email or password. Let&apos;s try again!">
+        <tr lang="fr"> E-mail ou mot de passe incorrect. Essayons encore! </tr>
+      </string>
+      <string key="Yes">
+        <tr lang="fr"> Oui </tr>
+      </string>
+      <string key="You already applied to this job">
+        <tr lang="fr"> Vous avez déjà postulé à ce poste </tr>
+      </string>
+      <string key="You applied successfully">
+        <tr lang="fr"> Vous avez postulé avec succès </tr>
+      </string>
+      <string key="You can cancel this at any time.">
+        <tr lang="fr"> Vous pouvez annuler cela à tout moment. </tr>
+      </string>
+      <string key="You don&apos;t have permissions to access this page.">
+        <tr lang="fr"> Vous n&apos;avez pas les permissions pour accéder à cette page </tr>
+      </string>
+      <string key="You have $listings_number Resume(s)">
+        <tr lang="fr"> Vous avez $list_number Cv(s) </tr>
+      </string>
+      <string key="You have no applications so far.">
+        <tr lang="fr"> Vous n&apos;avez aucune application jusqu&apos;a maintenant. </tr>
+      </string>
+      <string key="You have no jobs so far">
+        <tr lang="fr"> Vous n&apos;avez aucune offre jusqu&apos;a maintenant. </tr>
+      </string>
+      <string key="You have no resumes so far">
+        <tr lang="fr"> Vous n&apos;avez aucun CV jusqu&apos;a maintenant. </tr>
+      </string>
+      <string key="You have no trainings so far">
+        <tr lang="fr"> Vous n&apos;avez aucune formation jusqu’à maintenant. </tr>
+      </string>
+      <string key="You have received a discount of">
+        <tr lang="fr"> Vous avez reçu une réduction de </tr>
+      </string>
+      <string key="You have successfully applied your discount!">
+        <tr lang="fr"> Vous avez réussi à appliquer votre réduction! </tr>
+      </string>
+      <string key="You have successfully changed your profile info!">
+        <tr lang="fr"> Vous avez réussi à modifier vos informations de profil! </tr>
+      </string>
+      <string key="You have successfully deleted your profile!">
+        <tr lang="fr"> Vous avez supprimé votre profil avec succès! </tr>
+      </string>
+      <string key="You have successfully posted your job.">
+        <tr lang="fr"> Votre annonce a été publiée avec succès. </tr>
+      </string>
+      <string key="You have successfully posted your resume.">
+        <tr lang="fr"> Vous avez mis à jour votre CV avec succès. </tr>
+      </string>
+      <string key="You haven&apos;t applied to any job yet.">
+        <tr lang="fr"> Vous n&apos;avez pas encore postulé à un emploi. </tr>
+      </string>
+      <string key="You&apos;re about to be taken to another website to complete your application.">
+        <tr lang="fr"> Vous allez etre redirigé vers un autre site pour continuer la postulation </tr>
+      </string>
+      <string key="Your company profile has featured status now.">
+        <tr lang="fr"> Registre de commerce </tr>
+      </string>
+      <string key="Your email">
+        <tr lang="fr"> Votre email </tr>
+      </string>
+      <string key="Your email $email was successfully unsubscribed from the Email Alert">
+        <tr lang="fr"> Votre e-mail $email a été rétiré avec succès de l&apos;alerte Email </tr>
+      </string>
+      <string key="Your job will be published as soon as it is reviewed and approved.">
+        <tr lang="fr"> Votre annonce sera publiée dès qu&apos;elle sera examinée et approuvée. </tr>
+      </string>
+      <string key="Your job will be removed permanently. Are you sure?">
+        <tr lang="fr"> Votre annonce sera supprimée . Êtes-vous sûr? </tr>
+      </string>
+      <string key="Your name">
+        <tr lang="fr"> Votre nom </tr>
+      </string>
+      <string key="Your order">
+        <tr lang="fr"> Votre commande </tr>
+      </string>
+      <string key="Your password was successfully changed">
+        <tr lang="fr"> Votre mot de passe a été réinséré avec succès </tr>
+      </string>
+      <string key="Your profile will be deleted permanently.">
+        <tr lang="fr"> Votre profil sera supprimé. </tr>
+      </string>
+      <string key="Your resume is filled out by">
+        <tr lang="fr"> Votre CV est rempli à </tr>
+      </string>
+      <string key="Your resume will be removed permanently. Are you sure?">
+        <tr lang="fr"> Votre CV sera supprimé. Êtes-vous sûr? </tr>
+      </string>
+      <string key="applicants">
+        <tr lang="fr"> candidats </tr>
+      </string>
+      <string key="apply clicks">
+        <tr lang="fr"> cliquez pour postuler </tr>
+      </string>
+      <string key="e.g. http://www.yourwebsite.com">
+        <tr lang="fr"> exemple. http://www.tanitjobs.com </tr>
+      </string>
+      <string key="file not specified">
+        <tr lang="fr"> Fichier non spécifié </tr>
+      </string>
+      <string key="job Postings">
+        <tr lang="fr"> Offres d&apos;emploi </tr>
+      </string>
+      <string key="jobs">
+        <tr lang="fr"> Emploi </tr>
+      </string>
+      <string key="jobs from $site_name">
+        <tr lang="fr"> Offres sur $site_name </tr>
+      </string>
+      <string key="kilometers">
+        <tr lang="fr"> Kilomètres </tr>
+      </string>
+      <string key="miles">
+        <tr lang="fr"> Miles </tr>
+      </string>
+      <string key="per month">
+        <tr lang="fr"> par mois </tr>
+      </string>
+      <string key="per year">
+        <tr lang="fr"> par an </tr>
+      </string>
+      <string key="posted">
+        <tr lang="fr"> Publié </tr>
+      </string>
+      <string key="resumes">
+        <tr lang="fr"> Reprend </tr>
+      </string>
+      <string key="selected">
+        <tr lang="fr"> Sélectionné </tr>
+      </string>
+      <string key="to">
+        <tr lang="fr"> à </tr>
+      </string>
+      <string key="training Postings">
+        <tr lang="fr"> Annonces de formation </tr>
+      </string>
+      <string key="unlimited">
+        <tr lang="fr"> illimité </tr>
+      </string>
+      <string key="views">
+        <tr lang="fr"> Vues </tr>
+      </string>
+    </page>
+    <page key="Backend">
+    </page>
+  </pages>
+</translation2>

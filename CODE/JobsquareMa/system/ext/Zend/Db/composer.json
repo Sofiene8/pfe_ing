@@ -1,0 +1,34 @@
+{
+    "name": "Zend/Zend-db",
+    "description": " ",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "zf2",
+        "db"
+    ],
+    "autoload": {
+        "psr-0": {
+            "Zend\\Db\\": ""
+        }
+    },
+    "target-dir": "Zend/Db",
+    "require": {
+        "php": ">=5.3.23"
+    },
+    "require-dev": {
+        "Zend/Zend-eventmanager": "self.version",
+        "Zend/Zend-servicemanager": "self.version",
+        "Zend/Zend-stdlib": "self.version"
+    },
+    "suggest": {
+        "Zend/Zend-eventmanager": "Zend\\EventManager component",
+        "Zend/Zend-servicemanager": "Zend\\ServiceManager component",
+        "Zend/Zend-stdlib": "Zend\\Stdlib component"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.2-dev",
+            "dev-develop": "2.3-dev"
+        }
+    }
+}

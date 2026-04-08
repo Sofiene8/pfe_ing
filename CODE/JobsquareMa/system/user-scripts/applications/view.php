@@ -1,0 +1,1209 @@
+<?php
+class SJB_Applications_View extends SJB_Function
+{
+    private $pages;
+    private $totalPages;
+    private $currentPage;
+
+    public function execute()
+    {
+        $tp = SJB_System::getTemplateProcessor();
+        $appsPerPage = 50;
+        $this->currentPage = SJB_Request::getVar('page', 1);
+        $currentUser = SJB_UserManager::getCurrentUser();
+        $appJobId = SJB_Request::getVar('appJobId', false, null, 'int');
+        $displayTemplate = 'view.tpl';
+        $errors = [];
+
+        // Check for file download requests first
+        $filename = SJB_Request::getVar('filename', false);
+        if ($filename) {
+            $appsID = SJB_Request::getVar('appsID', false);
+            if ($appsID) {
+                $file = SJB_UploadFileManager::openApplicationFile2($filename, $appsID);
+                if (!$file) {
+                    $errors['NO_SUCH_FILE'] = true;
+                }
+            } elseif (SJB_Request::getVar('listing_id')) {
+                $file = SJB_UploadFileManager::openFile($filename, SJB_Request::getVar('listing_id'));
+                if (!$file) {
+                    $errors['NO_SUCH_FILE'] = true;
+                }
+            } else {
+                $errors['NO_SUCH_APPS'] = true;
+            }
+        }
+
+        // Check for AJAX filter requests
+        $action2 =
+    ($_POST['action2'] ?? null)      // form-encoded POST
+    ?? ($_GET['action2'] ?? null)    // querystring
+    ?? ($_SERVER['HTTP_X_ACTION2'] ?? null); 
+        $contact_action = SJB_Request::getVar('contact_action');
+        // Check for AJAX filter requests
+
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if ($contact_action === "contact") {
+                $this->handleContactCandidate($currentUser);
+                exit;
+            } 
+            
+        }
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && $action2) {
+                $this->handleAjaxFilterRequest($currentUser, $appJobId);
+                exit;
+            }
+        // AJAX filter request handler
+
+
+
+        // 👇 New contact handler
+
+
+
+        // Check for export requests
+        $exportAction = SJB_Request::getVar('export_action');
+
+
+        if ($exportAction === 'csv') {
+            $filters = $_GET;
+            $this->handleExportCsv($currentUser, $appJobId, $filters);
+            exit;
+        } else if ($exportAction === 'pdf') {
+            $filters = $_GET;
+            $this->handleExportPdf($currentUser, $appJobId, $filters);
+            exit;
+        }
+
+
+
+
+
+        // Check if user is logged in
+        if (SJB_UserManager::isUserLoggedIn() === false) {
+            $tp->assign('ERROR', 'NOT_LOGIN');
+            $tp->display('../miscellaneous/error.tpl');
+            return;
+        }
+
+        if (!is_numeric($this->currentPage) || $this->currentPage < 1) {
+            $this->currentPage = 1;
+        }
+
+        if ($currentUser->getUserGroupSID() == SJB_UserGroup::EMPLOYER) {
+            $action = SJB_Request::getVar('action');
+            
+            if ($action && !SJB_Applications::isAppBelongsTyEmployer(SJB_Request::getVar('id'), $currentUser->getID())) {
+                echo SJB_System::executeFunction('miscellaneous', 'function_is_not_accessible');
+                return;
+            }
+
+
+
+            switch ($action) {
+                case 'delete':
+                    SJB_Applications::hide(SJB_Request::getVar('id'));
+                    echo 'ok';
+                    exit();
+                    break;
+                case 'set_status':
+                    SJB_Applications::setStatus(
+                        SJB_Request::getVar('id'),
+                        SJB_Request::getVar('status'),
+                        SJB_Request::getVar('order')
+                    );
+                    if (!SJB_Session::getValue('set_application_status_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('set_application_status_' . SJB_Request::getVar('id'), true);
+                    }
+                    break;
+                case 'notes':
+                    SJB_Applications::setNotes(
+                        SJB_Request::getVar('id'),
+                        SJB_Request::getVar('notes')
+                    );
+                    if (!SJB_Session::getValue('set_application_notes_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('set_application_notes_' . SJB_Request::getVar('id'), true);
+                    }
+                    header('Content-Type: application/json; charset=utf-8');
+                    echo json_encode(['success' => true]);
+                    exit;
+                case 'contact':
+                    if (!SJB_Session::getValue('applicant_contacted_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('applicant_contacted_' . SJB_Request::getVar('id'), true);
+                    }
+
+                    $app = SJB_Applications::getBySID(SJB_Request::getVar('id'));
+                    $email = new SJB_Email($app['email']);
+                    $email->setText('<div style="white-space: pre-line;">' . SJB_Request::getVar('message') . '</div>');
+                    $email->setSubject(SJB_Request::getVar('subject'));
+                    $email->setReplyTo($currentUser->getPropertyValue('username'));
+                    if ($email->send()) {
+                        echo 'ok';
+                    } else {
+                        header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+                    }
+                    exit();
+                case 'application_view':
+                    if (!SJB_Session::getValue('applicant_viewed_' . SJB_Request::getVar('id'))) {
+                        SJB_Session::setValue('applicant_viewed_' . SJB_Request::getVar('id'), true);
+                    }
+                    SJB_DB::query("UPDATE `applications` SET `deja_vu`= ?s, date_last_vu=?s WHERE `id` = ?s", 1, SJB_DateType::mysqlNow(), SJB_Request::getVar('id'));
+                    echo 'ok';
+                    exit();
+                    break;
+            }
+
+            $jobs = SJB_DB::query('select `Title` as `title`, `sid` as `id` from `listings` where `user_sid` = ?n', $currentUser->sid);
+
+            $listingTitle = null;
+            foreach ($jobs as $job) {
+                if ($job['id'] == $appJobId)
+                    $listingTitle = $job['title'];
+            }
+            if (empty($listingTitle) && SJB_HelperFunctions::isThemeSupportsDND()) {
+                echo SJB_System::executeFunction('miscellaneous', '404_not_found');
+                return;
+            }
+
+            // Check permissions for the job offer
+            if ($appJobId && !SJB_Applications::isUserOwnsJobApplications($currentUser->getSID(), $appJobId)) {
+                $tp->assign('ERROR', 'ACCESS_DENIED');
+                $tp->display('../miscellaneous/error.tpl');
+                return;
+            }
+
+            $apps = $this->executeApplicationsForEmployer($appsPerPage, $appJobId, $currentUser);
+
+            if (empty($apps) && $this->currentPage > 1) {
+                $this->currentPage = 1;
+                $apps = $this->executeApplicationsForEmployer($appsPerPage, $appJobId, $currentUser);
+            }
+
+            $this->loadApplicationsData($apps);
+
+            // Fetch data for filter dropdowns
+            $cache = SJB_Cache::getInstance();
+            $cacheKey = 'filter_options_' . md5($currentUser->getSID());
+            $filterOptions = $cache->load($cacheKey);
+
+            if (!$filterOptions) {
+                $gouvernorats = SJB_DB::query("SELECT `sid`, `name` FROM `states` WHERE `country_sid` = 1 AND `display` = 1 ORDER BY `name` ASC");
+                $villes = SJB_DB::query("SELECT cities.sid, cities.name, cities.state_sid AS gouvernorat_sid FROM cities ORDER BY cities.name ASC");
+                $experience_options = SJB_DB::query("SELECT `sid` as id, `value` as name FROM `listing_field_list` WHERE `field_sid` = 382 ORDER BY `order` ASC");
+                $language_options = SJB_DB::query("SELECT `sid` as id, `value` as name FROM `listing_field_list` WHERE `field_sid` = 406 ORDER BY `order` ASC");
+                $study_options = SJB_DB::query("SELECT `sid` as id, `value` as name FROM `listing_field_list` WHERE `field_sid` = 361 ORDER BY `order` ASC");
+                $contract_types = SJB_DB::query("SELECT `sid`, `value` as name FROM `listing_field_list` WHERE `field_sid` = 199 ORDER BY `order` ASC");
+                $job_categories = SJB_DB::query("SELECT `sid`, `value` as name FROM `listing_field_list` WHERE `field_sid` = 198 ORDER BY `order` ASC");
+                $filterOptions = [
+                    'gouvernorats' => $gouvernorats,
+                    'villes' => $villes,
+                    'experience_options' => $experience_options,
+                    'language_options' => $language_options,
+                    'study_options' => $study_options,
+                    'contract_types' => $contract_types,
+                    'job_categories' => $job_categories
+                ];
+                $cache->save($cacheKey, $filterOptions, 3600); // Cache for 1 hour
+            }
+            // Calculate status counts
+            $statuses = [];
+            $applicationStatuses = json_decode(SJB_Settings::getValue('application_statuses'), true) ?: [];
+            foreach ($applicationStatuses as $status) {
+                $statuses[$status['name']] = 0;
+            }
+            foreach ($apps as $key => $app) {
+                $currentAppStatus = $app['status'] ?: 'Unknown';
+                if (array_key_exists($currentAppStatus, $statuses)) {
+                    $statuses[$currentAppStatus]++;
+                } else {
+                    $statuses[$currentAppStatus] = 1; // Handle unknown statuses
+                }
+                $apps[$key]['status'] = $currentAppStatus;
+            }
+
+            // Generate year options for filter
+            $start_year = 2013;
+            $current_year = date('Y');
+            $year_options_html = '';
+            for ($y = $current_year; $y >= $start_year; $y--) {
+                $year_options_html .= "<option value='{$y}'>{$y}</option>";
+            }
+
+            $tp->assign('appsPerPage', $appsPerPage);
+            $tp->assign('currentPage', $this->currentPage);
+            $tp->assign('pages', $this->pages);
+            $tp->assign('totalPages', $this->totalPages);
+            $tp->assign('appJobs', $jobs);
+            $tp->assign('current_filter', $appJobId);
+            $tp->assign('listing_title', $listingTitle);
+            $tp->assign('appJobId', $appJobId ?? "");
+
+            // Assign filter options to template
+            $tp->assign('gouvernorats', $filterOptions['gouvernorats']);
+            $tp->assign('villes', $filterOptions['villes']);
+            $tp->assign('experience_options', $filterOptions['experience_options']);
+            $tp->assign('language_options', $filterOptions['language_options']);
+            $tp->assign('study_options', $filterOptions['study_options']);
+            $tp->assign('contract_types', $filterOptions['contract_types']);
+            $tp->assign('job_categories', $filterOptions['job_categories']);
+            $tp->assign('year_options_html', $year_options_html);
+        } else {
+            // Job Seeker view
+            $apps = SJB_Applications::getByJobseeker($currentUser->sid);
+            for ($i = 0; $i < count($apps); ++$i) {
+                $apps[$i]['job'] = SJB_ListingManager::getListingInfoBySID($apps[$i]['listing_id']);
+                $apps[$i]['company'] = SJB_UserManager::getUserInfoBySID($apps[$i]['job']['user_sid']);
+                //nombre de vue par offre postule
+                $count_apps = SJB_Applications::getCountAppsByJob($apps[$i]['listing_id']);
+                $apps[$i]['candidats'] = $count_apps;
+            }
+            $displayTemplate = 'view_seeker.tpl';
+
+            // Calculate status counts for job seeker view
+            $statuses = [];
+            $as = json_decode(SJB_Settings::getValue('application_statuses'), true);
+            foreach ($as as $status) {
+                $statuses[$status['name']] = 0;
+            }
+            foreach ($apps as $key => $app) {
+                foreach ($as as $asItem) {
+                    if ($asItem['name'] == $app['status']) {
+                        $apps[$key]['status'] = $app['status'] = $asItem['name'];
+                    }
+                }
+                if (!array_key_exists($app['status'], $statuses)) {
+                    $apps[$key]['status'] = key($statuses);
+                }
+                $statuses[$apps[$key]['status']]++;
+            }
+        }
+
+        if (empty($apps)) {
+            $errors['APPLICATIONS_NOT_FOUND'] = true;
+        }
+
+        $tp->assign('applications', $apps);
+        $tp->assign('errors', $errors);
+        $tp->assign('statuses', $statuses);
+        $tp->display($displayTemplate);
+    }
+
+    private function handleAjaxFilterRequest($currentUser, $appJobIdFromUrl)
+    {
+        $debug_info = [
+            'handleAjaxFilterRequest_start' => true,
+            'appJobIdFromUrl_in_ajax' => $appJobIdFromUrl,
+        ];
+
+        // Récupérer les filtres depuis le corps de la requête POST
+        $input = file_get_contents('php://input');
+        $filters = [];
+        if (!empty($input)) {
+            $filters = json_decode($input, true);
+            $debug_info['raw_input'] = $input;
+            $debug_info['decoded_filters_json'] = $filters;
+            $debug_info['json_decode_error'] = json_last_error_msg();
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $filters = $_POST;
+                $debug_info['fallback_to_post'] = $filters;
+            }
+        } else {
+            $filters = $_REQUEST;
+            $debug_info['empty_input_using_post'] = $filters;
+        }
+
+        // Get pagination parameters
+        $page = isset($filters['page']) ? intval($filters['page']) : 1;
+        $perPage = isset($filters['per_page']) ? intval($filters['per_page']) : 50;
+
+        // Le appJobId pour la vérification des permissions doit être celui qui est filtré
+        $appJobId = isset($filters['appJobId']) ? $filters['appJobId'] : $appJobIdFromUrl;
+        $debug_info['final_appJobId_for_permission'] = $appJobId;
+
+        // Valider les permissions pour la requête AJAX
+        $hasPermission = SJB_Applications::isUserOwnsJobApplications($currentUser->getID(), $appJobId);
+        $debug_info['isUserOwnsJobApplications_result'] = $hasPermission;
+
+        if (!$appJobId || !$hasPermission) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
+            header('Content-Type: application/json');
+            echo json_encode(array_merge($debug_info, [
+                'error' => 'Access denied: You do not have permission to filter applications for this job.',
+                'success' => false,
+                'appJobId_used_for_permission_check' => $appJobId,
+                'currentUser_id' => $currentUser->getID(),
+                'isUserOwnsJobApplications_result' => $hasPermission
+            ]));
+            exit;
+        }
+
+        try {
+            // Obtenir les applications filtrées avec pagination
+            $result = $this->getFilteredApplications($currentUser, $appJobId, $filters, $page, $perPage);
+            $apps = $result['applications'];
+            $totalCount = $result['total_count'];
+            $debug_info['applications_count'] = count($apps);
+
+            // Traiter les données des applications
+            $this->loadApplicationsData($apps);
+
+            // Calculer les comptes par statut
+            $statuses = [];
+            $as = json_decode(SJB_Settings::getValue('application_statuses'), true);
+            foreach ($as as $status) {
+                $statuses[$status['name']] = 0;
+            }
+            foreach ($apps as $key => $app) {
+                $currentAppStatus = $app['status'];
+                $foundStatus = false;
+                foreach ($as as $asItem) {
+                    if ($asItem['name'] == $currentAppStatus) {
+                        $apps[$key]['status'] = $currentAppStatus;
+                        $foundStatus = true;
+                        break;
+                    }
+                }
+                if (!$foundStatus) {
+                    $apps[$key]['status'] = !empty($statuses) ? key($statuses) : 'Unknown';
+                }
+
+                if (array_key_exists($apps[$key]['status'], $statuses)) {
+                    $statuses[$apps[$key]['status']]++;
+                } else {
+                    $statuses[$apps[$key]['status']] = 1;
+                }
+            }
+
+            // Envoyer la réponse JSON
+            header('Content-Type: application/json');
+            echo json_encode(array_merge($debug_info, [
+                'success' => true,
+                'applications' => $apps,
+                'statuses' => $statuses,
+                'count' => count($apps),
+                'total_count' => $totalCount,
+                'current_page' => $page,
+                'per_page' => $perPage,
+                'total_pages' => ceil($totalCount / $perPage)
+            ]));
+        } catch (Exception $e) {
+            header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error');
+            header('Content-Type: application/json');
+            echo json_encode(array_merge($debug_info, [
+                'success' => false,
+                'error' => 'Une erreur est survenue lors du filtrage: ' . $e->getMessage()
+            ]));
+        }
+
+        exit;
+    }
+
+    private function getFilteredApplications($currentUser, $appJobId, $filters, $page = 1, $perPage = 50, $getAll = false)
+    {
+        if ($getAll) {
+            // No pagination - get all applications
+            $limit = null;
+        } else {
+            $startRow = ($page - 1) * $perPage;
+            $limit = ['startRow' => $startRow, 'countRows' => $perPage];
+        }
+
+        $apps = [];
+        $totalCount = 0;
+
+        // Check if any real filters are applied (not empty values)
+        $hasRealFilters = false;
+        foreach ($filters as $value) {
+            if (!empty($value) && $value !== '' && $value !== null) {
+                $hasRealFilters = true;
+                break;
+            }
+        }
+
+        // If no real filters are applied, pass null to get ALL applications
+        $filtersToUse = $hasRealFilters ? $filters : null;
+
+        if ($appJobId) {
+            if (SJB_Applications::isUserOwnsAppsByAppJobId($currentUser->getID(), $appJobId)) {
+                $result = SJB_Applications::getFilteredByJob($appJobId, $limit, $filtersToUse);
+                $apps = $result['applications'];
+                $totalCount = $result['total_count'];
+                $this->setPaginationInfo(50, $totalCount);
+            }
+        } else {
+            $result = SJB_Applications::getFilteredByEmployer($currentUser->getSID(), $limit, $filtersToUse);
+            $apps = $result['applications'];
+            $totalCount = $result['total_count'];
+            $this->setPaginationInfo(50, $totalCount);
+        }
+
+        return [
+            'applications' => $apps ?: [],
+            'total_count' => $totalCount,
+            'current_page' => $page,
+            'per_page' => $perPage
+        ];
+    }
+
+private function handleExportCsv($currentUser, $appJobId, $filters)
+{
+    $appsInfo = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, 1);
+    $totalApplications = $appsInfo['total_count'];
+
+    if ($totalApplications === 0) {
+        echo json_encode(['success' => false, 'message' => 'No applications found to export']);
+        return;
+    }
+
+    $apps = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, $totalApplications, true);
+    $applications = $apps['applications'] ?? $apps;
+    //$applications = array_slice($applications, 0, 300);
+
+    if (ob_get_level()) ob_end_clean();
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="candidatures_' . date('Y-m-d') . '.csv"');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+
+    $output = fopen('php://output', 'w');
+    fwrite($output, "\xEF\xBB\xBF");
+
+    $headers = [
+        "Date de Candidature","Nom du Candidat","Email",
+        "numéro de téléphone","autre numéro de téléphone",
+        "Experience","Niveau d'etude","Gouvernorat","Ville","Genre",
+        "LinkedIn","Facebook","Instagram","Twitter","GitHub","Blog","Site Web",
+        "Statut","CV"
+    ];
+    fputcsv($output, $headers, ';');
+
+    // tiny helper to fetch with fallbacks
+    $get = function(array $arr, array $keys, $default = 'N/A') {
+        foreach ($keys as $k) {
+            if (array_key_exists($k, $arr) && $arr[$k] !== '' && $arr[$k] !== null) {
+                return $arr[$k];
+            }
+        }
+        return $default;
+    };
+
+    foreach ($applications as $app) {
+        $listingId = $app['resume'] ?? null;
+        $jobseekerId = $app['jobseeker_id'] ?? null;
+
+        // fetch 1 row and normalize keys to lowercase
+        $L = [];
+        
+        if ($listingId && $listingId != '0') {
+            $res = SJB_DB::query("SELECT * FROM `listings` WHERE `sid` = ?n LIMIT 1", $listingId);
+            $row = $res[0] ?? [];
+            $L = array_change_key_case($row, CASE_LOWER);
+        }else {
+            if ($jobseekerId ) {
+                $res = SJB_DB::query("SELECT * FROM `users` WHERE `sid` = ?n LIMIT 1", $jobseekerId);
+                $row = $res[0] ?? [];
+                $L = array_change_key_case($row, CASE_LOWER);
+            }
+        }
+        $exp=SJB_DB::query("SELECT `value` FROM `listing_field_list` WHERE `sid` = ?n LIMIT 1", $get($L, ['id_job_experience','experience'], null));
+        $edu=SJB_DB::query("SELECT `value` FROM `listing_field_list` WHERE `sid` = ?n LIMIT 1", $get($L, ['id_job_niveaudtude','education_level','study'], null));
+        $genre=SJB_DB::query("SELECT `value` FROM `listing_field_list` WHERE `sid` = ?n LIMIT 1", $get($L, ['id_job_genre','gender'], null));
+        $gouv=SJB_DB::query("SELECT `name` FROM `states` WHERE `sid` = ?n LIMIT 1", $get($L, ['location_gouvernorat','gouvernorat'], null));
+        $phoneFromApp = $get($app, ['Phone', 'phone'], null); // don't default to 'N/A' yet
+    if ($phoneFromApp == '' || $phoneFromApp == null) {
+        // Fall back to listing/user row (lowercased keys)
+        $phoneFromApp = $get($L, ['phone'], 'N/A');
+    }
+        $rowCsv = [
+            $app['date'] ?? 'N/A',
+            $app['username'] ?? 'N/A',
+            $app['email'] ?? 'N/A',
+         
+            $phoneFromApp,
+            $get($L, ['otherphone','phone2']),
+            $exp[0]['value']?? 'N/A',
+            $edu[0]['value']?? 'N/A',
+            $gouv[0]['name']?? 'N/A',
+            $get($L, ['location_city','city']),
+            $genre[0]['value']?? 'N/A',
+            $get($L, ['linkedin_link']),
+            $get($L, ['facebook_link']),
+            $get($L, ['instagram_link']),
+            $get($L, ['twitter_link']),
+            $get($L, ['github_link']),
+            $get($L, ['blog_link']),
+            $get($L, ['website_link']),
+
+            $app['status'] ?? 'N/A',
+            $app['file'] ?? 'N/A',
+        ];
+
+        fputcsv($output, $rowCsv, ';');
+    }
+
+    fclose($output);
+    exit;
+}
+
+
+    // private function handleExportPdf($currentUser, $appJobId, $filters)
+    // {
+    //     // First get the total count to know how many applications exist
+    //     $appsInfo = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, 1);
+    //     $totalApplications = $appsInfo['total_count'];
+
+    //     // Debug: Check total applications count
+    //     var_dump('Total applications found:', $totalApplications);
+
+    //     // Now get ALL applications without pagination
+    //     $apps = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, $totalApplications, true);
+
+    //     // Extract only the applications array for processing
+    //     $applications = $apps['applications'] ?? $apps;
+
+    //     // Debug: Check how many applications we got
+    //     var_dump('Applications retrieved:', count($applications));
+
+    //     // Now slice to get max 300 applications
+    //     $applications = array_slice($applications, 0, 300);
+
+    //     // Debug: Check how many applications after slice
+    //     var_dump('Applications after slice:', count($applications));
+
+    //     // Create ZIP archive
+    //     $zipFilename = 'resumes_' . date('Y-m-d') . '.zip';
+    //     $tempZipPath = tempnam(sys_get_temp_dir(), 'zip_');
+
+    //     $zip = new ZipArchive();
+    //     if ($zip->open($tempZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+    //         // Return JSON error instead of exiting
+    //         echo json_encode([
+    //             'success' => false,
+    //             'message' => 'Cannot create ZIP file'
+    //         ]);
+    //         return;
+    //     }
+
+    //     $filesAdded = false;
+    //     $missingFiles = 0;
+    //     $uploadDir = rtrim(SJB_System::getSystemSettings('UPLOAD_FILES_DIRECTORY'), '/');
+
+    //     foreach ($applications as $index => $app) {
+    //         if (empty($app['file_id'])) {
+    //             $missingFiles++;
+    //             continue;
+    //         }
+
+    //         // Get file info by file_id
+    //         $fileInfo = SJB_DB::query("SELECT * FROM uploaded_files WHERE id = ?s", $app['file_id']);
+    //         $listingInfo = SJB_DB::query("SELECT `date_add` FROM listings WHERE sid=?n", $appJobId);
+
+    //         if (!$fileInfo) {
+    //             $missingFiles++;
+    //             continue;
+    //         }
+
+    //         $fileInfo = array_pop($fileInfo);
+    //         $listingInfo = array_pop($listingInfo);
+
+    //         $listingDate = strtotime($listingInfo['date_add']);
+    //         $year = date('Y', $listingDate);
+    //         $month = date('m', $listingDate);
+    //         $day = date('d', $listingDate);
+
+    //         // Build the file path
+    //         $filePath = $uploadDir . '/applications/' . $year . '/' . $month . '/' . $day . '/' . $appJobId . '/' . $fileInfo['saved_file_name'];
+
+    //         // Create a safe filename
+    //         $safeName = preg_replace('/[^a-zA-Z0-9._-]/', '_', ($app['username'] ?? 'candidate') . '_' . $index . '_' . $fileInfo['file_name']);
+
+    //         if (file_exists($filePath)) {
+    //             if ($zip->addFile($filePath, $safeName)) {
+    //                 $filesAdded = true;
+    //             } else {
+    //                 $missingFiles++;
+    //             }
+    //         } else {
+    //             $missingFiles++;
+    //         }
+    //     }
+
+    //     $zip->close();
+
+    //     if (!$filesAdded) {
+    //         unlink($tempZipPath);
+    //         // Return JSON message instead of exiting
+    //         echo json_encode([
+    //             'success' => false,
+    //             'message' => 'No resume files found to export. ' . $missingFiles . ' files were missing.'
+    //         ]);
+    //         return;
+    //     }
+
+    //     // Send ZIP to browser
+    //     header('Content-Type: application/zip');
+    //     header('Content-Disposition: attachment; filename="' . $zipFilename . '"');
+    //     header('Content-Length: ' . filesize($tempZipPath));
+    //     readfile($tempZipPath);
+
+    //     // Clean up
+    //     unlink($tempZipPath);
+    //     exit;
+    // }
+
+private function handleExportPdf($currentUser, $appJobId, $filters)
+{
+    // Check if we should download all or just current page
+    $downloadAll = (isset($_GET['download_type']) && $_GET['download_type'] === 'all_pages');
+    
+    if ($downloadAll) {
+        // Download all logic
+        $appsInfo = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, 1);
+        $totalApplications = $appsInfo['total_count'];
+
+        // Now get ALL applications without pagination
+        $apps = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, $totalApplications, true);
+        
+        // Extract only the applications array for processing
+        $applications = $apps['applications'] ?? $apps;
+        
+        $downloadLabel = 'all';
+        
+    } else {
+        // Download current page
+        $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $perPage = 50;
+        
+        // First check if we have pagination at all
+        $appsInfo = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, 1);
+        $totalApplications = $appsInfo['total_count'];
+        
+        // If total is less than or equal to per page, just get all (no pagination)
+        if ($totalApplications <= $perPage) {
+            // No pagination exists, so get all applications
+            $apps = $this->getFilteredApplications($currentUser, $appJobId, $filters, 1, $totalApplications, true);
+            $downloadLabel = 'all'; // Even though called "current_page", it's actually all
+        } else {
+            // Normal pagination exists
+            $apps = $this->getFilteredApplications($currentUser, $appJobId, $filters, $page, $perPage, false);
+            $downloadLabel = 'page_' . $page;
+        }
+        
+        $applications = $apps['applications'] ?? [];
+    }
+    
+    if (empty($applications)) {
+        // Simple error page for non-AJAX requests
+        echo "<script>alert('Aucun CV trouvé à exporter.'); window.close();</script>";
+        return false;
+    }
+
+    // Create ZIP archive
+    $dateSuffix = date('Y-m-d');
+    $zipFilename = 'cv_candidats_'.$applications[0]['listing_id'].'_'. $dateSuffix . '.zip';
+    $tempZipPath = tempnam(sys_get_temp_dir(), 'zip_');
+
+    $zip = new ZipArchive();
+    if ($zip->open($tempZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
+        echo "<script>alert('Impossible de créer le fichier ZIP'); window.close();</script>";
+        return false;
+    }
+
+    $filesAdded = false;
+    $missingFiles = 0;
+    $successfulFiles = 0;
+    $uploadDir = rtrim(SJB_System::getSystemSettings('UPLOAD_FILES_DIRECTORY'), '/');
+    
+    // Track files by status for organization
+    $filesByStatus = [
+        'Nouveau' => 0,
+        'Interview' => 0,
+        'Sélectionné' => 0,
+        'Disqualifié' => 0
+    ];
+
+    foreach ($applications as $index => $app) {
+        if (empty($app['file_id'])) {
+            $missingFiles++;
+            continue;
+        }
+
+        // Get file info by file_id
+        $fileInfo = SJB_DB::query("SELECT * FROM uploaded_files WHERE id = ?s", $app['file_id']);
+        
+        if (!$fileInfo) {
+            $missingFiles++;
+            continue;
+        }
+
+        $fileInfo = array_pop($fileInfo);
+        
+        // Get application date for file path
+        $listingDate = null;
+        $listingId = $app['listing_id'] ?? $appJobId;
+        
+        $applicationDate = null;
+        if (!empty($app['date'])) {
+            $applicationDate = strtotime($app['date']);
+        }
+          // Build file paths
+        $fileFound = false;
+        $possiblePaths = [];
+
+        if ($listingId) {
+            $listingInfo = SJB_DB::query("SELECT `date_add` FROM listings WHERE sid = ?n", $listingId);
+            if ($listingInfo) {
+                $listingInfo = array_pop($listingInfo);
+                $listingDate = strtotime($listingInfo['date_add']);
+            }
+        }
+
+        // Build the file path
+        if ($listingDate && $applicationDate) {
+            $Listyear = date('Y', $listingDate);
+            $Listmonth = date('m', $listingDate);
+            $Listday = date('d', $listingDate);
+
+            $Appyear = date('Y', $applicationDate);
+            $Appmonth = date('m', $applicationDate);
+            $Appday = date('d', $applicationDate);
+            
+             // Pattern 1: /applications/year/month/day/listing_id/filename
+            $possiblePaths[] = $uploadDir . '/applications/' . $Listyear . '/' . $Listmonth . '/' . $Listday . '/' . $app['listing_id'] . '/' . $fileInfo['saved_file_name'];
+            
+            // Pattern 2: /files/year/month/day/listing_id/filename
+            $possiblePaths[] = $uploadDir . '/files/' . $Appyear . '/' . $Appmonth . '/' . $Appday .'/' . $fileInfo['saved_file_name'];
+        } else {
+            // Fallback path without date structure
+                        $possiblePaths[] = $uploadDir . '/applications/' . $app['listing_id'] . '/' . $fileInfo['saved_file_name'];
+            
+            // Pattern 2: /files/year/month/day/listing_id/filename
+            $possiblePaths[] = $uploadDir . '/files/'  . $fileInfo['saved_file_name'];
+        }
+        
+        
+      
+        
+        
+        
+        // Create a safe filename
+        $username = preg_replace('/[^a-zA-Z0-9._-]/', '_', $app['username'] ?? 'candidate');
+        $originalName = $fileInfo['file_name'];
+        $fileExtension = pathinfo($originalName, PATHINFO_EXTENSION);
+        
+        // Create filename with candidate name and application ID
+        $safeName = $username . '_' . $app['id'] . '.' . $fileExtension;
+        $safeName = preg_replace('/[^a-zA-Z0-9._-]/', '_', $safeName);
+        
+        // Determine status folder
+        $status = !empty($app['status']) ? $app['status'] : 'Nouveau';
+        $statusFolder = 'Nouveau';
+        
+        if (in_array($status, ['Nouveau', 'Interview', 'Sélectionné', 'Disqualifié'])) {
+            $statusFolder = $status;
+        }
+        
+        // Full path in ZIP with status folder
+        $zipPath = $statusFolder . '/' . $safeName;
+
+        // Try all possible paths
+        foreach ($possiblePaths as $filePath) {
+            if (file_exists($filePath) && is_readable($filePath)) {
+                if ($zip->addFile($filePath, $zipPath)) {
+                    $filesAdded = true;
+                    $successfulFiles++;
+                    $filesByStatus[$statusFolder]++;
+                    $fileFound = true;
+                    break;
+                }
+            }
+        }
+        
+        if (!$fileFound) {
+            $missingFiles++;
+            // Don't create text files for missing CVs - just log
+            error_log("File not found for application ID {$app['id']}");
+        }
+    }
+
+    $zip->close();
+
+    // if (!$filesAdded) {
+    //     unlink($tempZipPath);
+    //     echo "<script>alert('Aucun fichier CV trouvé à exporter. " . $missingFiles . " fichiers étaient manquants.'); window.close();</script>";
+    //     return false;
+    // }
+  if (!$filesAdded) {
+        unlink($tempZipPath);
+        // Show error directly in the new tab
+        echo '<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Erreur d\'Export</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 40px; text-align: center; }
+                .error-box { 
+                    background: #f8d7da; 
+                    color: #721c24; 
+                    padding: 20px; 
+                    border-radius: 5px; 
+                    border: 1px solid #f5c6cb;
+                    max-width: 500px;
+                    margin: 0 auto;
+                }
+                .close-btn { 
+                    background: #721c24; 
+                    color: white; 
+                    border: none; 
+                    padding: 10px 20px; 
+                    border-radius: 4px; 
+                    cursor: pointer;
+                    margin-top: 15px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="error-box">
+                <h2><i class="fas fa-exclamation-circle"></i> Erreur d\'Export</h2>
+                <p>Aucun fichier CV trouvé à exporter. ' . $missingFiles . ' fichiers étaient manquants.</p>
+                <button class="close-btn" onclick="window.close()">Fermer cette fenêtre</button>
+            </div>
+            <script>
+                // Also pass error back to parent window
+                if (window.opener && !window.opener.closed) {
+                    try {
+                        window.opener.showExportError("Aucun fichier CV trouvé à exporter. ' . $missingFiles . ' fichiers étaient manquants.");
+                    } catch(e) {}
+                }
+            </script>
+        </body>
+        </html>';
+        exit;
+    }
+
+    // Send ZIP to browser - SIMPLE VERSION
+    header('Content-Type: application/zip');
+    header('Content-Disposition: attachment; filename="' . $zipFilename . '"');
+    header('Content-Length: ' . filesize($tempZipPath));
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
+    
+    ob_clean();
+    flush();
+    readfile($tempZipPath);
+    
+    // Clean up
+    unlink($tempZipPath);
+    exit;
+}
+    private function executeApplicationsForEmployer($appsPerPage, $appJobId, SJB_User $currentUser)
+    {
+        $limit['countRows'] = $appsPerPage;
+        $limit['startRow'] = $this->currentPage * $appsPerPage - ($appsPerPage);
+        $apps = [];
+        if ($appJobId) {
+            if (SJB_Applications::isUserOwnsAppsByAppJobId($currentUser->getID(), $appJobId)) {
+                $allAppsCountByJobID = SJB_Applications::getCountAppsByJob($appJobId);
+                $this->setPaginationInfo($appsPerPage, $allAppsCountByJobID);
+                $apps = SJB_Applications::getByJob($appJobId, $limit);
+            }
+        } else {
+            $allAppsCount = SJB_Applications::getCountApplicationsByEmployer($currentUser->getSID());
+            $this->setPaginationInfo($appsPerPage, $allAppsCount);
+            $apps = SJB_Applications::getByEmployer($currentUser->getSID(), $limit);
+        }
+        return $apps;
+    }
+
+    private function setPaginationInfo($appsPerPage, $appsCount)
+    {
+        $this->totalPages = ceil($appsCount / $appsPerPage);
+        if (empty($this->totalPages)) {
+            $this->totalPages = 1;
+        }
+
+        $this->pages = [];
+        for ($i = $this->currentPage - 2; $i < $this->currentPage + 3; $i++) {
+            if ($i == $this->totalPages) {
+                break;
+            } else {
+                if ($i > 0) {
+                    $this->pages[] = $i;
+                }
+                if ($i * $appsPerPage > $appsCount) {
+                    break;
+                }
+            }
+        }
+
+        if (array_search(1, $this->pages) === false) {
+            array_unshift($this->pages, 1);
+        }
+        if (array_search($this->totalPages, $this->pages) === false) {
+            array_push($this->pages, $this->totalPages);
+        }
+    }
+
+    private function batchLoadListings($listingSIDs)
+    {
+        if (empty($listingSIDs)) {
+            return [];
+        }
+
+        // Clean and validate IDs
+        $listingSIDs = array_filter($listingSIDs, 'is_numeric');
+        $listingSIDs = array_unique($listingSIDs);
+
+        if (empty($listingSIDs)) {
+            return [];
+        }
+
+        // Use existing SJB_DB methods to maintain compatibility
+        $listings = SJB_DB::query(
+            "SELECT * FROM `listings` WHERE `sid` IN (?l)",
+            $listingSIDs
+        );
+
+        $result = [];
+        foreach ($listings as $listing) {
+            $result[$listing['sid']] = $listing;
+        }
+
+        return $result;
+    }
+
+    private function batchLoadUsers($userSIDs)
+    {
+        if (empty($userSIDs)) {
+            return [];
+        }
+
+        // Clean and validate IDs
+        $userSIDs = array_filter($userSIDs, 'is_numeric');
+        $userSIDs = array_unique($userSIDs);
+
+        if (empty($userSIDs)) {
+            return [];
+        }
+
+        // Use existing SJB_DB methods
+        $users = SJB_DB::query(
+            "SELECT * FROM `users` WHERE `sid` IN (?l)",
+            $userSIDs
+        );
+
+        $result = [];
+        foreach ($users as $user) {
+            $result[$user['sid']] = $user;
+        }
+
+        return $result;
+    }
+    private function loadApplicationsData(&$apps)
+    {
+        if (empty($apps)) {
+            return;
+        }
+
+        // Batch load all listings
+        $listingIds = array_column($apps, 'listing_id');
+        $listingIds = array_filter($listingIds); // Remove null/empty values
+        $listingIds = array_unique($listingIds);
+
+        $listings = [];
+        if (!empty($listingIds)) {
+            $listings = $this->batchLoadListings($listingIds);
+        }
+
+        // Batch load all resumes
+        $resumeIds = array_column($apps, 'resume');
+        $resumeIds = array_filter($resumeIds); // Remove null/empty values
+        $resumeIds = array_unique($resumeIds);
+
+        $resumes = [];
+        if (!empty($resumeIds)) {
+            $resumes = $this->batchLoadListings($resumeIds);
+        }
+
+        // Batch load user info for non-anonymous applicants
+        $userIds = array_column($apps, 'jobseeker_id');
+        $userIds = array_filter($userIds, function ($id) {
+            return $id != 0; // Exclude anonymous users (jobseeker_id = 0)
+        });
+        $userIds = array_unique($userIds);
+
+        $users = [];
+        if (!empty($userIds)) {
+            $users = $this->batchLoadUsers($userIds);
+        }
+
+        // Process all applications with pre-loaded data
+        foreach ($apps as $i => &$app) {
+            // Load job info from pre-loaded data
+            if (isset($listings[$app['listing_id']])) {
+                $app['job'] = $listings[$app['listing_id']];
+            } else {
+                // Fallback to original method if not found in batch
+                $app['job'] = SJB_ListingManager::getListingInfoBySID($app['listing_id']);
+            }
+
+            // Load resume info
+            //     $resumeMetadata = SJB_DB::query(
+            // "SELECT `sid`, `active`, `Title`, `Location_gouvernorat`, `Location_ville`, `Experience`, `Study` 
+            //  FROM `listings` 
+            //  WHERE `sid` IN (?l) AND `listing_type_sid` = 7",
+            // $resumeIds
+            // );
+            if (!empty($app['resume'])) {
+                if (isset($resumes[$app['resume']])) {
+                    $resumeData = $resumes[$app['resume']];
+                    // Only include active resumes
+                    if ($resumeData['active'] == SJB_Listing::STATUS_ACTIVE) {
+                        // Use existing method to maintain structure compatibility
+                        $resumeObject = SJB_ListingManager::getObjectBySID($app['resume']);
+                        if ($resumeObject) {
+                            $app['resumeInfo'] = SJB_ListingManager::createTemplateStructureForListing($resumeObject);
+                        } else {
+                            $app['resumeInfo'] = null;
+                        }
+                    } else {
+                        $app['resumeInfo'] = null;
+                    }
+                } else {
+                    // Fallback to original method
+                    $resume = SJB_ListingManager::getObjectBySID($app['resume']);
+                    if ($resume && $resume->active == SJB_Listing::STATUS_ACTIVE) {
+                        $app['resumeInfo'] = SJB_ListingManager::createTemplateStructureForListing($resume);
+                    } else {
+                        $app['resumeInfo'] = null;
+                    }
+                }
+            } else {
+                $app['resumeInfo'] = null;
+            }
+
+            // Load user info
+            if ($app['jobseeker_id'] == 0) {
+                $app['user']['FirstName'] = $app['username'];
+            } elseif (isset($users[$app['jobseeker_id']])) {
+                $app['user'] = $users[$app['jobseeker_id']];
+            } else {
+                // Fallback to original method
+                $app['user'] = SJB_UserManager::getUserInfoBySID($app['jobseeker_id']);
+            }
+        }
+        unset($app); // Unset reference
+    }
+
+
+    private function handleContactCandidate($currentUser)
+    {
+        $data = $_POST;
+        if (!$data || !isset($data["id"], $data["message"])) {
+            header("Content-Type: application/json");
+            header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+            echo json_encode(["success" => false, "error" => "Données manquantes (ID ou message)"]);
+            return;
+        }
+
+        $appId = intval($data["id"]);
+        $message = strip_tags($data["message"]); // Prevent XSS
+
+        $application = SJB_DB::query("SELECT a.email, a.listing_id, a.username FROM applications a WHERE a.id = ?n", $appId);
+
+        if (empty($application)) {
+            header("Content-Type: application/json");
+            header($_SERVER["SERVER_PROTOCOL"] . " 404 Not Found");
+            echo json_encode(["success" => false, "error" => "Candidature non trouvée"]);
+            return;
+        }
+
+        $candidateEmail = filter_var($application[0]["email"], FILTER_VALIDATE_EMAIL);
+        $listingId = $application[0]["listing_id"];
+        $candidateName = $application[0]["username"] ?? "Candidat";
+
+        if (!$candidateEmail) {
+            header("Content-Type: application/json");
+            header($_SERVER["SERVER_PROTOCOL"] . " 400 Bad Request");
+            echo json_encode(["success" => false, "error" => "Email du candidat invalide"]);
+            return;
+        }
+
+        $hasPermission = SJB_Applications::isUserOwnsJobApplications($currentUser->getID(), $listingId);
+
+        if (!$hasPermission) {
+            header("Content-Type: application/json");
+            header($_SERVER["SERVER_PROTOCOL"] . " 403 Forbidden");
+            echo json_encode(["success" => false, "error" => "Accès refusé: Vous n'avez pas la permission de contacter ce candidat."]);
+            return;
+        }
+
+        try {
+            // Fetch listing info for template placeholders
+            $listingInfo = SJB_ListingManager::getListingInfoBySID($listingId);
+            $listingTitle = $listingInfo["Title"] ?? "Offre d'emploi";
+
+            // Prepare data for the email template
+            $emailData = [
+                "applicant_request" => [
+                    "name" => $candidateName,
+                    "email" => $candidateEmail,
+                    "message" => $message // Pass the custom message for template use
+                ],
+                "listing" => [
+                    "Title" => $listingTitle
+                ],
+                "user" => [
+                    "FullName" => $currentUser->getPropertyValue("FullName")
+                   
+                ],
+                "company" => [
+                    "name" => $currentUser->getPropertyValue("CompanyName")
+                ],
+                "GLOBALS" => [
+                    "settings" => [
+                        "site_title" => SJB_Settings::getValue("site_title")
+                    ]
+                ]
+            ];
+
+            // Get the email template SID by name
+            $templateSID = SJB_EmailTemplateEditor::checkIfEmailTemplateExists('other', 'Contact_message');
+
+            if (!$templateSID) {
+                header("Content-Type: application/json");
+                header($_SERVER["SERVER_PROTOCOL"] . " 500 Internal Server Error");
+                echo json_encode(["success" => false, "error" => "Template email 'Contact_message' non trouvé dans la base de données."]);
+                return;
+            }
+
+            // Get the email object using SJB_EmailTemplateEditor with the SID
+            $emailObj = SJB_EmailTemplateEditor::getEmail($candidateEmail, $templateSID, $emailData);
+
+            // Set ReplyTo to the current user's email
+            $emailObj->setReplyTo($currentUser->getPropertyValue('username'));
+
+            $emailSent = $emailObj->send();
+
+            if ($emailSent) {
+                if (!SJB_Session::getValue("applicant_contacted_" . $appId)) {
+                    SJB_Session::setValue("applicant_contacted_" . $appId, true);
+                }
+                header("Content-Type: application/json");
+                echo json_encode(["success" => true, "message" => "Email envoyé avec succès"]);
+            } else {
+                header("Content-Type: application/json");
+                header($_SERVER["SERVER_PROTOCOL"] . " 500 Internal Server Error");
+                echo json_encode(["success" => false, "error" => "Erreur lors de l'envoi de l'email."]);
+            }
+        } catch (Exception $e) {
+            header("Content-Type: application/json");
+            header($_SERVER["SERVER_PROTOCOL"] . " 500 Internal Server Error");
+            echo json_encode(["success" => false, "error" => "Erreur interne du serveur: " . $e->getMessage()]);
+        }
+    }
+}

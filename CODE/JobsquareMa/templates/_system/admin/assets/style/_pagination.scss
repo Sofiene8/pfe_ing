@@ -1,0 +1,130 @@
+.table__pagination {
+    .resultsnumber {
+        line-height: 34px;
+        margin: 2px 15px 10px 0;
+        display: inline-block;
+    }
+}
+
+.table__pagination--header,
+.table__pagination--footer {
+    .pagination__right {
+        display: inline-block;
+        margin-top: 8px;
+
+        @media all and (min-width: 992px) {
+            float: right;
+        }
+
+        @media all and (max-width: 992px) {
+            float: left;
+            width: 100%;
+        }
+    }
+
+    .pagination {
+        display: block;
+
+
+        @media all and (min-width: 767px) {
+            float: right;
+            margin: 0 0 0 25px;
+        }
+
+        @media all and (max-width: 767px) {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 0 5px 0;
+        }
+    }
+}
+.table__pagination--header {
+    float: left;
+    width: 100%;
+    line-height: 40px;
+    min-height: 40px;
+}
+
+.table__pagination--footer {
+    margin-top: 10px;
+
+    .number-per-page__discounts {
+        margin-top: 3px;
+    }
+}
+
+.number-per-page {
+    margin-bottom: 10px;
+    display: inline-block;
+
+    @media all and (max-width: 767px) {
+        margin-right: 25px;
+    }
+}
+
+.per-page {
+    display: inline-block;
+    width: 75px;
+}
+
+.action-with-selected {
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+
+.pagination {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    > li {
+        position: relative;
+
+        > a,
+        > span {
+            color: #373e4a;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            display: block;
+            text-align: center;
+            min-width: 41px;
+            position: relative;
+            padding: 7px 15px;
+            height: 34px;
+        }
+
+        &:not(:first-child),
+        &:not(:last-child) {
+            > a,
+            > span {
+                min-width: initial;
+            }
+        }
+
+        &.active {
+            > a,
+            > span,
+            > a:hover,
+            > span:hover,
+            > a:focus,
+            > span:focus {
+                background-color: #1c2b36;
+                border-color: #1c2b36;
+                color: #fff !important;
+            }
+
+            .fa {
+                position: absolute;
+                right: 4px;
+                top: 8px;
+            }
+        }
+    }
+
+    &.pagination__discounts {
+        margin-left: 0 !important;
+    }
+}
+
+.number-per-page__discounts {
+    margin-right: 15px !important;
+}

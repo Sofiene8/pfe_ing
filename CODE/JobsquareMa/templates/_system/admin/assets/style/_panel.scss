@@ -1,0 +1,217 @@
+.panel--accordion {
+    &:not(.panel--max) {
+        max-width: 600px;
+    }
+
+    .panel-heading {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+
+    .table {
+        margin-top: 0;
+    }
+}
+
+.panel {
+    position: relative;
+    max-width: 700px;
+    padding: 20px 30px;
+    border: 1px solid $panel-default-border;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 0 8px 0 rgba(0,0,0,0.06), 0 1px 0 0 rgba(0,0,0,0.02);
+    -ms-box-shadow: 0 0 8px 0 rgba(0,0,0,0.06), 0 1px 0 0 rgba(0,0,0,0.02);
+    -o-box-shadow: 0 0 8px 0 rgba(0,0,0,0.06), 0 1px 0 0 rgba(0,0,0,0.02);
+    box-shadow: 0 0 8px 0 rgba(0,0,0,0.06), 0 1px 0 0 rgba(0,0,0,0.02);
+
+    &--max {
+        max-width: 100%;
+    }
+
+    &--small {
+        max-width: 300px;
+    }
+
+    .panel-heading {
+        & + .panel-collapse .panel-body {
+            border-top: 1px solid #DDDDDD;
+            margin-top: 15px;
+            padding-top: 20px;
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
+            &:hover {
+                color: #2A3542;
+                text-decoration: none;
+            }
+        }
+    }
+
+    > .panel-heading {
+        background-color: $panel-default-bg;
+        border-color: $panel-default-border;
+    }
+}
+
+.panel-heading {
+    font-size: 16px;
+    padding: 0 0 15px;
+    margin-bottom: 20px;
+
+    &.panel-heading__refine-search {
+        padding-bottom: 0;
+    }
+}
+
+.panel-title {
+    color: $default-color;
+}
+
+.panel-body {
+    padding: 0;
+}
+
+.panel-collapse {
+    tr:first-child td {
+        border-top: none;
+    }
+}
+
+.panel .panel-heading a[data-toggle=collapse],
+.panel-group .panel .panel-heading .accordion-toggle {
+    &:before {
+        float: right;
+        display: block;
+        content: '\f068';
+        font-family: 'FontAwesome';
+        font-size: 14px;
+        width: 25px;
+        text-align: right;
+    }
+
+    &.collapsed {
+        &:before {
+            content: '\f067';
+        }
+    }
+}
+
+.panel-discount {
+    position: relative;
+
+    .bulk {
+        @media all and (min-width: 992px) {
+            position: absolute;
+            top: -35px;
+            left: 190px;
+        }
+    }
+}
+
+.panel__custom-fields {
+    .form-group {
+        margin-bottom: 30px;
+
+        &:first-child {
+            margin-top: 30px;
+        }
+    }
+
+    .btn__custom-fields {
+        text-align: left;
+        width: 100%;
+        height: 46px;
+        line-height: 33px;
+
+        .fa {
+            font-size: 18px;
+            margin-left: 10px;
+            margin-right: 15px;
+            color: #b3b3be;
+        }
+
+        img {
+            max-width: 18px;
+            display: inline-block;
+            margin-right: 21px;
+            top: 6px;
+            left: 10px;
+            position: relative;
+        }
+    }
+}
+
+.panel__job-import {
+    min-width: 280px;
+    overflow-x: auto;
+}
+
+.panel__auth {
+    .change-password {
+        margin-bottom: 25px;
+    }
+
+    h3 + p {
+        margin-bottom: 25px;
+    }
+}
+
+.panel__backfilling {
+    .panel-body {
+        position: relative;
+        margin: auto;
+        vertical-align: middle;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        * {
+            vertical-align: middle;
+            margin: auto;
+        }
+    }
+
+    &--inactive {
+        opacity: 0.5;
+    }
+
+    img {
+        @media all and (max-width: 767px) {
+            max-width: 110px;
+        }
+    }
+
+}
+
+.panel__enable_backfilling {
+    .control-label {
+        display: inline-block;
+        vertical-align: middle;
+        margin-bottom: 0;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+}
+
+.panel__social {
+    .panel-title {
+        * {
+            vertical-align: middle;
+        }
+        span {
+            margin-left: 30px;
+        }
+        img {
+            max-height: 75px;
+        }
+        a::before {
+            margin-top: 33px;
+        }
+        span.pull-right {
+            margin-top: 32px;
+        }
+    }
+}
+

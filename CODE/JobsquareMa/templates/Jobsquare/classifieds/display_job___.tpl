@@ -1,0 +1,506 @@
+{title} Offre d'emploi {$listing.Title} {/title}
+{keywords} offre d'emploi {$listing.Title}, offres d'emploi {$listing.user.CompanyName|escape}, recrutement chez {$listing.user.CompanyName|escape}   {/keywords}
+{description} {$listing.JobDescription|strip_tags|truncate:165} {/description}
+{head}
+	{module name="miscellaneous" function="opengraph_meta" listing=$listing}
+{/head}
+
+{* todo: Показывать алерт если юзер пришел из чекаута *}
+{if $smarty.request.isBoughtNow}
+	<div class="alert alert-bought-now text-center content-text"> {if $listing.active|status == 'pending'}
+	[[Your job will be published as soon as it is reviewed and approved.]]
+	{else}
+	[[You have successfully posted your job.]] <br/>
+	<a href="{$GLOBALS.site_url}/my-listings/job/" class="link">[[View your job stats in "My Account" section]]
+		{/if} <a href="#" class="alert__close"> </a> </div>
+{/if}
+{display property='id_Job_position' assign='Job_position'}
+{display property='id_Job_ExperienceNeeded' assign='Job_ExperienceNeeded'}
+{display property='id_Job_CareerLevel' assign='Job_CareerLevel'}
+{display property='EmploymentType' assign='EmploymentType'}
+{display property='id_Job_Rmunrationpropose' assign='Rmunrationpropose'}
+{display property='id_Job_Niveaudtudes' assign='Job_Niveaudtudes'}
+{display property='id_Job_Langue' assign='Job_Langue'}
+{display property='id_Job_Genre' assign='Job_Genre'}
+<div class="listing-results">
+	<div class="details-header page-detail-annonce">
+		<div class="container"> {module name="breadcrumbs" function="show_breadcrumbs"}
+			<div class="results text-left"> {if $url == "/my-job-details/{$listing.id}/"} <a href="{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}"
+					   class="btn__back"> &laquo; [[Back]] </a> {javascript} 
+				<script type="text/javascript">
+							if (window.history && window.history.pushState) {
+								window.history.pushState('forward', null, '');
+								$(window).on('popstate', function() {
+									window.location.href = '{$GLOBALS.site_url}/edit-{$listing.type.id}/?listing_id={$listing.id}';
+								});
+							}
+						</script> 
+				{/javascript}
+				{else}
+				{if $backPage && is_numeric($searchID) } <a href="{$GLOBALS.site_url}/jobs/?searchID={$searchID|escape}&action=search&page={$backPage}#{$listing.id}"
+						   class="btn__back"> &laquo; [[Back]] </a> {else} <a href="javascript:history.go(-1)"
+						   class="btn__back"> &laquo; [[Back]] </a> {/if}
+				
+				{/if} </div>
+			<div class="row">
+				<div class="col-md-9">
+					<div class="top-annonce">
+						<div class="left-top-annonce col-md-8">
+							<h1 class="details-header__title "> {$listing.Title|escape}</h1>
+							<ul class="listing-item__info clearfix inline-block">
+								<li class="listing-item__info--item listing-item__info--item-company"> {$listing.user.CompanyName|escape} </li>
+								{if $listing|location}
+								<li class="listing-item__info--item listing-item__info--item-location"> {assign var="location" value=$listing|location}
+									{assign var="parts" value=","|explode:$location}
+									{assign var="total" value=$parts|@count}
+									{if $parts[$total-2]}{$parts[$total-2]},{/if}{if $parts[$total-1]}{$parts[$total-1]}{/if}
+									{/if}</li>
+								{assign var="myDate" value= $listing.activation_date}
+								<li class="listing-item__info--item listing-item__info--item-date">{if $myDate|timeAgo eq "à l\'instant"}{else} Il'y a {/if}{$myDate|timeAgo}</li>
+							</ul>
+						</div>
+						<div class="col-md-4"> {if $listing.user.featured == 1 || $listing.featured == 1}
+							
+							{if $listing.user.Logo.file_url}
+							<div class="text-center profile__image"> <a href="{if $listing.user.isJobg8}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.CompanyName|pretty_url}/{else}{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/{/if}"> <img class="profile__img profile__img-company" src="{$listing.user.Logo.file_url}" alt=""> </a> </div>
+							{/if}
+							{/if} </div>
+						{if $GLOBALS.user_page_uri == '/job-preview/' ||$GLOBALS.user_page_uri == '/my-job-details/'}
+						<div class="job-top-wrapper">
+							<div class="clearfix">
+								<div class="job-left-side">
+									<div class="form-group job-preview__btns col-xs-12">
+										<form action="{$referer}" method="post">
+											<input type="hidden" name="from-preview" value="1" />
+											<input type="submit" name="edit_temp_listing" value="[[Edit]]" class="btn btn-apply btn-primary btn-lg btn-block" id="listing-preview" />
+											{if $contract_id == 0 && !$checkouted}
+											<input type="hidden" name="proceed_to_checkout" />
+											<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+											{else}
+											<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+											{/if}
+										</form>
+									</div>
+								</div>
+								<div class="job-right-side">
+									<div class="job-numbers">
+										<div class="applicants-all"> {if $count_applicants >=0}
+											<div class="applicants-num">{$count_applicants}</div>
+											<div class="applicants-desc">candidats{if $id_Job_Vacancies>1} pour <br>
+												<span class="vacancies-num"><strong>{$id_Job_Vacancies}</strong></span> postes ouverts<br />
+											</div>
+											{else}
+											pour <br>
+											<span class="vacancies-num"><strong>1</strong></span> post ouvert<br />
+											{/if}
+											{/if}
+											<div class="applicants-stats-wrapper"> {if $count_seen>0}
+												<div class="applicants-stat" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of applicants viewed by the employer.">
+													<div class="applicants-stat-num">{$count_seen}</div>
+													<div class="applicants-stat-desc">Traité{if $count_seen>1}s{/if}</div>
+												</div>
+												{/if}
+												{if $count_selected>0}
+												<div class="applicants-stat applicants-stat-shortlisted" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of applicants who are fitting for the internship">
+													<div class="applicants-stat-num">{$count_selected}</div>
+													<div class="applicants-stat-desc">Présélectionné{if $count_selected>1}s{/if}</div>
+												</div>
+												{/if}
+												{if $count_rejected>0}
+												<div class="applicants-stat applicants-stat-rejected" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of rejected applicants">
+													<div class="applicants-stat-num">{$count_rejected}</div>
+													<div class="applicants-stat-desc">Rejeté{if $count_rejected>1}s{/if}</div>
+												</div>
+												{/if} </div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{else}
+						
+						{if !$resumeListingSID}
+						{if isset($listing.ApplicationSettings.add_parameter) && $listing.ApplicationSettings.add_parameter == 2}
+						{assign var='isApplied' value=false}
+						{if $listing.user.isJobg8 && $listing.jobType == 'APPLICATION'}
+						{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/apply-now-external/?listing_id={$listing.id}{/capture}
+						{else}
+						{if !$GLOBALS.settings.loggedin_apply || $GLOBALS.current_user.logged_in}
+						{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/system/classifieds/application_redirect/?listing_id={$listing.id}{/capture}
+						{else}
+						{capture assign='url'}
+						{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+						{/capture}
+						{/if}
+						{/if}
+						{else}
+						{capture assign='url'}
+						{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+						{/capture}
+						{/if}
+						{capture assign='modalTitle'}
+						{assign var="job_title" value=$listing.Title|escape}
+						{assign var="company_name" value=$listing.user.CompanyName|escape}
+						[[Apply to $job_title at $company_name]]
+						{/capture}
+						{/if}
+						{if !$resumeListingSID}
+						{if $isActive}
+						<div class="job-top-wrapper">
+							<div class="clearfix">
+								<div class="job-left-side"> {if !$resumeListingSID}
+									{if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+									{if $isActive}
+									<button type="button"  class="btn btn-apply btn-primary btn-lg btn-block"
+									href="{$applyBtn_onClick}"
+									data-toggle="modal"
+									data-target="#apply-modal"
+									data-href="{$url}"
+									data-applied='{if $isApplied}applied{/if}'
+									data-title="{$modalTitle}"> [[Apply Now]] </button>
+									{/if}
+									{/if}
+									{/if} </div>
+								<div class="job-right-side"> {if $count_applicants >=5}
+									{if $count_applicants >=50}
+									<div class="job-numbers">
+										<div class="applicants-all">Plus de
+											<div class="applicants-num"> 50 </div>
+											<div class="applicants-desc">candidats{if $id_Job_Vacancies>1} pour <br>
+												<span class="vacancies-num"><strong>{$id_Job_Vacancies}</strong></span> postes ouverts<br />
+												{else}
+												pour <br>
+												<span class="vacancies-num"><strong>1</strong></span> post ouvert<br />
+												{/if} </div>
+											<div class="be-second-to-apply"> <span class="glyphicon glyphicon-arrow-up visible-xs-inline"></span> <span class="glyphicon glyphicon-arrow-left  visible-sm-inline visible-md-inline visible-lg-inline"></span> <span>N'attendez pas pour vous garantir ce poste !</span></div>
+										</div>
+									</div>
+									{else}
+									<div class="job-numbers">
+										<div class="applicants-all">
+											<div class="applicants-num">{$count_applicants}</div>
+											<div class="applicants-desc">candidats{if $id_Job_Vacancies>1} pour <br>
+												<span class="vacancies-num"><strong>{$id_Job_Vacancies}</strong></span> postes ouverts<br />
+												{else}
+												pour <br>
+												<span class="vacancies-num"><strong>1</strong></span> poste ouvert<br />
+												{/if} </div>
+										</div>
+										{if $count_seen!=0 || $count_selected!=0 || $count_rejected!=0}
+										<div class="applicants-stats-wrapper"> {if $count_seen>0}
+											<div class="applicants-stat" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of applicants viewed by the employer.">
+												<div class="applicants-stat-num">{$count_seen}</div>
+												<div class="applicants-stat-desc">Traité{if $count_seen>1}s{/if}</div>
+											</div>
+											{/if}
+											{if $count_selected>0}
+											<div class="applicants-stat applicants-stat-shortlisted" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of applicants who are fitting for the internship">
+												<div class="applicants-stat-num">{$count_selected}</div>
+												<div class="applicants-stat-desc">Présélectionné{if $count_selected>1}s{/if}</div>
+											</div>
+											{/if}
+											{if $count_rejected>0}
+											<div class="applicants-stat applicants-stat-rejected" title="" data-toggle="tooltip" data-placement="bottom" data-original-title="Number of rejected applicants">
+												<div class="applicants-stat-num">{$count_rejected}</div>
+												<div class="applicants-stat-desc">Rejeté{if $count_rejected>1}s{/if}</div>
+											</div>
+											{/if} </div>
+										{else}
+										<div class="be-second-to-apply"><span class="glyphicon glyphicon-arrow-up visible-xs-inline"></span> <span class="glyphicon glyphicon-arrow-left  visible-sm-inline visible-md-inline visible-lg-inline"></span><span>N'attendez pas pour vous garantir ce poste !</span></div>
+										{/if} </div>
+									{/if}
+									{else}
+									<div class="be-first-to-apply"> <span class="glyphicon glyphicon-arrow-up visible-xs-inline"></span> <span class="glyphicon glyphicon-arrow-left  visible-sm-inline visible-md-inline visible-lg-inline"></span> Soyez le 1<sup>er</sup> à postuler </div>
+									{/if} </div>
+							</div>
+						</div>
+						{/if}  {/if}  {/if}
+						<div class="clear"></div>
+					</div>
+					<div class="detail-offre {if $listing.user.featured != 1 && $listing.featured != 1 && $isActiveBanner!=1} notfeatured{/if}"> 
+						
+						<!-- {if $listing.views>=10 && $apps[$listing.id]>=1}
+				{$listing.views} [[views]]<br />
+				{$apps[$listing.id]|default:0} [[applicants]]<br />{/if} -->
+						<div class="infos_job_details"> {if $id_Job_Experience}
+							<div class="col-md-4">
+								<dl>
+									<dt>Expérience requise:</dt>
+									<dd>{$id_Job_Experience}</dd>
+								</dl>
+							</div>
+							{/if}
+							
+							{if $Job_CareerLevel}
+							<div class="col-md-4">
+								<dl>
+									<dt>Niveau de carrière:</dt>
+									<dd>{$Job_CareerLevel}</dd>
+								</dl>
+							</div>
+							{/if}
+							{if $EmploymentType}
+							<div class="col-md-4">
+								<dl>
+									<dt>[[Job Type]]:</dt>
+									<dd class="job-type-wrp"> <!--<meta itemprop="validThrough" content="Saturday, August 24, 2019 at 10:57AM"> <meta itemprop="employmentType" content="FULL_TIME"> <a class="job-type-url" href="https://wuzzuf.net/a/Full-Time-Jobs-in-Cairo-Egypt" title="Find more Full Time Jobs in Cairo, Egypt" onclick="ga('send', 'event', 'JobPostPage', 'JobType:Full-Time', 'JobPost');"> -->{$EmploymentType}<!-- </a>--> </dd>
+								</dl>
+							</div>
+							{/if}
+							{if $id_Job_Rmunrationpropose}
+							<div class="col-md-4">
+								<dl>
+									<dt>Salaire:</dt>
+									<dd>{$id_Job_Rmunrationpropose}</dd>
+								</dl>
+							</div>
+							{/if}	
+							{if $id_Job_Niveaudtude}
+							<div class="col-md-4">
+								<dl>
+									<dt>Niveau d'etudes:</dt>
+									<dd>{$id_Job_Niveaudtude}</dd>
+								</dl>
+							</div>
+							{/if}
+							{if $id_Job_Vacancies}
+							<div class="col-md-4">
+								<dl>
+									<dt>Postes vacants:</dt>
+									<dd>{$id_Job_Vacancies} postes ouverts </dd>
+								</dl>
+							</div>
+							{else}
+							<div class="col-md-4">
+								<dl>
+									<dt>Postes vacants:</dt>
+									<dd>1 poste ouvert </dd>
+								</dl>
+							</div>
+							{/if}	
+							{if $id_Job_Langue}
+							<div class="col-md-4">
+								<dl>
+									<dt>Langues:</dt>
+									<dd>{$id_Job_Langue}</dd>
+								</dl>
+							</div>
+							{/if}
+							
+							{if $id_Job_Genre}
+							<div class="col-md-4">
+								<dl>
+									<dt>Genre :</dt>
+									<dd>{$id_Job_Genre}</dd>
+								</dl>
+							</div>
+							{/if}
+							<div class="clear"></div>
+						</div>
+						{foreach from=$form_fields item=list_value}
+						{if  $list_value.caption != 'Location' && $list_value.id != 'Title' && $list_value.id != 'ApplicationSettings' && $list_value.id != 'JobCategory' && $list_value.id != 'EmploymentType' && $list_value.id != 'id_Job_Experience'&& $list_value.id != 'id_Job_CareerLevel' && $list_value.id != 'id_Job_Vacancies'&& $list_value.id != id_Job_Langue && $list_value.id != id_Job_Niveaudtude && $list_value.id != id_Job_Rmunrationpropose && $list_value.id !=id_Job_Genre&& $list_value.id !=id_Job_Langue}
+						{if  $list_value.caption == 'Date d\'expiration'}
+						
+						{if {display property=$list_value.id}}
+						<h3 class="details-body__title">{$list_value.caption|escape}</h3>
+						<div class="details-body__content content-text">{display property=$list_value.id}</div>
+						{/if}
+						
+						{else}
+						
+						{if {display property=$list_value.id}}
+						<h3 class="details-body__title">{$list_value.caption|escape}</h3>
+						<div class="details-body__content content-text">{display property=$list_value.id}</div>
+						{/if}
+						{/if}
+						{/if}
+						{/foreach}
+						<div class="clear"></div>
+						{if !$resumeListingSID}
+									{if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+									{if $isActive}
+									<button type="button"  class="visible-xs-inline btn btn-apply btn-primary btn-lg btn-block"
+									href="{$applyBtn_onClick}"
+									data-toggle="modal"
+									data-target="#apply-modal"
+									data-href="{$url}"
+									data-applied='{if $isApplied}applied{/if}'
+									data-title="{$modalTitle}"> [[Apply Now]] </button>
+									{/if}
+									{/if}
+									{/if}
+					</div>
+					<div class="clear"></div>
+					{if $listing.user.featured == 1}
+					<div class="profilecompany content-card"> {if $listing.user.featured == 1 }
+						<div class="company-info-card"> {assign var="company_name" value=$listing.user.CompanyName|escape}
+							<div class="card-title">[[About $company_name]]</div>
+							<div class="company-brief">{$listing.user.CompanyDescription|strip_tags|truncate:270}</div>
+							<div> <a class="btn__profile" href="{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/">&raquo; [[Les offres de ]] {$listing.user.CompanyName} </a> {if strpos($listing.user.PrivateSpace, "https://") !== false ||  strpos($listing.user.PrivateSpace, "https://") !== false} <a class="btn__profile" target="_blank" href="{$listing.user.PrivateSpace}"> &raquo;[[Company Profile]]</a> {else}
+								{if $listing.user.PrivateSpace} <a class="btn__profile" target="_blanc" href="{$GLOBALS.site_url}/entreprise/{$listing.user.PrivateSpace}">&raquo; [[Company Profile]] </a> {/if}
+								{/if} </div>
+							<div class="job-type"> <span class="main-label">Categories: </span>{display property='JobCategory' template="multilist_job_category.tpl"}
+								<div class="clear"></div>
+							</div>
+						</div>
+						{/if} </div>
+					{/if}
+					<div class="clear"></div>{if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'}
+					{module name="classifieds" function="featured_listings_sponsorise" items_count="2" listing_type="Job" listing_id=$listing.id}
+					<div class=" content-card offres-emploi-similaire"> {module name="classifieds" function="featured_listings_interne" items_count="10" listing_type="Job" listing_id=$listing.id}
+						<div class="clear"></div>
+					</div>
+					{module name="classifieds" function="plus_training_listings" items_count="10" listing_type="Training" listing_id=$listing.id} 
+					
+{/if}
+					<div class="clear"></div>
+				</div>
+				{if $GLOBALS.user_page_uri != '/job-preview/' && $GLOBALS.user_page_uri != '/my-job-details/'}
+				<div class="col-md-3">{if $listing.user.featured == 1 }
+					<div class="company-info-card content-card card-small hidden-xs hidden-sm">
+						<div class="sidebar__content"> {if $listing.user.featured == 1 }
+							<div class=""> {assign var="company_name" value=$listing.user.CompanyName|escape}
+								<div class="card-title">[[About $company_name]]</div>
+								<div class="company-brief">{$listing.user.CompanyDescription|strip_tags|truncate:90}</div>
+								<div> <a class="companylink" href="{$GLOBALS.site_url}/company/{$listing.user.id}/{$listing.user.CompanyName|pretty_url}/">&raquo; [[Les offres de ]] {$listing.user.CompanyName} </a> {if strpos($listing.user.PrivateSpace, "https://") !== false ||  strpos($listing.user.PrivateSpace, "https://") !== false} <a class="companylink" target="_blank" href="{$listing.user.PrivateSpace}"> &raquo; [[Company Profile]]</a> {else}
+									{if $listing.user.PrivateSpace} <a class="companylinkpro" target="_blank" href="{$GLOBALS.site_url}/entreprise/{$listing.user.PrivateSpace}">&raquo; [[Company Profile]] </a> {/if}
+									{/if} </div>
+							</div>
+							{/if} </div>
+						{* {if 'banner_right_side'|banner}
+						<div class="banner banner--right"> {'banner_right_side'|banner} </div>
+						{/if}
+						*} </div>
+					{/if}
+					
+					{module name="classifieds" function="plus_city_listings" items_count="5" listing_type="Job" listing_id=$listing.id}
+					
+					{module name="classifieds" function="plus_category_listings" items_count="9" listing_type="Job" listing_id=$listing.id}
+					<div class="similar-job"> {module name="classifieds" function="plus_featured_listings" items_count="4" listing_type="Job" listing_id=$listing.id}
+						<div class="clear"></div>
+					</div>
+					<div class="signup-card content-card card-small">
+						<div class="card-title">Découvrez plus d'emplois</div>
+						Rejoignez Jobsquare maintenant et découvrez toutes les entreprises qui recrutent en Maroc <br>
+						<a class="btn btn-warning signup-btn" href="{$GLOBALS.site_url}/registration/?user_group_id=JobSeeker" onclick="">Regoignez nous </a> </div>
+					<div class="employer-cta-card content-card card-small"> <a href="{$GLOBALS.site_url}/registration/?user_group_id=Employer"  onclick="">
+						<div class="card-title"> Employeur? </div>
+						</a> S'inscrire pour un compte employeur et <a class="employer-cta-link" href="{$GLOBALS.site_url}/registration/?user_group_id=Employer"  onclick=""> Postez vos offres! </a> </div>
+					{if $listing.user.featured != 1 && $listing.featured != 1}
+					
+					
+					{module name="banners" function="show_banners" group="Dispaly_right"} <br />
+					{/if} </div>{/if}
+					
+					
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="details-footer  {if $GLOBALS.user_page_uri == '/job-preview/'}job-preview{/if}" id="footerjob">
+	<div class="container"> {if $GLOBALS.user_page_uri == '/job-preview/'}
+		<div class="form-group job-preview__btns col-xs-12">
+			<form action="{$referer}" method="post">
+				<input type="hidden" name="from-preview" value="1" />
+				<input type="submit" name="edit_temp_listing" value="[[Edit]]" class="btn btn-apply btn-primary btn-lg btn-block" id="listing-preview" />
+				{if $contract_id == 0 && !$checkouted}
+				<input type="hidden" name="proceed_to_checkout" />
+				<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+				{else}
+				<input type="submit" name="action_add" value="[[Post]]" class="btn btn-apply btn-primary btn-lg btn-block" />
+				{/if}
+			</form>
+		</div>
+		{else}
+		{if !$resumeListingSID}
+		{if isset($listing.ApplicationSettings.add_parameter) && $listing.ApplicationSettings.add_parameter == 2}
+		{assign var='isApplied' value=false}
+		{if $listing.user.isJobg8 && $listing.jobType == 'APPLICATION'}
+		{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/apply-now-external/?listing_id={$listing.id}{/capture}
+		{else}
+		{if !$GLOBALS.settings.loggedin_apply || $GLOBALS.current_user.logged_in}
+		{capture assign='applyBtn_onClick'}{$GLOBALS.site_url}/system/classifieds/application_redirect/?listing_id={$listing.id}{/capture}
+		{else}
+		{capture assign='url'}
+		{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+		{/capture}
+		{/if}
+		{/if}
+		{else}
+		{capture assign='url'}
+		{$GLOBALS.site_url}/apply-now/?listing_id={$listing.id}&ajaxRelocate=1
+		{/capture}
+		{/if}
+		{capture assign='modalTitle'}
+		{assign var="job_title" value=$listing.Title|escape}
+		{assign var="company_name" value=$listing.user.CompanyName|escape}
+		[[Apply to $job_title at $company_name]]
+		{/capture}
+		{/if}
+		{/if}
+		{*{debug}*}
+		{if !$resumeListingSID}
+		{if $GLOBALS.current_user.user_group_sid == '36' || $GLOBALS.current_user.logged_in == false}
+		{if $isActive}
+		<div class="col-md-4"><a class="btn btn-apply btn-primary btn-lg btn-block"
+					href="{$applyBtn_onClick}"
+					data-toggle="modal"
+					data-target="#apply-modal"
+					data-href="{$url}"
+					data-applied='{if $isApplied}applied{/if}'
+					data-title="{$modalTitle}"> [[Apply Now]] </a></div>
+		{else} <br>
+		<span> <span><b> Désolé, cette offre n'est plus disponible.</b></span></span>
+		{/if}
+		{/if}
+		{else}
+		{if $resumeListingSID == 'createResume'}
+		<div class="col-md-4"><a target="_self" class="btn btn-apply btn-primary btn-lg btn-block" href="{$GLOBALS.site_url}/add-listing/?listing_type_id=Resume&redirectBackToJobID={$listing.id}&productSID=8&proceed_to_posting=1">[[Apply Now]]</a></div>
+		{else}
+		<div class="col-md-4"><a target="_self" class="btn btn-apply btn-primary btn-lg btn-block" href="{$GLOBALS.site_url}/edit-resume/?listing_id={$resumeListingSID}&redirectBackToJobID={$listing.id}">[[Apply Now]]</a></div>
+		{/if}
+		
+		{/if}
+		<div class="social-share pull-right"> <span class="social-share__title"> [[Share this job]]: </span> {if !$myListing}
+			<div class="social-share__icons"> <span class='st_facebook_large' displayText='Facebook'></span> <span class='st_twitter_large' displayText='Tweet'></span> <span class='st_googleplus_large' displayText='Google +'></span> <span class='st_linkedin_large' displayText='LinkedIn'></span> <span class='st_pinterest_large' displayText='Pinterest'></span> <span class='st_email_large' displayText='Email'></span> </div>
+			{/if} </div>
+	</div>
+</div>
+{literal} 
+<script type="text/javascript">var switchTo5x=true;</script> 
+<script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script> 
+<script type="text/javascript">stLight.options({publisher: "3f1014ed-afda-46f1-956a-a51d42078320", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script> 
+{/literal}
+{javascript} 
+<script type="text/javascript">
+		dockDetailsFooter();
+		$(window).on('resize orientationchange', function(){
+			dockDetailsFooter();
+		});
+
+		function dockDetailsFooter() {
+			$(".details-footer").affix({
+				offset: {
+					bottom: function () {
+						return (this.bottom = $('.footer').outerHeight(true))
+					}
+				}
+			});
+		}
+        {if !$resumeListingSID}
+		$('.details-footer__btn-apply').on('click', function(e) {
+			if ($(this).attr('href') != '') {
+				e.preventDefault();
+				e.stopPropagation();
+				window.open($(this).attr('href'));
+			}
+		});
+        {/if}
+
+		$('.alert__close').on('click', function(e) {
+			e.preventDefault();
+			$(this).closest('.alert').hide();
+		});
+	</script> 
+{/javascript}
