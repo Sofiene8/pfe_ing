@@ -1,0 +1,233 @@
+[
+  {
+    "sid": 2163,
+    "type": "employment",
+    "jobg8_field_value": "Permanent",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 2164,
+    "type": "employment",
+    "jobg8_field_value": "Contract",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 2165,
+    "type": "employment",
+    "jobg8_field_value": "Temporary",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 2189,
+    "type": "employment",
+    "jobg8_field_value": "Full Time",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 2190,
+    "type": "employment",
+    "jobg8_field_value": "Part Time",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 5251,
+    "type": "category",
+    "jobg8_field_value": "Executive Positions",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6200,
+    "type": "category",
+    "jobg8_field_value": "Accounting",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6201,
+    "type": "category",
+    "jobg8_field_value": "Administration",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6202,
+    "type": "category",
+    "jobg8_field_value": "Advert / Media / Entertainment",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6203,
+    "type": "category",
+    "jobg8_field_value": "Banking & Financial Services",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6204,
+    "type": "category",
+    "jobg8_field_value": "Call Centre / CustomerService",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6205,
+    "type": "category",
+    "jobg8_field_value": "Community & Sport",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6206,
+    "type": "category",
+    "jobg8_field_value": "Construction",
+    "sjb_field_value": "725",
+    "allow": 1
+  },
+  {
+    "sid": 6207,
+    "type": "category",
+    "jobg8_field_value": "Consulting & Corporate Strategy",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6208,
+    "type": "category",
+    "jobg8_field_value": "Education",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6209,
+    "type": "category",
+    "jobg8_field_value": "Engineering",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6210,
+    "type": "category",
+    "jobg8_field_value": "Government & Defence",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6211,
+    "type": "category",
+    "jobg8_field_value": "Healthcare & Medical",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6212,
+    "type": "category",
+    "jobg8_field_value": "Hospitality & Tourism",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6213,
+    "type": "category",
+    "jobg8_field_value": "HR / Recruitment",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6214,
+    "type": "category",
+    "jobg8_field_value": "Insurance & Superannuation",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6215,
+    "type": "category",
+    "jobg8_field_value": "I.T. & Communications",
+    "sjb_field_value": "710",
+    "allow": 1
+  },
+  {
+    "sid": 6216,
+    "type": "category",
+    "jobg8_field_value": "Legal",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6217,
+    "type": "category",
+    "jobg8_field_value": "Manufacturing Operations",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6218,
+    "type": "category",
+    "jobg8_field_value": "Mining / Oil / Gas",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6219,
+    "type": "category",
+    "jobg8_field_value": "Primary Industry",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6220,
+    "type": "category",
+    "jobg8_field_value": "Real Estate & Property",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6221,
+    "type": "category",
+    "jobg8_field_value": "Retail & Consumer Products",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6222,
+    "type": "category",
+    "jobg8_field_value": "Sales & Marketing",
+    "sjb_field_value": "709",
+    "allow": 1
+  },
+  {
+    "sid": 6223,
+    "type": "category",
+    "jobg8_field_value": "Science & Technology",
+    "sjb_field_value": "368",
+    "allow": 1
+  },
+  {
+    "sid": 6224,
+    "type": "category",
+    "jobg8_field_value": "Self Employment",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6225,
+    "type": "category",
+    "jobg8_field_value": "Trades & Services",
+    "sjb_field_value": "",
+    "allow": 1
+  },
+  {
+    "sid": 6226,
+    "type": "category",
+    "jobg8_field_value": "Transport & Logistics",
+    "sjb_field_value": "",
+    "allow": 1
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "sid": 660,
+    "field_sid": 90,
+    "order": 1,
+    "value": "asdf"
+  },
+  {
+    "sid": 661,
+    "field_sid": 90,
+    "order": 2,
+    "value": "ggg"
+  },
+  {
+    "sid": 691,
+    "field_sid": 15,
+    "order": 30,
+    "value": "Installation-Entretien-Reparation"
+  },
+  {
+    "sid": 690,
+    "field_sid": 15,
+    "order": 29,
+    "value": "Assurances"
+  },
+  {
+    "sid": 689,
+    "field_sid": 15,
+    "order": 28,
+    "value": "Juridique"
+  },
+  {
+    "sid": 688,
+    "field_sid": 15,
+    "order": 27,
+    "value": "Gestion"
+  },
+  {
+    "sid": 687,
+    "field_sid": 15,
+    "order": 26,
+    "value": "Media-Journalisme"
+  },
+  {
+    "sid": 686,
+    "field_sid": 15,
+    "order": 25,
+    "value": "Media-Journalisme"
+  },
+  {
+    "sid": 685,
+    "field_sid": 15,
+    "order": 24,
+    "value": "Services a la clientele"
+  },
+  {
+    "sid": 684,
+    "field_sid": 15,
+    "order": 23,
+    "value": "Pharmaceutiques"
+  },
+  {
+    "sid": 683,
+    "field_sid": 15,
+    "order": 22,
+    "value": "Achat - Approvisionnement"
+  },
+  {
+    "sid": 682,
+    "field_sid": 15,
+    "order": 21,
+    "value": "Controle Qualite"
+  },
+  {
+    "sid": 681,
+    "field_sid": 15,
+    "order": 20,
+    "value": "Controle Qualite"
+  },
+  {
+    "sid": 680,
+    "field_sid": 15,
+    "order": 19,
+    "value": "Immobilier"
+  },
+  {
+    "sid": 679,
+    "field_sid": 15,
+    "order": 18,
+    "value": "Recherche"
+  },
+  {
+    "sid": 678,
+    "field_sid": 15,
+    "order": 17,
+    "value": "Restauration"
+  },
+  {
+    "sid": 677,
+    "field_sid": 15,
+    "order": 16,
+    "value": "Commerce de détail"
+  },
+  {
+    "sid": 676,
+    "field_sid": 15,
+    "order": 15,
+    "value": "Science"
+  },
+  {
+    "sid": 675,
+    "field_sid": 15,
+    "order": 14,
+    "value": "Stratégie-Planification"
+  },
+  {
+    "sid": 674,
+    "field_sid": 15,
+    "order": 13,
+    "value": "Transport"
+  },
+  {
+    "sid": 673,
+    "field_sid": 15,
+    "order": 12,
+    "value": "Vente"
+  },
+  {
+    "sid": 672,
+    "field_sid": 15,
+    "order": 11,
+    "value": "Commerce"
+  },
+  {
+    "sid": 671,
+    "field_sid": 15,
+    "order": 10,
+    "value": "Technologie de l'information"
+  },
+  {
+    "sid": 670,
+    "field_sid": 15,
+    "order": 9,
+    "value": "Industrie"
+  },
+  {
+    "sid": 669,
+    "field_sid": 15,
+    "order": 8,
+    "value": "Télécommunications"
+  },
+  {
+    "sid": 668,
+    "field_sid": 15,
+    "order": 7,
+    "value": "Tous secteurs"
+  },
+  {
+    "sid": 667,
+    "field_sid": 15,
+    "order": 6,
+    "value": "Informatique"
+  },
+  {
+    "sid": 666,
+    "field_sid": 15,
+    "order": 5,
+    "value": "Marketing"
+  },
+  {
+    "sid": 665,
+    "field_sid": 15,
+    "order": 4,
+    "value": "Ingenierie"
+  },
+  {
+    "sid": 664,
+    "field_sid": 15,
+    "order": 3,
+    "value": "Ressources humaines"
+  },
+  {
+    "sid": 663,
+    "field_sid": 15,
+    "order": 2,
+    "value": "Formation"
+  },
+  {
+    "sid": 662,
+    "field_sid": 15,
+    "order": 1,
+    "value": "Centres d appels"
+  },
+  {
+    "sid": 707,
+    "field_sid": 14,
+    "order": 0,
+    "value": "M"
+  },
+  {
+    "sid": 708,
+    "field_sid": 14,
+    "order": 1,
+    "value": "Mme"
+  },
+  {
+    "sid": 709,
+    "field_sid": 14,
+    "order": 2,
+    "value": "Mlle"
+  },
+  {
+    "sid": 720,
+    "field_sid": 130,
+    "order": 10,
+    "value": "Guelmim-Oued Noun"
+  },
+  {
+    "sid": 719,
+    "field_sid": 130,
+    "order": 9,
+    "value": "Laâyoune-Sakia El Hamra"
+  },
+  {
+    "sid": 718,
+    "field_sid": 130,
+    "order": 8,
+    "value": "Drâa-Tafilalet"
+  },
+  {
+    "sid": 717,
+    "field_sid": 130,
+    "order": 7,
+    "value": "Béni Mellal-Khénifra"
+  },
+  {
+    "sid": 716,
+    "field_sid": 130,
+    "order": 6,
+    "value": "Oriental"
+  },
+  {
+    "sid": 715,
+    "field_sid": 130,
+    "order": 5,
+    "value": "Souss-Massa"
+  },
+  {
+    "sid": 714,
+    "field_sid": 130,
+    "order": 4,
+    "value": "Fès-Meknès"
+  },
+  {
+    "sid": 713,
+    "field_sid": 130,
+    "order": 3,
+    "value": "Marrakech-Safi"
+  },
+  {
+    "sid": 712,
+    "field_sid": 130,
+    "order": 2,
+    "value": "Tanger-Tétouan-Al Hoceïma"
+  },
+  {
+    "sid": 711,
+    "field_sid": 130,
+    "order": 1,
+    "value": "Rabat-Salé-Kénitra"
+  },
+  {
+    "sid": 710,
+    "field_sid": 130,
+    "order": 0,
+    "value": "Casablanca-Settat"
+  },
+  {
+    "sid": 692,
+    "field_sid": 15,
+    "order": 31,
+    "value": "Sante"
+  },
+  {
+    "sid": 693,
+    "field_sid": 15,
+    "order": 32,
+    "value": "Fonction publique"
+  },
+  {
+    "sid": 694,
+    "field_sid": 15,
+    "order": 33,
+    "value": "Services veterinaires"
+  },
+  {
+    "sid": 695,
+    "field_sid": 15,
+    "order": 34,
+    "value": "Enseignement"
+  },
+  {
+    "sid": 698,
+    "field_sid": 15,
+    "order": 37,
+    "value": "Design"
+  },
+  {
+    "sid": 697,
+    "field_sid": 15,
+    "order": 36,
+    "value": "Distribution"
+  },
+  {
+    "sid": 699,
+    "field_sid": 15,
+    "order": 38,
+    "value": "Consulting"
+  },
+  {
+    "sid": 700,
+    "field_sid": 15,
+    "order": 39,
+    "value": "Construction"
+  },
+  {
+    "sid": 701,
+    "field_sid": 15,
+    "order": 40,
+    "value": "Developpement des affaires"
+  },
+  {
+    "sid": 702,
+    "field_sid": 15,
+    "order": 41,
+    "value": "Biotechnologie"
+  },
+  {
+    "sid": 704,
+    "field_sid": 15,
+    "order": 42,
+    "value": "Banque"
+  },
+  {
+    "sid": 705,
+    "field_sid": 15,
+    "order": 43,
+    "value": "Administration"
+  },
+  {
+    "sid": 706,
+    "field_sid": 15,
+    "order": 44,
+    "value": "Comptabilite"
+  },
+  {
+    "sid": 721,
+    "field_sid": 130,
+    "order": 11,
+    "value": "Dakhla-Oued Ed-Dahab"
+  }
+]

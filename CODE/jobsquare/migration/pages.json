@@ -1,0 +1,58 @@
+[
+  {
+    "uri": "/",
+    "pass_parameters_via_uri": null,
+    "module": "dashboard",
+    "function": "view",
+    "template": "index.tpl",
+    "title": "",
+    "access_type": "admin",
+    "parameters": "",
+    "keywords": "",
+    "description": "",
+    "ID": 1,
+    "content": null
+  },
+  {
+    "uri": "/edit-templates/",
+    "pass_parameters_via_uri": null,
+    "module": "template_manager",
+    "function": "edit_templates",
+    "template": "index.tpl",
+    "title": "",
+    "access_type": "admin",
+    "parameters": "",
+    "keywords": "",
+    "description": "",
+    "ID": 31,
+    "content": null
+  },
+  {
+    "uri": "/edit-themes/",
+    "pass_parameters_via_uri": null,
+    "module": "template_manager",
+    "function": "theme_editor",
+    "template": "index.tpl",
+    "title": "",
+    "access_type": "admin",
+    "parameters": "",
+    "keywords": "",
+    "description": "",
+    "ID": 32,
+    "content": null
+  },
+  {
+    "uri": "/user-pages/",
+    "pass_parameters_via_uri": null,
+    "module": "user_pages",
+    "function": "edit_user_pages",
+    "template": "index.tpl",
+    "title": "",
+    "access_type": "admin",
+    "parameters": "",
+    "keywords": "",
+    "description": "",
+    "ID": 81,
+    "content": null
+  }
+]

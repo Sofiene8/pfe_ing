@@ -1,0 +1,92 @@
+[
+  {
+    "sid": 1,
+    "name": "Model_CV_1",
+    "image": "",
+    "template": "resume_to_pdf_1.tpl",
+    "template_display": "display_resume_1.tpl",
+    "default_color_sid": "9",
+    "default_color": "orange",
+    "order": 1
+  },
+  {
+    "sid": 2,
+    "name": "Model_CV_2",
+    "image": "",
+    "template": "resume_to_pdf_1.tpl",
+    "template_display": "display_resume_2.tpl",
+    "default_color_sid": "10",
+    "default_color": "orange",
+    "order": 2
+  },
+  {
+    "sid": 3,
+    "name": "Model_CV_3",
+    "image": "",
+    "template": "resume_to_pdf_3.tpl",
+    "template_display": "display_resume_3.tpl",
+    "default_color_sid": "11",
+    "default_color": "orange",
+    "order": 3
+  },
+  {
+    "sid": 4,
+    "name": "Model_CV_4",
+    "image": "",
+    "template": "resume_to_pdff_4.tpl",
+    "template_display": "display_resume_4.tpl",
+    "default_color_sid": "16",
+    "default_color": "orange",
+    "order": 4
+  },
+  {
+    "sid": 5,
+    "name": "Model_CV_5",
+    "image": "",
+    "template": "resume_to_pdf_5.tpl",
+    "template_display": "display_resume_5.tpl",
+    "default_color_sid": "21",
+    "default_color": "orange",
+    "order": 5
+  },
+  {
+    "sid": 6,
+    "name": "Model_CV_6",
+    "image": "",
+    "template": "resume_to_pdf_6.tpl",
+    "template_display": "display_resume_6.tpl",
+    "default_color_sid": "27",
+    "default_color": "orange",
+    "order": 6
+  },
+  {
+    "sid": 7,
+    "name": "Model_CV_7",
+    "image": "",
+    "template": "resume_to_pdf_7.tpl",
+    "template_display": "display_resume_7.tpl",
+    "default_color_sid": "33",
+    "default_color": "orange",
+    "order": 7
+  },
+  {
+    "sid": 8,
+    "name": "Model_CV_8",
+    "image": "",
+    "template": "resume_to_pdf_8.tpl",
+    "template_display": "display_resume_8.tpl",
+    "default_color_sid": "39",
+    "default_color": "orange",
+    "order": 8
+  },
+  {
+    "sid": 9,
+    "name": "Model_CV_9",
+    "image": "",
+    "template": "resume_to_pdf_9.tpl",
+    "template_display": "display_resume_9.tpl",
+    "default_color_sid": "45",
+    "default_color": "orange",
+    "order": 9
+  }
+]

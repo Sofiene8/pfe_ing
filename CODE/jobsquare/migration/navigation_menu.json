@@ -1,0 +1,314 @@
+[
+  {
+    "id": 1,
+    "name": "Offres d'emploi",
+    "url": "/jobs/",
+    "parent": 0
+  },
+  {
+    "id": 2,
+    "name": "Formations",
+    "url": "/trainings/",
+    "parent": 0
+  },
+  {
+    "id": 3,
+    "name": "Entreprises ",
+    "url": "/companies/",
+    "parent": 0
+  },
+  {
+    "id": 4,
+    "name": "Emploi par métier",
+    "url": "#",
+    "parent": 0
+  },
+  {
+    "id": 5,
+    "name": "Emploi Informatique",
+    "url": "/categories/705/informatique-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 6,
+    "name": "Emploi Centres d'appels ",
+    "url": "/categories/706/centres-d-appels-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 7,
+    "name": "Emploi Ingénierie ",
+    "url": "/categories/707/ingenierie-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 8,
+    "name": "Emploi Technologie de l'information",
+    "url": "/categories/381/technologie-de-l-information-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 9,
+    "name": "Emploi Industrie",
+    "url": "/categories/378/industrie-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 10,
+    "name": "Emploi Commerce",
+    "url": "/categories/708/commerce-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 11,
+    "name": "Emploi Marketing",
+    "url": "/categories/709/marketing-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 12,
+    "name": "Emploi Télécommunications ",
+    "url": "/categories/710/télécommunications-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 13,
+    "name": "Emploi Vente",
+    "url": "/categories/711/vente-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 14,
+    "name": "Emploi Finance",
+    "url": "/categories/387/finance-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 15,
+    "name": "Emploi Comptabilité",
+    "url": "/categories/759/comptabilité-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 16,
+    "name": "Emploi Design",
+    "url": "/categories/386/design-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 17,
+    "name": "Emploi Gestion",
+    "url": "/categories/718/gestion-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 18,
+    "name": "Emploi Administration",
+    "url": "/categories/727/administration-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 19,
+    "name": "Emploi Hôtellerie et Tourisme",
+    "url": "/categories/918/hôtellerie-et-tourisme-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 20,
+    "name": "Emploi Consulting",
+    "url": "/categories/724/consulting-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 21,
+    "name": "Emploi Ressources humaines",
+    "url": "/categories/391/ressources-humaines-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 22,
+    "name": "Emploi Automobile",
+    "url": "/categories/383/automobile-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 23,
+    "name": "Emploi Sante",
+    "url": "/categories/720/sante-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 24,
+    "name": "Emploi Construction",
+    "url": "/categories/725/construction-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 25,
+    "name": "Emploi Textile",
+    "url": "/categories/975/textile-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 26,
+    "name": "Emploi Electronique",
+    "url": "/categories/969/electronique-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 27,
+    "name": "Emploi Immobilier",
+    "url": "/categories/394/immobilier-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 28,
+    "name": "Emploi Assurances",
+    "url": "/categories/395/assurances-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 29,
+    "name": "Emploi Mécanique",
+    "url": "/categories/968/mécanique-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 30,
+    "name": "Emploi Banque ",
+    "url": "/categories/384/banque-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 31,
+    "name": "Emploi Pharmaceutiques",
+    "url": "/categories/716/pharmaceutiques-jobs/",
+    "parent": 5
+  },
+  {
+    "id": 32,
+    "name": "Emploi par Ville",
+    "url": "#",
+    "parent": 0
+  },
+  {
+    "id": 33,
+    "name": "Emploi à Dakhla",
+    "url": "/regions/emploi-dakhla-oued-ed-dahab/",
+    "parent": 33
+  },
+  {
+    "id": 34,
+    "name": "Emploi à Ouarzazate",
+    "url": "/regions/emploi-draa-tafilalet/",
+    "parent": 33
+  },
+  {
+    "id": 35,
+    "name": "Emploi à Laâyoune",
+    "url": "/regions/emploi-laayoune-sakia/",
+    "parent": 33
+  },
+  {
+    "id": 36,
+    "name": "Emploi à Béni Mellal",
+    "url": "/regions/emploi-beni-mellal-khenifra/",
+    "parent": 33
+  },
+  {
+    "id": 37,
+    "name": "Emploi à Nador",
+    "url": "/regions/emploi-oriental/",
+    "parent": 33
+  },
+  {
+    "id": 38,
+    "name": "Emploi à Mohammedia",
+    "url": "/regions/emploi-casablanca-settat/",
+    "parent": 33
+  },
+  {
+    "id": 39,
+    "name": "Emploi à El Jadida",
+    "url": "/regions/emploi-casablanca-settat/",
+    "parent": 33
+  },
+  {
+    "id": 40,
+    "name": "Emploi à Safi",
+    "url": "/regions/emploi-marrakech-safi/",
+    "parent": 33
+  },
+  {
+    "id": 41,
+    "name": "Emploi à Tétouan",
+    "url": "/regions/emploi-tanger-tetouan/",
+    "parent": 33
+  },
+  {
+    "id": 42,
+    "name": "Emploi à Kénitra",
+    "url": "/regions/emploi-rabat-sale-kenitra/",
+    "parent": 33
+  },
+  {
+    "id": 43,
+    "name": "Emploi à Meknès",
+    "url": "/regions/emploi-fes-meknes/",
+    "parent": 33
+  },
+  {
+    "id": 44,
+    "name": "Emploi à Oujda",
+    "url": "/regions/emploi-oriental/",
+    "parent": 33
+  },
+  {
+    "id": 45,
+    "name": "Emploi à Agadir",
+    "url": "/regions/emploi-souss-massa/",
+    "parent": 33
+  },
+  {
+    "id": 46,
+    "name": "Emploi à Fès",
+    "url": "/regions/emploi-fes-meknes/",
+    "parent": 33
+  },
+  {
+    "id": 47,
+    "name": "Emploi à Marrakech",
+    "url": "/regions/emploi-marrakech-safi/",
+    "parent": 33
+  },
+  {
+    "id": 48,
+    "name": "Emploi à Tanger",
+    "url": "/regions/emploi-tanger-tetouan/",
+    "parent": 33
+  },
+  {
+    "id": 49,
+    "name": "Emploi à Rabat",
+    "url": "/regions/emploi-rabat-sale-kenitra/",
+    "parent": 33
+  },
+  {
+    "id": 50,
+    "name": "Emploi à Casablanca",
+    "url": "/regions/emploi-casablanca-settat/",
+    "parent": 33
+  },
+  {
+    "id": 51,
+    "name": "Blog",
+    "url": "/blog/",
+    "parent": 0
+  },
+  {
+    "id": 52,
+    "name": "Contact",
+    "url": "/contact/",
+    "parent": 0
+  }
+]

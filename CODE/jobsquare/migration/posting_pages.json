@@ -1,0 +1,74 @@
+[
+  {
+    "sid": 11,
+    "page_id": "PostJob",
+    "page_name": "Job",
+    "description": "",
+    "listing_type_sid": 6,
+    "order": 2
+  },
+  {
+    "sid": 19,
+    "page_id": "Interests",
+    "page_name": "Intérêts Professionnel",
+    "description": "",
+    "listing_type_sid": 7,
+    "order": 1
+  },
+  {
+    "sid": 38,
+    "page_id": "PostTraining",
+    "page_name": "Training",
+    "description": null,
+    "listing_type_sid": 26,
+    "order": 3
+  },
+  {
+    "sid": 39,
+    "page_id": "General",
+    "page_name": "Informations Générales",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 2
+  },
+  {
+    "sid": 40,
+    "page_id": "Professional",
+    "page_name": "Informations Professionnel",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 3
+  },
+  {
+    "sid": 41,
+    "page_id": "Experience",
+    "page_name": "Expérience",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 4
+  },
+  {
+    "sid": 42,
+    "page_id": "Education",
+    "page_name": "Education",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 5
+  },
+  {
+    "sid": 44,
+    "page_id": "PresenceOnline",
+    "page_name": "Présence en ligne",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 6
+  },
+  {
+    "sid": 45,
+    "page_id": "Downloads",
+    "page_name": "Documents",
+    "description": null,
+    "listing_type_sid": 7,
+    "order": 7
+  }
+]

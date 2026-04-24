@@ -1,0 +1,46 @@
+[
+  {
+    "sid": 1,
+    "message": "Une annonce reste 30 jours. Merci de ne pas désactiver/ activer chaque jours. Ne plus mettre des liens dans les annonces."
+  },
+  {
+    "sid": 2,
+    "message": "Une annonce reste 30 jours. Merci de ne pas désactiver/ activer chaque jours."
+  },
+  {
+    "sid": 3,
+    "message": "La candidature par URL c'est un service payant. contactez 29 344 320 pour plus d'informations"
+  },
+  {
+    "sid": 4,
+    "message": "Une annonce reste 30 jours. Merci de ne pas désactiver/ activer chaque jours. Merci de ne  plus mettre le numéro de téléphone dans dans la description des annonces .\\r\\n"
+  },
+  {
+    "sid": 5,
+    "message": "Merci d'ajouter une description à votre offre d'emploi"
+  },
+  {
+    "sid": 6,
+    "message": "Merci de ne  plus mettre votre email dans la description des annonces."
+  },
+  {
+    "sid": 7,
+    "message": "Merci de ne plus mettre des liens dans dans la description des annonces."
+  },
+  {
+    "sid": 8,
+    "message": "Merci de ne  plus mettre votre email et des liens dans la description des annonces."
+  },
+  {
+    "sid": 9,
+    "message": "Merci de ne plus mettre des liens dans dans la description des annonces. La candidature par URL c'est un service payant. contactez 29 344 320 pour plus d'informations\\r\\n"
+  },
+  {
+    "sid": 10,
+    "message": "Merci de ne  plus mettre votre email et le numéro de téléphone dans la description des annonces.\\r\\n"
+  },
+  {
+    "sid": 11,
+    "message": "Merci de ne  plus mettre le numéro de téléphone dans la description des annonces."
+  }
+]

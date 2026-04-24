@@ -1,0 +1,290 @@
+[
+  {
+    "sid": 1,
+    "object_sid": 5002,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 2,
+    "object_sid": 5001,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 3,
+    "object_sid": 5003,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 4,
+    "object_sid": 5004,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 5,
+    "object_sid": 5006,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 6,
+    "object_sid": 5005,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 7,
+    "object_sid": 5007,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 8,
+    "object_sid": 5008,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 9,
+    "object_sid": 5009,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 10,
+    "object_sid": 5011,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 11,
+    "object_sid": 5012,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 12,
+    "object_sid": 5013,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 13,
+    "object_sid": 5014,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 14,
+    "object_sid": 5015,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 15,
+    "object_sid": 5016,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 16,
+    "object_sid": 5017,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 17,
+    "object_sid": 5018,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 18,
+    "object_sid": 5019,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 19,
+    "object_sid": 5020,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 20,
+    "object_sid": 5010,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 21,
+    "object_sid": 5021,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 22,
+    "object_sid": 5022,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 23,
+    "object_sid": 5023,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 24,
+    "object_sid": 5024,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 25,
+    "object_sid": 5025,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 26,
+    "object_sid": 5028,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 27,
+    "object_sid": 5027,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 28,
+    "object_sid": 5026,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 29,
+    "object_sid": 5030,
+    "id": "ApplicationSettings",
+    "value": "recrutement.tanger@dama.ma",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 30,
+    "object_sid": 5031,
+    "id": "ApplicationSettings",
+    "value": "marka.direction@gmail.com",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 31,
+    "object_sid": 5032,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 32,
+    "object_sid": 5033,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 33,
+    "object_sid": 5034,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 34,
+    "object_sid": 5035,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 35,
+    "object_sid": 5036,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  },
+  {
+    "sid": 36,
+    "object_sid": 5037,
+    "id": "ApplicationSettings",
+    "value": "",
+    "add_parameter": "1",
+    "complex_enum": null
+  }
+]

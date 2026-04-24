@@ -1,0 +1,66 @@
+[
+  {
+    "sid": 1,
+    "id": "2checkout",
+    "name": "2Checkout",
+    "caption": "2Checkout",
+    "active": 0,
+    "position": 5
+  },
+  {
+    "sid": 2,
+    "id": "authnet_sim",
+    "name": "Authorize.Net",
+    "caption": "Credit Card",
+    "active": 0,
+    "position": 4
+  },
+  {
+    "sid": 4,
+    "id": "paypal_standard",
+    "name": "PayPal Standard",
+    "caption": "PayPal",
+    "active": 0,
+    "position": 2
+  },
+  {
+    "sid": 7,
+    "id": "paypal_pro",
+    "name": "PayPal Pro",
+    "caption": "Credit Card",
+    "active": 0,
+    "position": 3
+  },
+  {
+    "sid": 8,
+    "id": "stripe",
+    "name": "Stripe",
+    "caption": "Credit Card",
+    "active": 0,
+    "position": 0
+  },
+  {
+    "sid": 9,
+    "id": "invoice",
+    "name": "Invoice",
+    "caption": "Par Virement / Chèque / Espèce",
+    "active": 1,
+    "position": 6
+  },
+  {
+    "sid": 10,
+    "id": "paypal_express",
+    "name": "PayPal Express",
+    "caption": "PayPal",
+    "active": 0,
+    "position": 1
+  },
+  {
+    "sid": 11,
+    "id": "smt",
+    "name": "smt",
+    "caption": "Par carte bancaire",
+    "active": 1,
+    "position": 6
+  }
+]

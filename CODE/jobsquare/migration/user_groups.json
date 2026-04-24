@@ -1,0 +1,14 @@
+[
+  {
+    "sid": 36,
+    "id": "JobSeeker",
+    "default_product": 8,
+    "name": "Job Seeker"
+  },
+  {
+    "sid": 41,
+    "id": "Employer",
+    "default_product": 13,
+    "name": "Employer"
+  }
+]

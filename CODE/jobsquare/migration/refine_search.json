@@ -1,0 +1,135 @@
+[
+  {
+    "id": 6,
+    "field_id": 216,
+    "listing_type_sid": 6,
+    "order": 2,
+    "user_field": 0
+  },
+  {
+    "id": 52,
+    "field_id": 198,
+    "listing_type_sid": 7,
+    "order": 8,
+    "user_field": 0
+  },
+  {
+    "id": 10,
+    "field_id": 216,
+    "listing_type_sid": 7,
+    "order": 3,
+    "user_field": 0
+  },
+  {
+    "id": 11,
+    "field_id": 213,
+    "listing_type_sid": 7,
+    "order": 7,
+    "user_field": 0
+  },
+  {
+    "id": 14,
+    "field_id": 199,
+    "listing_type_sid": 6,
+    "order": 5,
+    "user_field": 0
+  },
+  {
+    "id": 66,
+    "field_id": 198,
+    "listing_type_sid": 6,
+    "order": 1,
+    "user_field": 0
+  },
+  {
+    "id": 53,
+    "field_id": 382,
+    "listing_type_sid": 7,
+    "order": 9,
+    "user_field": 0
+  },
+  {
+    "id": 54,
+    "field_id": 361,
+    "listing_type_sid": 7,
+    "order": 10,
+    "user_field": 0
+  },
+  {
+    "id": 61,
+    "field_id": 344,
+    "listing_type_sid": 6,
+    "order": 2,
+    "user_field": 0
+  },
+  {
+    "id": 44,
+    "field_id": 198,
+    "listing_type_sid": 26,
+    "order": 1,
+    "user_field": 0
+  },
+  {
+    "id": 60,
+    "field_id": 344,
+    "listing_type_sid": 26,
+    "order": 2,
+    "user_field": 0
+  },
+  {
+    "id": 62,
+    "field_id": 344,
+    "listing_type_sid": 7,
+    "order": 11,
+    "user_field": 0
+  },
+  {
+    "id": 64,
+    "field_id": 199,
+    "listing_type_sid": 7,
+    "order": 12,
+    "user_field": 0
+  },
+  {
+    "id": 71,
+    "field_id": 14,
+    "listing_type_sid": 7,
+    "order": 13,
+    "user_field": 1
+  },
+  {
+    "id": 72,
+    "field_id": 406,
+    "listing_type_sid": 7,
+    "order": 14,
+    "user_field": 0
+  },
+  {
+    "id": 73,
+    "field_id": 417,
+    "listing_type_sid": 7,
+    "order": 15,
+    "user_field": 0
+  },
+  {
+    "id": 75,
+    "field_id": 419,
+    "listing_type_sid": 7,
+    "order": 17,
+    "user_field": 0
+  },
+  {
+    "id": 76,
+    "field_id": 403,
+    "listing_type_sid": 6,
+    "order": 3,
+    "user_field": 0
+  },
+  {
+    "id": 78,
+    "field_id": 404,
+    "listing_type_sid": 6,
+    "order": 4,
+    "user_field": 0
+  }
+]

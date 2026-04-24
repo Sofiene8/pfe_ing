@@ -1,0 +1,24 @@
+[
+  {
+    "sid": 1,
+    "name": "admin",
+    "email": "admin",
+    "password": "$2y$10$A8TU2FiX6l03kGbjFBsiK.j1ibrSL20KtO0uoFU5bwbqKAV4hIIPi",
+    "owner": 1,
+    "permissions_type": null,
+    "permissions": null,
+    "status": "Active",
+    "recover_key": null
+  },
+  {
+    "sid": 17,
+    "name": "SAbrine mohamed",
+    "email": "sabrine@tanitoss.com",
+    "password": "$2y$10$WRbqKDguEdzuvJGqTRkaKeWl0kGRJsChGcfOlNFf1ExXqKVZtMNlG",
+    "owner": 0,
+    "permissions_type": "Limited Access",
+    "permissions": "Appearance,Content",
+    "status": "Active",
+    "recover_key": null
+  }
+]

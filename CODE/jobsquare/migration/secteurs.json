@@ -1,0 +1,38 @@
+[
+  {
+    "sid": 1,
+    "name": "Emploi Informatique",
+    "keywords": "",
+    "description": "     ",
+    "url": "categories/705/informatique-jobs/",
+    "picture": "Informatique.webp",
+    "display": 1
+  },
+  {
+    "sid": 2,
+    "name": "Emploi Centres d'appels",
+    "keywords": "",
+    "description": "      ",
+    "url": "categories/706/centres-d-appels-jobs/",
+    "picture": "CentreAppels.webp",
+    "display": 1
+  },
+  {
+    "sid": 3,
+    "name": "Emploi Ingenierie",
+    "keywords": "",
+    "description": "  ",
+    "url": "categories/707/ingenierie-jobs/",
+    "picture": "Ingénierie.webp",
+    "display": 1
+  },
+  {
+    "sid": 4,
+    "name": "Industrie",
+    "keywords": "",
+    "description": "  ",
+    "url": "categories/378/industrie-jobs/",
+    "picture": "Industrie.webp",
+    "display": 1
+  }
+]

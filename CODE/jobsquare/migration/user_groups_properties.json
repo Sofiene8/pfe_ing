@@ -1,0 +1,72 @@
+[
+  {
+    "sid": 103,
+    "object_sid": 36,
+    "id": "notify_on_contract_expiration",
+    "value": "22",
+    "add_parameter": ""
+  },
+  {
+    "sid": 104,
+    "object_sid": 36,
+    "id": "notify_on_listing_activation",
+    "value": "13",
+    "add_parameter": ""
+  },
+  {
+    "sid": 105,
+    "object_sid": 36,
+    "id": "notify_on_listing_expiration",
+    "value": "18",
+    "add_parameter": ""
+  },
+  {
+    "sid": 107,
+    "object_sid": 36,
+    "id": "notify_subscription_activation",
+    "value": "24",
+    "add_parameter": ""
+  },
+  {
+    "sid": 118,
+    "object_sid": 36,
+    "id": "welcome_email",
+    "value": "49",
+    "add_parameter": ""
+  },
+  {
+    "sid": 124,
+    "object_sid": 41,
+    "id": "notify_on_contract_expiration",
+    "value": "22",
+    "add_parameter": ""
+  },
+  {
+    "sid": 125,
+    "object_sid": 41,
+    "id": "notify_on_listing_activation",
+    "value": "14",
+    "add_parameter": ""
+  },
+  {
+    "sid": 126,
+    "object_sid": 41,
+    "id": "notify_on_listing_expiration",
+    "value": "17",
+    "add_parameter": ""
+  },
+  {
+    "sid": 128,
+    "object_sid": 41,
+    "id": "notify_subscription_activation",
+    "value": "24",
+    "add_parameter": ""
+  },
+  {
+    "sid": 139,
+    "object_sid": 41,
+    "id": "welcome_email",
+    "value": "48",
+    "add_parameter": ""
+  }
+]

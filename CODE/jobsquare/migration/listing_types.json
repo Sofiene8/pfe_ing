@@ -1,0 +1,29 @@
+[
+  {
+    "sid": 6,
+    "id": "Job",
+    "name": "Job",
+    "show_brief_or_detailed": 1,
+    "waitApprove": 0,
+    "email_alert": 28,
+    "guest_alert_email": 203
+  },
+  {
+    "sid": 7,
+    "id": "Resume",
+    "name": "Resume",
+    "show_brief_or_detailed": 1,
+    "waitApprove": 0,
+    "email_alert": 29,
+    "guest_alert_email": 202
+  },
+  {
+    "sid": 26,
+    "id": "Training",
+    "name": "Training",
+    "show_brief_or_detailed": 1,
+    "waitApprove": 0,
+    "email_alert": 28,
+    "guest_alert_email": 203
+  }
+]

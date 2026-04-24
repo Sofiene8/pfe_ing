@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "parent_id": 0,
+    "name": "Emploi Maroc",
+    "uri": "/jobs/"
+  },
+  {
+    "id": 2,
+    "parent_id": 0,
+    "name": "Formation Maroc",
+    "uri": "/trainings/"
+  },
+  {
+    "id": 3,
+    "parent_id": 0,
+    "name": "Entreprises Maroc",
+    "uri": "/companies/"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "sid": 7,
+    "object_sid": 1,
+    "id": "2co_account_id",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 8,
+    "object_sid": 1,
+    "id": "secret_word",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 9,
+    "object_sid": 1,
+    "id": "demo",
+    "value": "1",
+    "add_parameter": ""
+  },
+  {
+    "sid": 10,
+    "object_sid": 4,
+    "id": "paypal_account_email",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 11,
+    "object_sid": 4,
+    "id": "currency_code",
+    "value": "USD",
+    "add_parameter": ""
+  },
+  {
+    "sid": 12,
+    "object_sid": 4,
+    "id": "use_sandbox",
+    "value": "1",
+    "add_parameter": ""
+  },
+  {
+    "sid": 13,
+    "object_sid": 2,
+    "id": "authnet_api_login_id",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 14,
+    "object_sid": 2,
+    "id": "authnet_api_transaction_key",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 15,
+    "object_sid": 2,
+    "id": "authnet_api_md5_hash_value",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 16,
+    "object_sid": 2,
+    "id": "currency_code",
+    "value": "USD",
+    "add_parameter": ""
+  },
+  {
+    "sid": 17,
+    "object_sid": 2,
+    "id": "authnet_use_test_account",
+    "value": "1",
+    "add_parameter": ""
+  },
+  {
+    "sid": 27,
+    "object_sid": 1,
+    "id": "2co_api_user_login",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 28,
+    "object_sid": 1,
+    "id": "2co_api_user_password",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 48,
+    "object_sid": 7,
+    "id": "country",
+    "value": "US",
+    "add_parameter": ""
+  },
+  {
+    "sid": 49,
+    "object_sid": 1,
+    "id": "sandbox",
+    "value": "0",
+    "add_parameter": ""
+  },
+  {
+    "sid": 50,
+    "object_sid": 7,
+    "id": "user_name",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 51,
+    "object_sid": 7,
+    "id": "user_password",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 52,
+    "object_sid": 7,
+    "id": "user_signature",
+    "value": "",
+    "add_parameter": ""
+  },
+  {
+    "sid": 53,
+    "object_sid": 7,
+    "id": "use_sandbox",
+    "value": "1",
+    "add_parameter": ""
+  },
+  {
+    "sid": 55,
+    "object_sid": 9,
+    "id": "mark_as_paid",
+    "value": "0",
+    "add_parameter": ""
+  }
+]

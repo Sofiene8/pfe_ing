@@ -1,0 +1,37 @@
+[
+  {
+    "sid": 34,
+    "id": "Top_Site",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 35,
+    "id": "Type1",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 36,
+    "id": "home_right_1",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 37,
+    "id": "home_right_2",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 38,
+    "id": "search_jobs_left",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 39,
+    "id": "search_training_left",
+    "number_banners_display_at_once": 1
+  },
+  {
+    "sid": 42,
+    "id": "Dispaly_right",
+    "number_banners_display_at_once": 1
+  }
+]

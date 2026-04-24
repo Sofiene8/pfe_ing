@@ -1,0 +1,122 @@
+[
+  {
+    "sid": 1,
+    "name": "Casablanca-Settat",
+    "country_sid": 1,
+    "keywords": "casablanca settat mohammedia el jadida berrechid",
+    "description": "Région de Casablanca-Settat",
+    "url": "regions/emploi-casablanca-settat/",
+    "picture": "emploi-casablanca-settat-finance-it.webp",
+    "display": 1
+  },
+  {
+    "sid": 2,
+    "name": "Rabat-Salé-Kénitra",
+    "country_sid": 1,
+    "keywords": "rabat salé kénitra skhirat témara",
+    "description": "Région de Rabat-Salé-Kénitra",
+    "url": "regions/emploi-rabat-sale-kenitra/",
+    "picture": "emploi-rabat-sale-kenitra-administration.webp",
+    "display": 1
+  },
+  {
+    "sid": 3,
+    "name": "Tanger-Tétouan-Al Hoceïma",
+    "country_sid": 1,
+    "keywords": "tanger tétouan al hoceima larache chefchaouen",
+    "description": "Région de Tanger-Tétouan-Al Hoceïma",
+    "url": "regions/emploi-tanger-tetouan/",
+    "picture": "emploi-tanger-tetouan-automobile-industrie.webp",
+    "display": 1
+  },
+  {
+    "sid": 4,
+    "name": "Marrakech-Safi",
+    "country_sid": 1,
+    "keywords": "marrakech safi essaouira el kelaa",
+    "description": "Région de Marrakech-Safi",
+    "url": "regions/emploi-marrakech-safi/",
+    "picture": "emploi-marrakech-safi-tourisme-hotellerie.webp",
+    "display": 1
+  },
+  {
+    "sid": 5,
+    "name": "Fès-Meknès",
+    "country_sid": 1,
+    "keywords": "fès meknès ifrane sefrou taza",
+    "description": "Région de Fès-Meknès",
+    "url": "regions/emploi-fes-meknes/",
+    "picture": "emploi-fes-meknes-artisanat-agroalimentaire.webp",
+    "display": 1
+  },
+  {
+    "sid": 6,
+    "name": "Souss-Massa",
+    "country_sid": 1,
+    "keywords": "agadir tiznit taroudant inezgane",
+    "description": "Région de Souss-Massa",
+    "url": "regions/emploi-souss-massa/",
+    "picture": "emploi-souss-massa-agadir-peche-tourisme.webp",
+    "display": 1
+  },
+  {
+    "sid": 7,
+    "name": "Oriental",
+    "country_sid": 1,
+    "keywords": "oujda nador berkane driouch",
+    "description": "Région de l'Oriental",
+    "url": "regions/emploi-oriental/",
+    "picture": "emploi-oriental-oujda-nador-commerce.webp",
+    "display": 1
+  },
+  {
+    "sid": 8,
+    "name": "Béni Mellal-Khénifra",
+    "country_sid": 1,
+    "keywords": "béni mellal khénifra fquih ben salah",
+    "description": "Région de Béni Mellal-Khénifra",
+    "url": "regions/emploi-beni-mellal-khenifra/",
+    "picture": "emploi-beni-mellal-khenifra-agriculture-btp.webp",
+    "display": 1
+  },
+  {
+    "sid": 9,
+    "name": "Drâa-Tafilalet",
+    "country_sid": 1,
+    "keywords": "errachidia ouarzazate zagora tinghir",
+    "description": "Région de Drâa-Tafilalet",
+    "url": "regions/emploi-draa-tafilalet/",
+    "picture": "emploi-draa-tafilalet-ouarzazate-tourisme.webp",
+    "display": 1
+  },
+  {
+    "sid": 10,
+    "name": "Laâyoune-Sakia El Hamra",
+    "country_sid": 1,
+    "keywords": "laâyoune boujdour tarfaya",
+    "description": "Région de Laâyoune-Sakia El Hamra",
+    "url": "regions/emploi-laayoune-sakia/",
+    "picture": "emploi-laayoune-sakia-el-hamra-phosphates.webp",
+    "display": 1
+  },
+  {
+    "sid": 11,
+    "name": "Guelmim-Oued Noun",
+    "country_sid": 1,
+    "keywords": "guelmim tan-tan sidi ifni",
+    "description": "Région de Guelmim-Oued Noun",
+    "url": "regions/emploi-guelmim-oued-noun/",
+    "picture": "emploi-guelmim-oued-noun-commerce-elevage.webp",
+    "display": 1
+  },
+  {
+    "sid": 12,
+    "name": "Dakhla-Oued Ed-Dahab",
+    "country_sid": 1,
+    "keywords": "dakhla oued ed-dahab",
+    "description": "Région de Dakhla-Oued Ed-Dahab",
+    "url": "regions/emploi-dakhla-oued-ed-dahab/",
+    "picture": "emploi-dakhla-oued-ed-dahab-peche.webp",
+    "display": 1
+  }
+]

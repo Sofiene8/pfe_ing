@@ -1,0 +1,72 @@
+[
+  {
+    "sid": 13,
+    "name": "system_email",
+    "value": "contact@jobsquare.ma"
+  },
+  {
+    "sid": 15,
+    "name": "i18n_default_language",
+    "value": "fr"
+  },
+  {
+    "sid": 16,
+    "name": "i18n_default_domain",
+    "value": "Frontend"
+  },
+  {
+    "sid": 18,
+    "name": "escape_html_tags",
+    "value": "htmlpurifier"
+  },
+  {
+    "sid": 19,
+    "name": "radius_search_unit",
+    "value": "kilometers"
+  },
+  {
+    "sid": 20,
+    "name": "file_valid_types",
+    "value": "doc,docx,png,jpg,gif,xls,xlsx,pdf,avi,wmv,mpg,3gp,flv"
+  },
+  {
+    "sid": 35,
+    "name": "transaction_currency",
+    "value": "MAD"
+  },
+  {
+    "sid": 37,
+    "name": "TEMPLATE_USER_THEME",
+    "value": "Jobsquare"
+  },
+  {
+    "sid": 38,
+    "name": "TEMPLATE_ADMIN_THEME",
+    "value": "default"
+  },
+  {
+    "sid": 40,
+    "name": "DEFAULT_PAGE_TEMPLATE",
+    "value": "index.tpl"
+  },
+  {
+    "sid": 1238,
+    "name": "theme_custom_css_Jobsquare",
+    "value": "'@media (min-width:1024px"
+  },
+  {
+    "sid": 1265,
+    "name": "turn_on_refine_search_Training",
+    "value": "1"
+  },
+  {
+    "sid": 1266,
+    "name": "soc_network",
+    "value": "linkedin"
+  },
+  {
+    "sid": 1239,
+    "name": "theme_custom_js_Jobsquare",
+    "value": "'<script>\\r\\n \\r\\nwindow.onscroll = function("
+  }
+]
