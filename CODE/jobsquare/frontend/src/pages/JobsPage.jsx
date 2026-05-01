@@ -8,10 +8,20 @@ import JobCard from '../components/jobs/JobCard';
 const EMPLOYMENT_TYPES = ['CDI', 'CDD', 'Stage', 'Freelance', 'Temps partiel'];
 const EXPERIENCES = ['Débutant', '1-2 ans', '2-5 ans', '5-10 ans', '+10 ans'];
 const STUDY_LEVELS = ['Bac', 'Bac+2', 'Bac+3', 'Bac+5', 'Doctorat', 'Formation professionnelle'];
-const GOUVERNORATS = ['Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte',
-  'Béja', 'Jendouba', 'Kef', 'Siliana', 'Sousse', 'Monastir', 'Mahdia',
-  'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Medenine',
-  'Tataouine', 'Gafsa', 'Tozeur', 'Kébili'];
+const GOUVERNORATS = [
+  'Casablanca-Settat',
+  'Rabat-Salé-Kénitra',
+  'Marrakech-Safi',
+  'Fès-Meknès',
+  'Tanger-Tétouan-Al Hoceïma',
+  'Souss-Massa',
+  'Oriental',
+  'Béni Mellal-Khénifra',
+  'Drâa-Tafilalet',
+  'Laâyoune-Sakia El Hamra',
+  'Dakhla-Oued Ed-Dahab',
+  'Guelmim-Oued Noun'
+];
 
 export default function JobsPage() {
   const [searchParams, setSearchParams] = useSearchParams();

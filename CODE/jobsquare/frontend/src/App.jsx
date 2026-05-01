@@ -15,6 +15,7 @@ import PostJobPage        from './pages/PostJobPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import NotFoundPage       from './pages/NotFoundPage';
 import useAuthStore       from './store/authStore';
+import CVRecommendPage from "./pages/CVRecommendPage";
 
 function ProtectedRoute({ children, roles }) {
   const { isAuthenticated, user } = useAuthStore();
@@ -50,11 +51,13 @@ export default function App() {
           <Route path="register"   element={<GuestRoute><RegisterPage /></GuestRoute>} />
           <Route path="cv"         element={<ProtectedRoute roles={['jobseeker']}><CVDepotPage /></ProtectedRoute>} />
           <Route path="post-job"   element={<ProtectedRoute roles={['employer']}><PostJobPage /></ProtectedRoute>} />
+          <Route path="post-job/edit/:id" element={<ProtectedRoute roles={['employer']}><PostJobPage /></ProtectedRoute>} />
           <Route path="profile"    element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           <Route path="profile/edit" element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
           <Route path="applications" element={<ProtectedRoute><ApplicationsPage /></ProtectedRoute>} />
           <Route path="admin"      element={<ProtectedRoute roles={['admin']}><AdminDashboardPage /></ProtectedRoute>} />
           <Route path="*"          element={<NotFoundPage />} />
+          <Route path="/recommend" element={<CVRecommendPage />} /> 
         </Route>
       </Routes>
     </BrowserRouter>

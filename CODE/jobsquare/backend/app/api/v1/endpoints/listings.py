@@ -10,7 +10,9 @@ from app.core.security import get_current_user, require_employer
 router = APIRouter()
 listing_service = ListingService()
 
-
+@router.get("/categories")
+async def get_categories():
+    return await listing_service.listing_repo.get_all_categories()
 class JobDetailsIn(BaseModel):
     category: Optional[str] = None
     employment_type: Optional[str] = None

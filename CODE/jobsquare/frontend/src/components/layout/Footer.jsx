@@ -42,7 +42,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-3 text-sm">Contact</h4>
             <ul className="space-y-2 text-sm">
               <li className="flex items-center gap-2"><MapPin size={14} className="shrink-0" /> Tunis, Tunisie</li>
-              <li className="flex items-center gap-2"><Phone size={14} className="shrink-0" /> +216 XX XXX XXX</li>
+              <li className="flex items-center gap-2"><Phone size={14} className="shrink-0" /> +216 23 846 101</li>
               <li className="flex items-center gap-2"><Mail size={14} className="shrink-0" /> contact@jobsquare.tn</li>
             </ul>
           </div>

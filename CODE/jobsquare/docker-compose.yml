@@ -25,10 +25,12 @@ services:
       MONGODB_DB: jobsquare
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      HF_HOME: /cache/huggingface 
     depends_on:
       - mongo
     volumes:
       - ./backend/uploads:/app/uploads
+      - hf_model_cache:/cache/huggingface 
 
   frontend:
     build:
@@ -43,3 +45,4 @@ services:
 
 volumes:
   mongo_data:
+  hf_model_cache:

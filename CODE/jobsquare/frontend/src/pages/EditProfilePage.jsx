@@ -7,10 +7,20 @@ import { Plus, Trash2, Save, ArrowLeft, Upload } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import { usersAPI } from '../services/api';
 
-const GOUVERNORATS = ['Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte',
-  'Béja', 'Jendouba', 'Kef', 'Siliana', 'Sousse', 'Monastir', 'Mahdia',
-  'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Medenine',
-  'Tataouine', 'Gafsa', 'Tozeur', 'Kébili'];
+const GOUVERNORATS = [
+  'Casablanca-Settat',
+  'Rabat-Salé-Kénitra',
+  'Marrakech-Safi',
+  'Fès-Meknès',
+  'Tanger-Tétouan-Al Hoceïma',
+  'Souss-Massa',
+  'Oriental',
+  'Béni Mellal-Khénifra',
+  'Drâa-Tafilalet',
+  'Laâyoune-Sakia El Hamra',
+  'Dakhla-Oued Ed-Dahab',
+  'Guelmim-Oued Noun'
+];
 
 const SKILL_SUGGESTIONS = ['JavaScript', 'Python', 'React', 'Node.js', 'Java', 'PHP', 'SQL', 'MongoDB',
   'Git', 'Docker', 'AWS', 'Comptabilité', 'Marketing Digital', 'Vente', 'Management', 'Anglais'];

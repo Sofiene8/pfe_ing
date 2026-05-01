@@ -192,7 +192,7 @@ export default function ProfilePage() {
             <div className="bg-white rounded-xl border border-slate-200 p-5">
               <h3 className="font-semibold text-slate-800 mb-4 text-sm uppercase tracking-wide">Actions rapides</h3>
               <div className="grid grid-cols-2 gap-3">
-                <Link to="/jobs" className="flex items-center gap-2 p-3 bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition text-sm font-medium">
+                <Link to="/applications" className="flex items-center gap-2 p-3 bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition text-sm font-medium">
                   <Briefcase size={15} /> Mes offres
                 </Link>
                 <Link to="/applications" className="flex items-center gap-2 p-3 bg-indigo-50 text-indigo-700 rounded-xl hover:bg-indigo-100 transition text-sm font-medium">

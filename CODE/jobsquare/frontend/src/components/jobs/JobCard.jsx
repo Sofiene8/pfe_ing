@@ -36,10 +36,15 @@ const EXPERIENCE_MAP = {
   '1000': '5 ans+', '1001': '1-2 ans', '1002': '2-5 ans', '1003': '2-5 ans',
 };
 
+// Helper : normalise keywords en string peu importe le type
+function kwString(j) {
+  if (Array.isArray(j.keywords)) return j.keywords.join(' ');
+  return String(j.keywords || '');
+}
+
 export function getTitle(j) {
   if (j.job?.title) return j.job.title;
   const t = j.Title || j.title || '';
-  // Title est un vrai titre si ce n'est pas un code 4 chiffres
   if (t && !/^\d{3,4}$/.test(t.trim())) return t;
   return j.external_id || '';
 }
@@ -53,11 +58,11 @@ export function getCategory(j) {
 
 export function getContractType(j) {
   if (j.job?.employment_type) return j.job.employment_type;
-  // EmploymentType="76" = code, pas texte → cherche dans keywords
   const et = String(j.EmploymentType || '');
   if (TYPE_LABELS[et]) return et;
+  const kw = kwString(j);
   for (const type of ['CDI', 'CDD', 'Stage', 'Freelance']) {
-    if ((j.keywords || '').includes(type)) return type;
+    if (kw.includes(type)) return type;
   }
   return '';
 }

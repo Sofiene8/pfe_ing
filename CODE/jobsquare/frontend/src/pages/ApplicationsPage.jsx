@@ -102,6 +102,22 @@ function EmployerApplications() {
     finally { setUpdatingId(null); }
   };
 
+  const deleteListing = async (e, listingId) => {
+    e.stopPropagation();
+    if (!confirm('Supprimer cette offre ?')) return;
+    try {
+      await listingsAPI.delete(listingId);
+      setMyListings(prev => prev.filter(l => l._id !== listingId));
+      if (selectedListing === listingId) {
+        setSelectedListing(null);
+        setApplications([]);
+      }
+      toast.success('Offre supprimée');
+    } catch {
+      toast.error('Erreur lors de la suppression');
+    }
+  };
+
   if (loadingListings) return <div className="h-40 bg-slate-100 rounded-xl animate-pulse" />;
 
   return (
@@ -122,7 +138,22 @@ function EmployerApplications() {
             >
               <div className="font-medium truncate">{listing.title}</div>
               <div className="text-xs text-slate-500 mt-0.5">
-                {listing.active ? '🟢 Active' : '🔴 Inactive'}
+                
+              </div>
+              {/* Actions modifier / supprimer */}
+              <div className="flex gap-2 mt-2" onClick={e => e.stopPropagation()}>
+                <Link
+                  to={`/post-job/edit/${listing._id}`}
+                  className="text-xs text-blue-600 hover:underline"
+                >
+                  ✏️ Modifier
+                </Link>
+                <button
+                  onClick={(e) => deleteListing(e, listing._id)}
+                  className="text-xs text-red-500 hover:underline"
+                >
+                  🗑️ Supprimer
+                </button>
               </div>
             </button>
           ))}

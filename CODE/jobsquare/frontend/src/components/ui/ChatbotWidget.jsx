@@ -153,7 +153,7 @@ export default function ChatbotWidget() {
                 <Send size={13} className="text-white" />
               </button>
             </div>
-            <p className="text-center text-xs text-slate-400 mt-1.5">Propulsé par Claude AI</p>
+            
           </div>
         </div>
       )}
