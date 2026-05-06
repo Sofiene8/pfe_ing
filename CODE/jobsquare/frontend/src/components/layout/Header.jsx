@@ -1,7 +1,7 @@
-// src/components/layout/Header.jsx — Version finale
+// src/components/layout/Header.jsx — Version finale (avec Dashboard admin)
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Search, Menu, X, Briefcase, LogOut, ShieldCheck, PlusCircle } from 'lucide-react';
+import { Search, Menu, X, Briefcase, LogOut, ShieldCheck, PlusCircle, LayoutDashboard } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 
 export default function Header() {
@@ -57,6 +57,7 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-2 shrink-0">
             {isAuthenticated ? (
               <>
+
                 {user?.role === 'employer' && (
                   <Link to="/post-job" className="flex items-center gap-1.5 px-3 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition">
                     <PlusCircle size={14} /> Publier
@@ -96,6 +97,16 @@ export default function Header() {
           ))}
           {isAuthenticated ? (
             <>
+              {/* Dashboard link (mobile, admin only) */}
+              {user?.role === 'admin' && (
+                <Link
+                  to="/admin/dashboard"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-50 rounded-lg"
+                >
+                  <LayoutDashboard size={14} /> Dashboard Admin
+                </Link>
+              )}
               {user?.role === 'employer' && <Link to="/post-job" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-blue-50 rounded-lg">+ Publier une offre</Link>}
               <Link to="/profile" onClick={() => setMenuOpen(false)} className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg">Mon profil</Link>
               <button onClick={() => { logout(); navigate('/'); setMenuOpen(false); }} className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">Déconnexion</button>

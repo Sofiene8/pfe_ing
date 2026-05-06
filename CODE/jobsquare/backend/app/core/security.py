@@ -10,6 +10,7 @@ from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer()
+bearer_scheme_optional = HTTPBearer(auto_error=False)  # ✅ Ne lève pas d'erreur si pas de token
 
 
 def hash_password(password: str) -> str:
@@ -49,6 +50,21 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(b
     if payload.get("type") != "access":
         raise HTTPException(status_code=401, detail="Token type invalide")
     return payload
+
+
+async def get_current_user_optional(
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme_optional),
+) -> Optional[dict]:
+    """Retourne le user connecté ou None si pas de token — ne bloque pas la requête."""
+    if not credentials:
+        return None
+    try:
+        payload = decode_token(credentials.credentials)
+        if payload.get("type") != "access":
+            return None
+        return payload
+    except HTTPException:
+        return None
 
 
 async def require_employer(current_user: dict = Depends(get_current_user)):

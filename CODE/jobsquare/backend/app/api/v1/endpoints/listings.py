@@ -5,14 +5,19 @@ from typing import Optional, List
 from datetime import datetime
 
 from app.services.listing_service import ListingService
-from app.core.security import get_current_user, require_employer
+from app.core.security import get_current_user, require_employer, get_current_user_optional
+from app.services.search_service import SearchService
+from app.core.database import get_search_repository
 
 router = APIRouter()
 listing_service = ListingService()
 
+
 @router.get("/categories")
 async def get_categories():
     return await listing_service.listing_repo.get_all_categories()
+
+
 class JobDetailsIn(BaseModel):
     category: Optional[str] = None
     employment_type: Optional[str] = None
@@ -60,8 +65,9 @@ async def search_listings(
     limit: int = Query(20, ge=1, le=100),
     sort_by: str = Query("created_at"),
     sort_order: int = Query(-1),
+    current_user: Optional[dict] = Depends(get_current_user_optional), # optionnel
 ):
-    return await listing_service.search_listings(
+    results = await listing_service.search_listings(
         listing_type=listing_type,
         query=q,
         category=category,
@@ -74,6 +80,32 @@ async def search_listings(
         sort_by=sort_by,
         sort_order=sort_order,
     )
+
+    # ✅ Sauvegarder la recherche si l'utilisateur est connecté# Dans search_listings, remplace le bloc try/except par :
+    if current_user:
+        import traceback
+    try:
+        search_repo = get_search_repository()
+        search_service = SearchService(search_repo)
+        await search_service.record_search(
+            user_id=str(current_user["sub"]),
+            query=q,
+            filters={
+                "listing_type": listing_type,
+                "category": category,
+                "state": state,
+                "employment_type": employment_type,
+                "experience": experience,
+                "study_level": study_level,
+            },
+            results_count=len(results) if isinstance(results, list) else results.get("total", 0),
+        )
+        print(f" Search saved: user={current_user['sub']}, query={q}")
+    except Exception as e:
+        print(f" ERREUR search_users: {e}")
+        traceback.print_exc()
+
+    return results
 
 
 @router.get("/my")
@@ -108,10 +140,18 @@ async def create_listing(body: ListingCreate, current_user=Depends(require_emplo
 
 
 @router.put("/{listing_id}")
-async def update_listing(listing_id: str, body: ListingUpdate, current_user=Depends(get_current_user)):
-    return await listing_service.update_listing(listing_id, current_user["sub"], body.model_dump(exclude_none=True))
+async def update_listing(
+    listing_id: str,
+    body: ListingUpdate,
+    current_user=Depends(get_current_user),
+):
+    return await listing_service.update_listing(
+        listing_id, current_user["sub"], body.model_dump(exclude_none=True)
+    )
 
 
 @router.delete("/{listing_id}")
 async def delete_listing(listing_id: str, current_user=Depends(get_current_user)):
-    return await listing_service.delete_listing(listing_id, current_user["sub"], current_user.get("role"))
+    return await listing_service.delete_listing(
+        listing_id, current_user["sub"], current_user.get("role")
+    )

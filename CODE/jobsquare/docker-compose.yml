@@ -10,7 +10,7 @@ services:
     volumes:
       - mongo_data:/data/db
     environment:
-      MONGO_INITDB_DATABASE: jobsquare
+      MONGO_INITDB_DATABASE: jobsquaremadb
 
   backend:
     build:
@@ -22,7 +22,7 @@ services:
       - "8000:8000"
     environment:
       MONGODB_URL: mongodb://mongo:27017
-      MONGODB_DB: jobsquare
+      MONGODB_DB: jobsquaremadb
       SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       HF_HOME: /cache/huggingface 

@@ -92,7 +92,23 @@ CATEGORY_SLUG_TO_IDS: Dict[str, List[Any]] = {
     "Admin": ["2161", "2162",
               2161, 2162],
 }
-
+CATEGORY_FULLNAME_TO_SLUG = {
+    "Informatique & Technologies": "IT",
+    "Finance & Comptabilité":      "Finance",
+    "Marketing & Communication":   "Marketing",
+    "Ressources Humaines":         "RH",
+    "Commercial & Ventes":         "Commercial",
+    "Juridique & Droit":           "Juridique",
+    "Ingénierie & Industrie":      "Ingenierie",
+    "Santé & Médical":             "Sante",
+    "Éducation & Formation":       "Education",
+    "Architecture & BTP":          "BTP",
+    "Transport & Logistique":      "Transport",
+    "Tourisme & Hôtellerie":       "Tourisme",
+    "Agriculture & Agroalimentaire": "Agriculture",
+    "Arts & Design":               "Design",
+    "Administration & Secrétariat": "Admin",
+}
 
 class ListingRepository:
 
@@ -156,29 +172,28 @@ class ListingRepository:
         return {"$or": filters} if len(filters) > 1 else filters[0]
 
     def _build_category_filter(self, category: str) -> Optional[dict]:
-        """
-        Résout un slug frontend (ex: "IT") en filtre MongoDB.
+    # Cherche le slug lui-même + les IDs legacy éventuels
+        ids = CATEGORY_SLUG_TO_IDS.get(category, [])
+        values = [category] + ids  # "IT" + [2021, 2022, ...]
 
-        Trois cas :
-          1. Le slug existe dans CATEGORY_SLUG_TO_IDS → filtre $in sur les IDs legacy
-          2. Le slug ressemble à un ID numérique (ex: "2021") → filtre direct
-          3. Slug inconnu → regex case-insensitive (pour les nouvelles offres)
-        """
-        # Cas 1 — slug connu dans le mapping
-        ids = CATEGORY_SLUG_TO_IDS.get(category)
-        if ids:
-            return {"$or": [
-                {"JobCategory":  {"$in": ids}},
-                {"job.category": {"$in": ids}},
-            ]}
+        if values:
+         return {"$or": [
+            {"JobCategory":  {"$in": values}},
+            {"job.category": {"$in": values}},
+        ]}
 
-        # Cas 2 — l'utilisateur a passé directement un ID numérique en string
+    # Slug numérique passé directement
         if category.isdigit():
-            return {"$or": [
-                {"JobCategory":  {"$in": [category, int(category)]}},
-                {"job.category": {"$in": [category, int(category)]}},
-            ]}
+         return {"$or": [
+            {"JobCategory":  {"$in": [category, int(category)]}},
+            {"job.category": {"$in": [category, int(category)]}},
+        ]}
 
+    # Fallback regex
+        return {"$or": [
+        {"JobCategory":  {"$regex": category, "$options": "i"}},
+        {"job.category": {"$regex": category, "$options": "i"}},
+        ]}
         # Cas 3 — slug inconnu, on tente une correspondance texte
         # (utile pour les offres récentes qui stockent le nom de catégorie en clair)
         return {"$or": [

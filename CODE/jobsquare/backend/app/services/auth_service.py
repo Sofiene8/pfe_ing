@@ -41,8 +41,8 @@ class AuthService:
             raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
         if not verify_password(password, user["password"]):
             raise HTTPException(status_code=401, detail="Email ou mot de passe incorrect")
-        if not user.get("active"):
-            raise HTTPException(status_code=403, detail="Compte non activé. Vérifiez votre email.")
+        if user.get("active") is False or user.get("active") == 0:
+            raise HTTPException(status_code=403, detail="Compte désactivé.")
 
         token_data = {"sub": user["_id"], "email": user["email"], "role": user["role"]}
         return {

@@ -121,7 +121,7 @@ export default function ProfilePage() {
                 <div className="space-y-4">
                   {cv.experiences.map((exp, i) => (
                     <div key={i} className="relative pl-5 border-l-2 border-blue-100">
-                      <div className="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-blue-400" />
+                      <div class  Name="absolute -left-1.5 top-1 w-3 h-3 rounded-full bg-blue-400" />
                       <h4 className="font-semibold text-slate-800 text-sm">{exp.title}</h4>
                       <p className="text-xs text-blue-600 font-medium">{exp.company}</p>
                       {(exp.start_date || exp.end_date) && (

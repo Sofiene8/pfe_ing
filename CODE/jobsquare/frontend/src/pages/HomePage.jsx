@@ -6,18 +6,23 @@ import { listingsAPI } from '../services/api';
 import useAuthStore from '../store/authStore';
 import JobCard from '../components/jobs/JobCard';
 import RecommendedJobs from '../components/jobs/RecommendedJobs';
-
 const CATEGORIES = [
-  { label: 'Informatique', icon: '💻', value: 'IT' },
-  { label: 'Commerce', icon: '📊', value: 'Commerce' },
-  { label: 'Comptabilité', icon: '💰', value: 'Comptabilite' },
-  { label: 'Marketing', icon: '📣', value: 'Marketing' },
-  { label: 'Ingénierie', icon: '⚙️', value: 'Ingenierie' },
-  { label: 'Santé', icon: '🏥', value: 'Sante' },
-  { label: 'Éducation', icon: '📚', value: 'Education' },
-  { label: 'Autres', icon: '✨', value: '' },
+  { label: 'Informatique',  icon: '💻', value: 'IT' },
+  { label: 'Finance',       icon: '💰', value: 'Finance' },
+  { label: 'Commercial',    icon: '📊', value: 'Commerce' },
+  { label: 'Marketing',     icon: '📣', value: 'Marketing' },
+  { label: 'Ingénierie',    icon: '⚙️', value: 'Ingénierie' },
+  { label: 'Santé',         icon: '🏥', value: 'Santé' },
+  { label: 'Éducation',     icon: '📚', value: 'Education' },
+  { label: 'Industrie',     icon: '🏭', value: 'Industrie' },
+  { label: 'Admin',         icon: '🗂️', value: 'Administratif' },
+  { label: 'Agriculture',   icon: '🌱', value: 'Agroalimentaire' },
+  { label: 'Transport',     icon: '🚚', value: 'Logistique' },
+  { label: 'Tourisme',      icon: '✈️', value: 'Hôtellerie' },
+  { label: 'RH',            icon: '👥', value: 'RH' },
+  { label: 'Juridique',     icon: '⚖️', value: 'Juridique' },
+  { label: 'Autres',        icon: '✨', value: '' },
 ];
-
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
@@ -69,7 +74,7 @@ export default function HomePage() {
             <span className="text-yellow-300">qui vous correspond</span>
           </h1>
           <p className="text-blue-100 text-lg mb-10 max-w-xl mx-auto">
-            La plateforme n°1 pour connecter les talents tunisiens avec les meilleures entreprises.
+            La plateforme n°1 pour connecter les talents marocains avec les meilleures entreprises.
           </p>
 
          
