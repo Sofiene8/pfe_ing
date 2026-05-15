@@ -10,7 +10,7 @@ from app.core.config import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer()
-bearer_scheme_optional = HTTPBearer(auto_error=False)  # ✅ Ne lève pas d'erreur si pas de token
+bearer_scheme_optional = HTTPBearer(auto_error=False)
 
 
 def hash_password(password: str) -> str:
@@ -42,27 +42,58 @@ def decode_token(token: str) -> dict:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         return payload
     except JWTError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token invalide ou expiré")
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token invalide ou expiré"
+        )
 
 
-async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
+async def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
+) -> dict:
     payload = decode_token(credentials.credentials)
     if payload.get("type") != "access":
         raise HTTPException(status_code=401, detail="Token type invalide")
-    return payload
+
+    user_id = payload.get("sub")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Token sans identifiant utilisateur")
+
+    from app.dao.repositories.user_repository import UserRepository
+    user_repo = UserRepository()
+    user = await user_repo.find_by_id(user_id)  # ✅ await + bon nom de méthode
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Utilisateur introuvable")
+    if not user.get("active", True):
+        raise HTTPException(status_code=403, detail="Compte désactivé")
+
+    user["id"] = str(user.get("_id", user_id))
+    return user
 
 
 async def get_current_user_optional(
     credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme_optional),
 ) -> Optional[dict]:
-    """Retourne le user connecté ou None si pas de token — ne bloque pas la requête."""
     if not credentials:
         return None
     try:
         payload = decode_token(credentials.credentials)
         if payload.get("type") != "access":
             return None
-        return payload
+
+        user_id = payload.get("sub")
+        if not user_id:
+            return None
+
+        from app.dao.repositories.user_repository import UserRepository
+        user_repo = UserRepository()
+        user = await user_repo.find_by_id(user_id)  # ✅ await + bon nom de méthode
+        if not user:
+            return None
+
+        user["id"] = str(user.get("_id", user_id))
+        return user
     except HTTPException:
         return None
 

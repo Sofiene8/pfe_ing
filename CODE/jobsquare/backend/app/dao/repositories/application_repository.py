@@ -59,3 +59,22 @@ class ApplicationRepository:
             {"_id": ObjectId(app_id)},
             {"$set": {"seen": True, "last_seen_at": datetime.utcnow()}}
         )
+
+    # ✅ NOUVEAU — compte les candidats acceptés pour une offre donnée
+    async def count_accepted(self, listing_id: str) -> int:
+        return await self.col.count_documents({
+            "listing_id": listing_id,
+            "status": "accepted"
+        })
+
+    # ✅ NOUVEAU — incrémente accepted_count sur le document candidature
+    async def increment_accepted_count(self, listing_id: str) -> None:
+        """
+        Incrémente un compteur dénormalisé accepted_count
+        sur TOUS les documents de cette offre (pour accès rapide côté employeur).
+        On le stocke sur le 1er document trouvé, ou on utilise une collection séparée.
+        
+        Choix simple : on incrémente directement sur la candidature qui vient d'être acceptée.
+        Le service passe app_id en paramètre.
+        """
+        pass  # Voir application_service.py — la logique est centralisée là-bas

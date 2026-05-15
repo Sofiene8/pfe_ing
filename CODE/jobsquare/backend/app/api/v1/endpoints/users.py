@@ -66,21 +66,21 @@ async def update_profile(body: ProfileUpdate, current_user=Depends(get_current_u
         update_data["profile"]["location"] = location
     # Flatten for $set
     flat = {f"profile.{k}": v for k, v in update_data["profile"].items()}
-    user = await user_repo.update(current_user["sub"], flat)
+    user = await user_repo.update(current_user.get("id") or str(current_user.get("_id", "")), flat)
     return _sanitize(user)
 
 
 @router.put("/me/company")
 async def update_company(body: CompanyUpdate, current_user=Depends(get_current_user)):
     flat = {f"company.{k}": v for k, v in body.model_dump(exclude_none=True).items()}
-    user = await user_repo.update(current_user["sub"], flat)
+    user = await user_repo.update(current_user.get("id") or str(current_user.get("_id", "")), flat)
     return _sanitize(user)
 
 
 @router.put("/me/cv")
 async def update_cv(body: CVUpdate, current_user=Depends(get_current_user)):
     flat = {f"cv.{k}": v for k, v in body.model_dump(exclude_none=True).items()}
-    user = await user_repo.update(current_user["sub"], flat)
+    user = await user_repo.update(current_user.get("id") or str(current_user.get("_id", "")), flat)
     return _sanitize(user)
 
 
@@ -96,7 +96,7 @@ async def upload_avatar(file: UploadFile = File(...), current_user=Depends(get_c
     with open(dest, "wb") as f:
         shutil.copyfileobj(file.file, f)
     url = f"/uploads/avatars/{filename}"
-    await user_repo.update(current_user["sub"], {"profile.logo": url})
+    await user_repo.update(current_user.get("id") or str(current_user.get("_id", "")), {"profile.logo": url})
     return {"url": url}
 
 
@@ -114,5 +114,5 @@ async def upload_cv_file(file: UploadFile = File(...), current_user=Depends(get_
     with open(dest, "wb") as f:
         shutil.copyfileobj(file.file, f)
     url = f"/uploads/cvs/{filename}"
-    await user_repo.update(current_user["sub"], {"cv.uploaded_cv_path": url})
+    await user_repo.update(current_user.get("id") or str(current_user.get("_id", "")), {"cv.uploaded_cv_path": url})
     return {"url": url}

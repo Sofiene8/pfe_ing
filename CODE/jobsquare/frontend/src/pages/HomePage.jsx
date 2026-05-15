@@ -66,7 +66,7 @@ export default function HomePage() {
         <div className="relative max-w-5xl mx-auto px-4 py-20 text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white text-sm px-4 py-1.5 rounded-full mb-5 border border-white/30">
             <Star size={12} className="fill-yellow-300 text-yellow-300" />
-            <span>{stats.jobs.toLocaleString()}+ offres actives en Tunisie</span>
+            <span>{stats.jobs.toLocaleString()}+ offres actives en Maroc</span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">

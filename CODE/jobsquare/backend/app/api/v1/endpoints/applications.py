@@ -22,19 +22,19 @@ class StatusUpdate(BaseModel):
 
 @router.post("/{listing_id}", status_code=201)
 async def apply(listing_id: str, body: ApplyRequest, current_user=Depends(require_jobseeker)):
-    return await app_service.apply(listing_id, current_user["sub"], body.model_dump())
+    return await app_service.apply(listing_id, current_user.get("id") or str(current_user.get("_id", "")), body.model_dump())
 
 
 @router.get("/my")
 async def my_applications(current_user=Depends(get_current_user)):
-    return await app_service.get_my_applications(current_user["sub"])
+    return await app_service.get_my_applications(current_user.get("id") or str(current_user.get("_id", "")))
 
 
 @router.get("/listing/{listing_id}")
 async def listing_applications(listing_id: str, current_user=Depends(get_current_user)):
-    return await app_service.get_listing_applications(listing_id, current_user["sub"])
+    return await app_service.get_listing_applications(listing_id, current_user.get("id") or str(current_user.get("_id", "")))
 
 
 @router.patch("/{app_id}/status")
 async def update_status(app_id: str, body: StatusUpdate, current_user=Depends(get_current_user)):
-    return await app_service.update_status(app_id, current_user["sub"], body.status, body.notes)
+    return await app_service.update_status(app_id, current_user.get("id") or str(current_user.get("_id", "")), body.status, body.notes)

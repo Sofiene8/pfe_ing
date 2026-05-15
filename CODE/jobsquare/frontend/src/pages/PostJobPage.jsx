@@ -33,7 +33,8 @@ const SKILL_SUGGESTIONS = [
 const EMPTY_FORM = {
   title: "",
   keywords: [],
-  expiration_date: "",
+    expiration_date: "",
+  available_slots: "",
   job: {
     category: "",
     employment_type: "",
@@ -93,6 +94,7 @@ export default function PostJobPage() {
           expiration_date: data.expiration_date
             ? new Date(data.expiration_date).toISOString().split("T")[0]
             : "",
+          available_slots: data.available_slots ?? "",
           job: {
             category:         job.category || "",
             employment_type:  job.employment_type || "",
@@ -137,7 +139,9 @@ export default function PostJobPage() {
     e.preventDefault();
     if (!form.title.trim()) return toast.error("Le titre est requis");
     if (!form.job.description.trim()) return toast.error("La description est requise");
-
+    if (form.available_slots !== "" && Number(form.available_slots) < 1) {
+      return toast.error("Le nombre de places doit être au moins 1");
+    }
     setLoading(true);
     try {
       const payload = {
@@ -145,6 +149,7 @@ export default function PostJobPage() {
         title: form.title,
         keywords: form.keywords,
         expiration_date: form.expiration_date || null,
+        available_slots: form.available_slots !== "" ? Number(form.available_slots) : null,
         job: {
           ...form.job,
           salary_min: form.job.salary_min ? Number(form.job.salary_min) : null,
@@ -239,7 +244,30 @@ export default function PostJobPage() {
               </select>
             </Field>
           </div>
-
+          <Field
+            label="Nombre de places disponibles"
+            hint="Laissez vide pour un nombre illimité de candidatures"
+          >
+            <div className="relative">
+              <input
+                type="number"
+                min="1"
+                step="1"
+                className={inputCls}
+                placeholder="ex : 3"
+                value={form.available_slots}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, available_slots: e.target.value }))
+                }
+              />
+              {/* Badge d'info visuel si une valeur est renseignée */}
+              {form.available_slots !== "" && Number(form.available_slots) >= 1 && (
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                  {Number(form.available_slots)} place{Number(form.available_slots) > 1 ? "s" : ""}
+                </span>
+              )}
+            </div>
+          </Field>
           <Field label="Date d'expiration" hint="Laissez vide pour une durée indéterminée">
             <input
               type="date"

@@ -42,7 +42,8 @@ async def recommend_jobs(
     current_user=Depends(get_current_user),
 ):
     try:
-        results = await get_rec_service().recommend_jobs_for_user(current_user["sub"], limit)
+        user_id = current_user.get("sub") or current_user.get("_id") or current_user.get("id")
+        results = await get_rec_service().recommend_jobs_for_user(str(user_id), limit)
         return JSONResponse(content=json.loads(json.dumps(results, cls=NumpyDatetimeEncoder)))
     except Exception as e:
         import traceback

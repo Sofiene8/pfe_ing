@@ -63,7 +63,7 @@ async def create_post(body: PostCreate, current_user=Depends(require_admin)):
         "slug": slugify(body.title),
         "content": body.content,
         "category": {"name": body.category_name} if body.category_name else {},
-        "author_id": current_user["sub"],
+        "author_id": current_user.get("id") or str(current_user.get("_id", "")),
         "active": body.active,
     }
     return await blog_repo.create(data)
