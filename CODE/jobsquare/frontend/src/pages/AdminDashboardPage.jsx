@@ -66,10 +66,7 @@ function BarChart({ data, xKey, yKey, color = '#3b82f6' }) {
                 className="rounded-t-md min-h-[4px] w-8 transition-all duration-500"
                 style={{ height: `${pct}%`, backgroundColor: color }}
               />
-              <span
-                className="text-[10px] text-slate-500 w-14 text-center truncate"
-                title={d[xKey]}
-              >
+              <span className="text-[10px] text-slate-500 w-14 text-center truncate" title={d[xKey]}>
                 {d[xKey]}
               </span>
             </div>
@@ -91,8 +88,7 @@ function DonutChart({ data }) {
     const angle = (d.count / total) * 360;
     const start = cumAngle;
     cumAngle += angle;
-    const r = 60;
-    const cx = 80, cy = 80;
+    const r = 60, cx = 80, cy = 80;
     const toRad = deg => (deg * Math.PI) / 180;
     const x1 = cx + r * Math.cos(toRad(start));
     const y1 = cy + r * Math.sin(toRad(start));
@@ -127,7 +123,7 @@ function DonutChart({ data }) {
 // ── Stat card ─────────────────────────────────────────────────────────────
 function StatCard({ icon: Icon, label, value, sub, color }) {
   return (
-    <div className={`bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex gap-4 items-start`}>
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex gap-4 items-start">
       <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${color}`}>
         <Icon size={20} className="text-white" />
       </div>
@@ -231,12 +227,12 @@ function EditModal({ title, fields, values, onSave, onClose }) {
 
 // ── Statistics section ────────────────────────────────────────────────────
 function StatsSection() {
-  const [stats, setStats]             = useState(null);
-  const [bySector, setBySector]       = useState([]);
-  const [byStatus, setByStatus]       = useState([]);
-  const [byCategory, setByCategory]   = useState([]);
-  const [perJob, setPerJob]           = useState([]);
-  const [loading, setLoading]         = useState(true);
+  const [stats, setStats]           = useState(null);
+  const [bySector, setBySector]     = useState([]);
+  const [byStatus, setByStatus]     = useState([]);
+  const [byCategory, setByCategory] = useState([]);
+  const [perJob, setPerJob]         = useState([]);
+  const [loading, setLoading]       = useState(true);
 
   useEffect(() => {
     const load = async () => {
@@ -260,15 +256,13 @@ function StatsSection() {
 
   return (
     <div className="space-y-6">
-      {/* Top KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard icon={Users}         label="Candidats"   value={stats?.users?.jobseekers} color="bg-blue-500" />
-        <StatCard icon={Building2}     label="Employeurs"  value={stats?.users?.employers}  color="bg-violet-500" />
-        <StatCard icon={Briefcase}     label="Offres"      value={stats?.jobs}              color="bg-emerald-500" />
-        <StatCard icon={ClipboardList} label="Candidatures" value={stats?.applications}     color="bg-amber-500" />
+        <StatCard icon={Users}         label="Candidats"    value={stats?.users?.jobseekers} color="bg-blue-500" />
+        <StatCard icon={Building2}     label="Employeurs"   value={stats?.users?.employers}  color="bg-violet-500" />
+        <StatCard icon={Briefcase}     label="Offres"       value={stats?.jobs}              color="bg-emerald-500" />
+        <StatCard icon={ClipboardList} label="Candidatures" value={stats?.applications}      color="bg-amber-500" />
       </div>
 
-      {/* Row 2 */}
       <div className="grid md:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
           <h3 className="font-semibold text-slate-700 mb-4 flex items-center gap-2"><Users size={16} /> Répartition des utilisateurs</h3>
@@ -280,13 +274,11 @@ function StatsSection() {
         </div>
       </div>
 
-      {/* Jobs by category histogram */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
         <h3 className="font-semibold text-slate-700 mb-4 flex items-center gap-2"><BarChart2 size={16} /> Offres par catégorie</h3>
         <BarChart data={byCategory} xKey="category" yKey="count" color="#3b82f6" />
       </div>
 
-      {/* Candidates per job */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
         <h3 className="font-semibold text-slate-700 mb-4 flex items-center gap-2"><TrendingUp size={16} /> Candidats par offre</h3>
         <div className="overflow-x-auto">
@@ -322,14 +314,14 @@ function StatsSection() {
 
 // ── Users section ─────────────────────────────────────────────────────────
 function UsersSection() {
-  const [users, setUsers]         = useState([]);
-  const [total, setTotal]         = useState(0);
-  const [page, setPage]           = useState(1);
-  const [search, setSearch]       = useState('');
+  const [users, setUsers]           = useState([]);
+  const [total, setTotal]           = useState(0);
+  const [page, setPage]             = useState(1);
+  const [search, setSearch]         = useState('');
   const [roleFilter, setRoleFilter] = useState('');
-  const [loading, setLoading]     = useState(false);
-  const [deleting, setDeleting]   = useState(null);
-  const [editing, setEditing]     = useState(null);
+  const [loading, setLoading]       = useState(false);
+  const [deleting, setDeleting]     = useState(null);
+  const [editing, setEditing]       = useState(null);
   const LIMIT = 15;
 
   const load = useCallback(async () => {
@@ -346,17 +338,9 @@ function UsersSection() {
 
   useEffect(() => { load(); }, [load]);
 
-  const handleDelete = async () => {
-    await api.delete(`/admin/users/${deleting}`);
-    setDeleting(null); load();
-  };
-
-  const handleSave = async (form) => {
-    await api.patch(`/admin/users/${editing._id}`, {
-      username: form.username,
-      email: form.email,
-      role: form.role,
-    });
+  const handleDelete = async () => { await api.delete(`/admin/users/${deleting}`); setDeleting(null); load(); };
+  const handleSave   = async (form) => {
+    await api.patch(`/admin/users/${editing._id}`, { username: form.username, email: form.email, role: form.role });
     setEditing(null); load();
   };
 
@@ -403,12 +387,8 @@ function UsersSection() {
                   </td>
                   <td className="py-2.5 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => setEditing(u)} className="p-1.5 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition">
-                        <Pencil size={14} />
-                      </button>
-                      <button onClick={() => setDeleting(u._id)} className="p-1.5 hover:bg-red-50 hover:text-red-600 rounded-lg transition">
-                        <Trash2 size={14} />
-                      </button>
+                      <button onClick={() => setEditing(u)} className="p-1.5 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition"><Pencil size={14} /></button>
+                      <button onClick={() => setDeleting(u._id)} className="p-1.5 hover:bg-red-50 hover:text-red-600 rounded-lg transition"><Trash2 size={14} /></button>
                     </div>
                   </td>
                 </tr>
@@ -419,29 +399,20 @@ function UsersSection() {
         </div>
       )}
 
-      {deleting && (
-        <ConfirmModal
-          message="Supprimer cet utilisateur ? Cette action est irréversible."
-          onConfirm={handleDelete}
-          onCancel={() => setDeleting(null)}
-        />
-      )}
+      {deleting && <ConfirmModal message="Supprimer cet utilisateur ? Cette action est irréversible." onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
       {editing && (
-        <EditModal
-          title="Modifier l'utilisateur"
+        <EditModal title="Modifier l'utilisateur"
           values={{ username: editing.username, email: editing.email, role: editing.role }}
           fields={[
             { key: 'username', label: "Nom d'utilisateur" },
-            { key: 'email', label: 'Email', type: 'email' },
-            { key: 'role', label: 'Rôle', type: 'select', options: [
+            { key: 'email',    label: 'Email', type: 'email' },
+            { key: 'role',     label: 'Rôle', type: 'select', options: [
               { value: 'jobseeker', label: 'Candidat' },
-              { value: 'employer', label: 'Employeur' },
-              { value: 'admin', label: 'Admin' },
+              { value: 'employer',  label: 'Employeur' },
+              { value: 'admin',     label: 'Admin' },
             ]},
           ]}
-          onSave={handleSave}
-          onClose={() => setEditing(null)}
-        />
+          onSave={handleSave} onClose={() => setEditing(null)} />
       )}
     </div>
   );
@@ -449,11 +420,11 @@ function UsersSection() {
 
 // ── Jobs section ──────────────────────────────────────────────────────────
 function JobsSection() {
-  const [jobs, setJobs]       = useState([]);
-  const [total, setTotal]     = useState(0);
-  const [page, setPage]       = useState(1);
-  const [search, setSearch]   = useState('');
-  const [loading, setLoading] = useState(false);
+  const [jobs, setJobs]         = useState([]);
+  const [total, setTotal]       = useState(0);
+  const [page, setPage]         = useState(1);
+  const [search, setSearch]     = useState('');
+  const [loading, setLoading]   = useState(false);
   const [deleting, setDeleting] = useState(null);
   const [editing, setEditing]   = useState(null);
   const LIMIT = 15;
@@ -522,22 +493,19 @@ function JobsSection() {
 
       {deleting && <ConfirmModal message="Supprimer cette offre ?" onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
       {editing && (
-        <EditModal
-          title="Modifier l'offre"
+        <EditModal title="Modifier l'offre"
           values={{ title: editing.title, company: editing.company, category: editing.category, status: editing.status }}
           fields={[
             { key: 'title',    label: 'Titre' },
             { key: 'company',  label: 'Entreprise' },
             { key: 'category', label: 'Catégorie' },
             { key: 'status',   label: 'Statut', type: 'select', options: [
-              { value: 'active',  label: 'Active' },
-              { value: 'closed',  label: 'Fermée' },
-              { value: 'draft',   label: 'Brouillon' },
+              { value: 'active', label: 'Active' },
+              { value: 'closed', label: 'Fermée' },
+              { value: 'draft',  label: 'Brouillon' },
             ]},
           ]}
-          onSave={handleSave}
-          onClose={() => setEditing(null)}
-        />
+          onSave={handleSave} onClose={() => setEditing(null)} />
       )}
     </div>
   );
@@ -552,7 +520,16 @@ function ApplicationsSection() {
   const [loading, setLoading]     = useState(false);
   const [deleting, setDeleting]   = useState(null);
   const [editing, setEditing]     = useState(null);
+  const [aiReports, setAiReports] = useState({});
+  const navigate = useNavigate();
   const LIMIT = 15;
+
+  const HIRE_COLORS = {
+    'Strong Hire': 'bg-emerald-100 text-emerald-700',
+    'Hire':        'bg-blue-100 text-blue-700',
+    'Lean Hire':   'bg-amber-100 text-amber-700',
+    'No Hire':     'bg-red-100 text-red-700',
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -560,7 +537,14 @@ function ApplicationsSection() {
       const params = new URLSearchParams({ page, limit: LIMIT });
       if (statusFilter) params.set('status', statusFilter);
       const { data } = await api.get(`/admin/applications?${params}`);
-      setApps(data.applications); setTotal(data.total);
+      const appList = data.applications || [];
+      setApps(appList);
+      setTotal(data.total);
+      appList.forEach(a => {
+        api.get(`/analysis/application/${a._id}`)
+          .then(r => setAiReports(prev => ({ ...prev, [a._id]: r.data })))
+          .catch(() => {});
+      });
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   }, [page, statusFilter]);
@@ -577,10 +561,10 @@ function ApplicationsSection() {
           className="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">Tous les statuts</option>
           <option value="En attente">En attente</option>
-          <option value="Acceptée">Acceptée</option>
-          <option value="Présélectionné">Présélectionné</option>
+          <option value="Acceptee">Acceptee</option>
+          <option value="Preselectionne">Preselectionne</option>
           <option value="Vu">Vu</option>
-          <option value="Rejetée">Rejetée</option>
+          <option value="Rejetee">Rejetee</option>
         </select>
       </div>
 
@@ -589,41 +573,64 @@ function ApplicationsSection() {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-left text-xs text-slate-400 uppercase border-b border-slate-100">
-                <th className="pb-2 pr-4">ID</th>
-                <th className="pb-2 pr-4">Offre</th>
-                <th className="pb-2 pr-4">Candidat</th>
-                <th className="pb-2 pr-4">Statut</th>
-                <th className="pb-2 pr-4">Date</th>
+                <th className="pb-2 pr-3">ID</th>
+                <th className="pb-2 pr-3">Offre</th>
+                <th className="pb-2 pr-3">Candidat</th>
+                <th className="pb-2 pr-3">Statut</th>
+                <th className="pb-2 pr-3">Analyse IA</th>
+                <th className="pb-2 pr-3">Date</th>
                 <th className="pb-2 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {apps.map(a => (
-                <tr key={a._id} className="border-b border-slate-50 hover:bg-slate-50">
-                  <td className="py-2.5 pr-4 text-slate-400 font-mono text-xs">{a._id.slice(-6)}</td>
-                  <td className="py-2.5 pr-4 text-slate-700 max-w-[160px] truncate" title={typeof a.listing_id === 'object' ? a.listing_id.title : a.listing_id}>{typeof a.listing_id === 'object' ? (a.listing_id.title || '—') : (a.listing_id || '—')}</td>
-                  <td className="py-2.5 pr-4 text-slate-700 max-w-[140px] truncate">{typeof a.user_id === 'object' ? (a.user_id.username || '—') : (a.user_id || '—')}</td>
-                  <td className="py-2.5 pr-4">
-                    <Badge text={a.status || '—'} colorClass={
-                      a.status === 'Acceptée' ? 'bg-emerald-100 text-emerald-700' :
-                      a.status === 'Présélectionné' ? 'bg-blue-100 text-blue-700' :
-                      a.status === 'En attente' ? 'bg-amber-100 text-amber-700' :
-                      a.status === 'Vu' ? 'bg-slate-100 text-slate-600' :
-                      a.status === 'Rejetée' ? 'bg-red-100 text-red-600' :
-                      'bg-slate-100 text-slate-500'
-                    } />
-                  </td>
-                  <td className="py-2.5 pr-4 text-slate-400 text-xs">
-                    {a.created_at ? new Date(a.created_at).toLocaleDateString('fr-FR') : '—'}
-                  </td>
-                  <td className="py-2.5 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <button onClick={() => setEditing(a)} className="p-1.5 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition"><Pencil size={14} /></button>
-                      <button onClick={() => setDeleting(a._id)} className="p-1.5 hover:bg-red-50 hover:text-red-600 rounded-lg transition"><Trash2 size={14} /></button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {apps.map(a => {
+                const report = aiReports[a._id];
+                return (
+                  <tr key={a._id} className="border-b border-slate-50 hover:bg-slate-50">
+                    <td className="py-2.5 pr-3 text-slate-400 font-mono text-xs">{a._id.slice(-6)}</td>
+                    <td className="py-2.5 pr-3 text-slate-700 max-w-[130px] truncate">
+                      {typeof a.listing_id === 'object' ? (a.listing_id.title || '-') : (a.listing_id || '-')}
+                    </td>
+                    <td className="py-2.5 pr-3 text-slate-700 max-w-[120px] truncate">
+                      {typeof a.user_id === 'object' ? (a.user_id.username || '-') : (a.user_id || '-')}
+                    </td>
+                    <td className="py-2.5 pr-3">
+                      <Badge text={a.status || '-'} colorClass={
+                        a.status === 'Acceptee'       ? 'bg-emerald-100 text-emerald-700' :
+                        a.status === 'Preselectionne' ? 'bg-blue-100 text-blue-700' :
+                        a.status === 'En attente'     ? 'bg-amber-100 text-amber-700' :
+                        a.status === 'Vu'             ? 'bg-slate-100 text-slate-600' :
+                        a.status === 'Rejetee'        ? 'bg-red-100 text-red-600' :
+                        'bg-slate-100 text-slate-500'
+                      } />
+                    </td>
+                    <td className="py-2.5 pr-3">
+                      {report ? (
+                        <div className="flex flex-col gap-1">
+                          <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${HIRE_COLORS[report.hire_classification] || 'bg-gray-100 text-gray-700'}`}>
+                            {Math.round(report.global_score)}/100
+                          </span>
+                          <button onClick={() => navigate(`/report/${a._id}`)}
+                            className="text-xs text-purple-600 hover:underline flex items-center gap-1">
+                            <BarChart2 size={11} /> Rapport IA
+                          </button>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-slate-300 italic">Aucune vidéo</span>
+                      )}
+                    </td>
+                    <td className="py-2.5 pr-3 text-slate-400 text-xs">
+                      {a.created_at ? new Date(a.created_at).toLocaleDateString('fr-FR') : '-'}
+                    </td>
+                    <td className="py-2.5 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button onClick={() => setEditing(a)} className="p-1.5 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition"><Pencil size={14} /></button>
+                        <button onClick={() => setDeleting(a._id)} className="p-1.5 hover:bg-red-50 hover:text-red-600 rounded-lg transition"><Trash2 size={14} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           <Pagination page={page} total={total} limit={LIMIT} onChange={setPage} />
@@ -632,13 +639,16 @@ function ApplicationsSection() {
 
       {deleting && <ConfirmModal message="Supprimer cette candidature ?" onConfirm={handleDelete} onCancel={() => setDeleting(null)} />}
       {editing && (
-        <EditModal
-          title="Modifier la candidature"
+        <EditModal title="Modifier la candidature"
           values={{ status: editing.status }}
-          fields={[{ key: 'status', label: 'Statut', type: 'select', options: [{value:'En attente',label:'En attente'},{value:'Acceptée',label:'Acceptée'},{value:'Présélectionné',label:'Présélectionné'},{value:'Vu',label:'Vu'},{value:'Rejetée',label:'Rejetée'}] }]}
-          onSave={handleSave}
-          onClose={() => setEditing(null)}
-        />
+          fields={[{ key: 'status', label: 'Statut', type: 'select', options: [
+            { value: 'En attente',     label: 'En attente' },
+            { value: 'Acceptee',       label: 'Acceptee' },
+            { value: 'Preselectionne', label: 'Preselectionne' },
+            { value: 'Vu',             label: 'Vu' },
+            { value: 'Rejetee',        label: 'Rejetee' },
+          ]}]}
+          onSave={handleSave} onClose={() => setEditing(null)} />
       )}
     </div>
   );
@@ -666,7 +676,6 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
             <LayoutDashboard size={22} className="text-blue-600" />
@@ -675,24 +684,17 @@ export default function AdminDashboardPage() {
           <p className="text-sm text-slate-400 mt-1">Gestion de la plateforme JobSquare</p>
         </div>
 
-        {/* Tabs */}
         <div className="flex gap-1 bg-white rounded-xl border border-slate-100 shadow-sm p-1 mb-6 overflow-x-auto">
           {TABS.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              onClick={() => setTab(id)}
+            <button key={id} onClick={() => setTab(id)}
               className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition
-                ${tab === id
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:bg-slate-100'}`}
-            >
+                ${tab === id ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'}`}>
               <Icon size={15} />
               {label}
             </button>
           ))}
         </div>
 
-        {/* Content */}
         {tab === 'stats'        && <StatsSection />}
         {tab === 'users'        && <UsersSection />}
         {tab === 'jobs'         && <JobsSection />}

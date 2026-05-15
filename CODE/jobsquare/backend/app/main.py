@@ -12,8 +12,12 @@ from pathlib import Path
 from app.core.config import settings
 from app.core.database import connect_db, close_db
 from app.api.v1.endpoints import auth, users, listings, applications, recommendations, chatbot, admin, blog
-
-
+from app.api.v1.endpoints import skill_gap
+from app.api.v1.endpoints.cv_analysis import router as cv_analysis_router
+from app.api.v1.endpoints.chatbot import router as chatbot_router
+from app.api.v1.endpoints.video_upload import router as video_router
+from app.api.v1.endpoints.interview_questions import router as questions_router
+from app.api.v1.endpoints.analysis_results import router as analysis_router
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await connect_db()
@@ -29,6 +33,7 @@ app = FastAPI(
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
+    redirect_slashes=False,   # ← AJOUT : empêche les redirections 307 qui convertissent POST→GET
 )
 
 app.add_middleware(
@@ -57,8 +62,12 @@ app.include_router(recommendations.router, prefix="/api/v1/recommendations", tag
 app.include_router(chatbot.router,         prefix="/api/v1/chatbot",         tags=["Chatbot"])
 app.include_router(blog.router,            prefix="/api/v1/blog",            tags=["Blog"])
 app.include_router(admin.router,           prefix="/api/v1/admin",           tags=["Admin"])
-
-
+app.include_router(skill_gap.router,       prefix="/api/v1/skill-gap",       tags=["Skill Gap"])
+app.include_router(cv_analysis_router,     prefix="/api/v1")                 # → /api/v1/cv/analyze
+app.include_router(chatbot_router, prefix="/api/v1")
+app.include_router(video_router, prefix="/api/v1")
+app.include_router(questions_router, prefix="/api/v1")
+app.include_router(analysis_router, prefix="/api/v1")
 @app.get("/health", tags=["System"])
 async def health():
     return {"status": "ok", "service": "jobsquare-api", "version": "1.0.0"}
@@ -67,3 +76,4 @@ async def health():
 @app.get("/", tags=["System"])
 async def root():
     return {"message": "JobSquare API", "docs": "/docs", "version": "1.0.0"}
+

@@ -1,19 +1,28 @@
-// src/pages/ApplicationsPage.jsx
+﻿// src/pages/ApplicationsPage.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { CheckCircle, XCircle, Clock, Eye, Star, Briefcase, ChevronDown, MessageSquare } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CheckCircle, XCircle, Clock, Eye, Star, Briefcase, MessageSquare, Users, Video, BarChart2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import { applicationsAPI, listingsAPI } from '../services/api';
 import useAuthStore from '../store/authStore';
+import videoAnalysisService from '../services/videoAnalysisService';
 
 const STATUS_CONFIG = {
-  pending:     { label: 'En attente',  color: 'bg-amber-50 text-amber-700 border-amber-200',    icon: Clock },
-  viewed:      { label: 'Vue',         color: 'bg-blue-50 text-blue-700 border-blue-200',        icon: Eye },
+  pending:     { label: 'En attente',     color: 'bg-amber-50 text-amber-700 border-amber-200',   icon: Clock },
+  viewed:      { label: 'Vue',            color: 'bg-blue-50 text-blue-700 border-blue-200',       icon: Eye },
   shortlisted: { label: 'Présélectionné', color: 'bg-indigo-50 text-indigo-700 border-indigo-200', icon: Star },
-  rejected:    { label: 'Refusé',      color: 'bg-red-50 text-red-700 border-red-200',            icon: XCircle },
-  accepted:    { label: 'Accepté',     color: 'bg-green-50 text-green-700 border-green-200',      icon: CheckCircle },
+  rejected:    { label: 'Refusé',         color: 'bg-red-50 text-red-700 border-red-200',          icon: XCircle },
+  accepted:    { label: 'Accepté',        color: 'bg-green-50 text-green-700 border-green-200',    icon: CheckCircle },
+};
+
+const HIRE_LABELS = { "Strong Hire": "Fortement recommande", "Hire": "Recommande", "Lean Hire": "Plutot recommande", "No Hire": "Non recommande" };
+const HIRE_COLORS = {
+  'Strong Hire': 'bg-emerald-100 text-emerald-700 border-emerald-300',
+  'Hire':        'bg-blue-100 text-blue-700 border-blue-300',
+  'Lean Hire':   'bg-amber-100 text-amber-700 border-amber-300',
+  'No Hire':     'bg-red-100 text-red-700 border-red-300',
 };
 
 function StatusBadge({ status }) {
@@ -26,16 +35,25 @@ function StatusBadge({ status }) {
   );
 }
 
-// ── Jobseeker view ──────────────────────────────────────────────────────────
 function JobseekerApplications() {
+  const navigate = useNavigate();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reports, setReports] = useState({});
 
   useEffect(() => {
-    applicationsAPI.getMy().then(r => setApplications(r.data || [])).finally(() => setLoading(false));
+    applicationsAPI.getMy().then(r => {
+      const apps = r.data || [];
+      setApplications(apps);
+      apps.forEach(app => {
+        videoAnalysisService.getReportByApplication(app._id)
+          .then(report => setReports(prev => ({ ...prev, [app._id]: report })))
+          .catch(() => {});
+      });
+    }).finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div className="space-y-3">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-20 bg-slate-100 rounded-xl animate-pulse" />)}</div>;
+  if (loading) return <div className="space-y-3">{Array.from({length:4}).map((_,i)=><div key={i} className="h-20 bg-slate-100 rounded-xl animate-pulse"/>)}</div>;
 
   if (applications.length === 0) return (
     <div className="text-center py-20">
@@ -48,27 +66,37 @@ function JobseekerApplications() {
 
   return (
     <div className="space-y-3">
-      {applications.map((app) => (
-        <div key={app._id} className="bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:border-blue-200 transition">
-          <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-sm font-bold text-blue-600 shrink-0">
-            {app.listing_snapshot?.company_name?.[0] || 'E'}
+      {applications.map((app) => {
+        const report = reports[app._id];
+        return (
+          <div key={app._id} className="bg-white rounded-xl border border-slate-200 p-5 flex flex-wrap items-center gap-3 hover:border-blue-200 transition">
+            <div className="w-10 h-10 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-sm font-bold text-blue-600 shrink-0">
+              {app.listing_snapshot?.company_name?.[0] || 'E'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-semibold text-slate-800 text-sm truncate">{app.listing_snapshot?.title || 'Offre'}</h3>
+              <p className="text-xs text-slate-500 mt-0.5">{app.listing_snapshot?.company_name}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{app.created_at ? formatDistanceToNow(new Date(app.created_at), { locale: fr, addSuffix: true }) : ''}</p>
+            </div>
+            <StatusBadge status={app.status} />
+            {report ? (
+              <Link to={`/report/${app._id}`} className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl hover:bg-emerald-100 transition">
+                <BarChart2 size={13} /> Voir mon rapport
+              </Link>
+            ) : (
+              <button onClick={() => navigate(`/video-upload?listing_id=${app.listing_id}&application_id=${app._id}`)}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition shadow-sm">
+                <Video size={13} /> Soumettre ma vidéo
+              </button>
+            )}
+            <Link to={`/jobs/${app.listing_id}`} className="shrink-0 text-xs text-blue-600 hover:underline">Voir l'offre</Link>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-slate-800 text-sm truncate">{app.listing_snapshot?.title || 'Offre'}</h3>
-            <p className="text-xs text-slate-500 mt-0.5">{app.listing_snapshot?.company_name}</p>
-            <p className="text-xs text-slate-400 mt-0.5">
-              {app.created_at ? formatDistanceToNow(new Date(app.created_at), { locale: fr, addSuffix: true }) : ''}
-            </p>
-          </div>
-          <div className="shrink-0"><StatusBadge status={app.status} /></div>
-          <Link to={`/jobs/${app.listing_id}`} className="shrink-0 text-xs text-blue-600 hover:underline">Voir l'offre</Link>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
 
-// ── Employer view ────────────────────────────────────────────────────────────
 function EmployerApplications() {
   const [myListings, setMyListings] = useState([]);
   const [selectedListing, setSelectedListing] = useState(null);
@@ -76,27 +104,38 @@ function EmployerApplications() {
   const [loadingListings, setLoadingListings] = useState(true);
   const [loadingApps, setLoadingApps] = useState(false);
   const [updatingId, setUpdatingId] = useState(null);
-  const [notes, setNotes] = useState({});
+  const [aiReports, setAiReports] = useState({});
 
   useEffect(() => {
-    listingsAPI.getMy({ listing_type: 'job_offer' })
-      .then(r => setMyListings(r.data || []))
-      .finally(() => setLoadingListings(false));
+    listingsAPI.getMy({ listing_type: 'job_offer' }).then(r => setMyListings(r.data || [])).finally(() => setLoadingListings(false));
   }, []);
 
   const loadApplications = (listingId) => {
     setSelectedListing(listingId);
     setLoadingApps(true);
-    applicationsAPI.getForListing(listingId)
-      .then(r => setApplications(r.data || []))
-      .finally(() => setLoadingApps(false));
+    applicationsAPI.getForListing(listingId).then(r => {
+      const apps = r.data || [];
+      setApplications(apps);
+      apps.forEach(app => {
+        videoAnalysisService.getReportByApplication(app._id)
+          .then(report => setAiReports(prev => ({ ...prev, [app._id]: report })))
+          .catch(() => {});
+      });
+    }).finally(() => setLoadingApps(false));
   };
 
   const updateStatus = async (appId, status) => {
     setUpdatingId(appId);
     try {
-      await applicationsAPI.updateStatus(appId, { status, notes: notes[appId] || undefined });
+      await applicationsAPI.updateStatus(appId, { status });
       setApplications(apps => apps.map(a => a._id === appId ? { ...a, status } : a));
+      if (status === 'accepted') {
+        setMyListings(listings => listings.map(l => l._id !== selectedListing ? l : {
+          ...l,
+          available_slots: l.available_slots != null && l.available_slots > 0 ? l.available_slots - 1 : l.available_slots,
+          accepted_count: (l.accepted_count || 0) + 1,
+        }));
+      }
       toast.success('Statut mis à jour');
     } catch { toast.error('Erreur'); }
     finally { setUpdatingId(null); }
@@ -108,121 +147,92 @@ function EmployerApplications() {
     try {
       await listingsAPI.delete(listingId);
       setMyListings(prev => prev.filter(l => l._id !== listingId));
-      if (selectedListing === listingId) {
-        setSelectedListing(null);
-        setApplications([]);
-      }
+      if (selectedListing === listingId) { setSelectedListing(null); setApplications([]); }
       toast.success('Offre supprimée');
-    } catch {
-      toast.error('Erreur lors de la suppression');
-    }
+    } catch { toast.error('Erreur'); }
   };
 
   if (loadingListings) return <div className="h-40 bg-slate-100 rounded-xl animate-pulse" />;
+  const currentListing = myListings.find(l => l._id === selectedListing);
 
   return (
     <div className="space-y-5">
-      {/* Listing selector */}
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-2">Sélectionner une offre</label>
         <div className="grid gap-2 sm:grid-cols-2">
-          {myListings.map((listing) => (
-            <button
-              key={listing._id}
-              onClick={() => loadApplications(listing._id)}
-              className={`text-left p-3 rounded-xl border transition text-sm ${
-                selectedListing === listing._id
-                  ? 'border-blue-400 bg-blue-50 text-blue-700 font-semibold'
-                  : 'border-slate-200 hover:border-blue-200 text-slate-700'
-              }`}
-            >
-              <div className="font-medium truncate">{listing.title}</div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                
-              </div>
-              {/* Actions modifier / supprimer */}
-              <div className="flex gap-2 mt-2" onClick={e => e.stopPropagation()}>
-                <Link
-                  to={`/post-job/edit/${listing._id}`}
-                  className="text-xs text-blue-600 hover:underline"
-                >
-                  ✏️ Modifier
-                </Link>
-                <button
-                  onClick={(e) => deleteListing(e, listing._id)}
-                  className="text-xs text-red-500 hover:underline"
-                >
-                  🗑️ Supprimer
-                </button>
-              </div>
-            </button>
-          ))}
-          {myListings.length === 0 && (
-            <div className="col-span-2 text-center py-8 text-slate-500 text-sm">
-              Vous n'avez pas encore d'offre publiée.
-              <Link to="/jobs" className="text-blue-600 hover:underline ml-1">Publier une offre</Link>
-            </div>
-          )}
+          {myListings.map((listing) => {
+            const hasSlots = listing.available_slots != null;
+            const isFull = hasSlots && listing.available_slots === 0;
+            return (
+              <button key={listing._id} onClick={() => loadApplications(listing._id)}
+                className={`text-left p-3 rounded-xl border transition text-sm ${selectedListing === listing._id ? 'border-blue-400 bg-blue-50 text-blue-700 font-semibold' : 'border-slate-200 hover:border-blue-200 text-slate-700'}`}>
+                <div className="flex items-start justify-between gap-2">
+                  <span className="font-medium truncate">{listing.title}</span>
+                  {hasSlots && <span className={`shrink-0 flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${isFull ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-700'}`}><Users size={10}/>{isFull ? 'Complet' : `${listing.available_slots} place${listing.available_slots > 1 ? 's' : ''}`}</span>}
+                </div>
+                {(listing.accepted_count || 0) > 0 && <div className="flex items-center gap-1 text-xs text-green-600 mt-1"><CheckCircle size={10}/>{listing.accepted_count} accepté{listing.accepted_count > 1 ? 's' : ''}</div>}
+                <div className="flex gap-2 mt-2" onClick={e => e.stopPropagation()}>
+                  <Link to={`/post-job/edit/${listing._id}`} className="text-xs text-blue-600 hover:underline">✏️ Modifier</Link>
+                  <button onClick={(e) => deleteListing(e, listing._id)} className="text-xs text-red-500 hover:underline">🗑️ Supprimer</button>
+                </div>
+              </button>
+            );
+          })}
+          {myListings.length === 0 && <div className="col-span-2 text-center py-8 text-slate-500 text-sm">Aucune offre. <Link to="/post-job" className="text-blue-600 hover:underline">Publier une offre</Link></div>}
         </div>
       </div>
 
-      {/* Applications list */}
       {selectedListing && (
         <div>
-          <h3 className="font-semibold text-slate-800 mb-3">
-            {loadingApps ? 'Chargement...' : `${applications.length} candidature${applications.length !== 1 ? 's' : ''}`}
-          </h3>
-          {loadingApps ? (
-            <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse" />)}</div>
-          ) : applications.length === 0 ? (
-            <div className="text-center py-10 text-slate-500 text-sm border border-dashed border-slate-200 rounded-xl">Aucune candidature pour cette offre</div>
-          ) : (
+          {currentListing && (
+            <div className="flex flex-wrap items-center gap-3 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100 text-sm">
+              <span className="font-semibold text-slate-700 truncate">{currentListing.title}</span>
+              <div className="flex items-center gap-3 ml-auto text-xs">
+                {currentListing.available_slots != null && <span className={`flex items-center gap-1 font-medium ${currentListing.available_slots === 0 ? 'text-red-600' : 'text-emerald-600'}`}><Users size={11}/>{currentListing.available_slots === 0 ? 'Complet' : `${currentListing.available_slots} place${currentListing.available_slots > 1 ? 's' : ''}`}</span>}
+                {(currentListing.accepted_count || 0) > 0 && <span className="flex items-center gap-1 text-green-600 font-medium"><CheckCircle size={11}/>{currentListing.accepted_count} accepté{currentListing.accepted_count > 1 ? 's' : ''}</span>}
+              </div>
+            </div>
+          )}
+          <h3 className="font-semibold text-slate-800 mb-3">{loadingApps ? 'Chargement...' : `${applications.length} candidature${applications.length !== 1 ? 's' : ''}`}</h3>
+          {loadingApps ? <div className="space-y-3">{Array.from({length:3}).map((_,i)=><div key={i} className="h-24 bg-slate-100 rounded-xl animate-pulse"/>)}</div>
+          : applications.length === 0 ? <div className="text-center py-10 text-slate-500 text-sm border border-dashed border-slate-200 rounded-xl">Aucune candidature</div>
+          : (
             <div className="space-y-3">
-              {applications.map((app) => (
-                <div key={app._id} className="bg-white rounded-xl border border-slate-200 p-5 space-y-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h4 className="font-semibold text-slate-800 text-sm">{app.jobseeker_snapshot?.full_name || app.jobseeker_snapshot?.username}</h4>
-                      <div className="flex items-center gap-3 text-xs text-slate-500 mt-0.5">
-                        <span>📧 {app.jobseeker_snapshot?.email}</span>
-                        {app.jobseeker_snapshot?.phone && <span>📞 {app.jobseeker_snapshot.phone}</span>}
+              {applications.map((app) => {
+                const report = aiReports[app._id];
+                return (
+                  <div key={app._id} className="bg-white rounded-xl border border-slate-200 p-5 space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h4 className="font-semibold text-slate-800 text-sm">{app.jobseeker_snapshot?.full_name || app.jobseeker_snapshot?.username}</h4>
+                        <div className="flex items-center gap-3 text-xs text-slate-500 mt-0.5">
+                          <span>📧 {app.jobseeker_snapshot?.email}</span>
+                          {app.jobseeker_snapshot?.phone && <span>📞 {app.jobseeker_snapshot.phone}</span>}
+                        </div>
+                        <p className="text-xs text-slate-400 mt-1">{app.created_at ? formatDistanceToNow(new Date(app.created_at), { locale: fr, addSuffix: true }) : ''}</p>
                       </div>
-                      <p className="text-xs text-slate-400 mt-1">
-                        {app.created_at ? formatDistanceToNow(new Date(app.created_at), { locale: fr, addSuffix: true }) : ''}
-                      </p>
+                      <div className="flex flex-col items-end gap-2">
+                        <StatusBadge status={app.status} />
+                        {report && <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border ${HIRE_COLORS[report.hire_classification] || ''}`}>🤖 {HIRE_LABELS[report.hire_classification] || report.hire_classification} · {Math.round(report.global_score)}/100</span>}
+                      </div>
                     </div>
-                    <StatusBadge status={app.status} />
-                  </div>
-
-                  {app.comments && (
-                    <div className="bg-slate-50 rounded-lg p-3 text-sm text-slate-700 border border-slate-100">
-                      <p className="text-xs font-medium text-slate-500 mb-1 flex items-center gap-1"><MessageSquare size={10} /> Lettre de motivation</p>
-                      {app.comments}
+                    {app.comments && <div className="bg-slate-50 rounded-lg p-3 text-sm text-slate-700 border border-slate-100"><p className="text-xs font-medium text-slate-500 mb-1 flex items-center gap-1"><MessageSquare size={10}/> Lettre de motivation</p>{app.comments}</div>}
+                    <div className="flex flex-wrap items-center gap-2">
+                      {['viewed','shortlisted','rejected','accepted'].map(s => (
+                        <button key={s} onClick={() => updateStatus(app._id, s)} disabled={updatingId === app._id || app.status === s}
+                          className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition ${app.status === s ? `${STATUS_CONFIG[s]?.color} cursor-default` : 'border-slate-200 text-slate-600 hover:bg-slate-50'} disabled:opacity-50`}>
+                          {STATUS_CONFIG[s]?.label}
+                        </button>
+                      ))}
+                      {app.resume && <a href={app.resume} target="_blank" rel="noreferrer" className="text-xs font-medium text-blue-600 hover:underline">📄 CV</a>}
+                      {report
+                        ? <Link to={`/report/${app._id}`} className="ml-auto inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 bg-purple-50 text-purple-700 border border-purple-200 rounded-lg hover:bg-purple-100 transition"><BarChart2 size={12}/> Rapport IA complet</Link>
+                        : <span className="ml-auto text-xs text-slate-400 italic flex items-center gap-1"><Video size={11}/> Aucune vidéo soumise</span>
+                      }
                     </div>
-                  )}
-
-                  <div className="flex flex-wrap items-center gap-2">
-                    {['viewed', 'shortlisted', 'rejected', 'accepted'].map(s => (
-                      <button
-                        key={s}
-                        onClick={() => updateStatus(app._id, s)}
-                        disabled={updatingId === app._id || app.status === s}
-                        className={`text-xs font-medium px-3 py-1.5 rounded-lg border transition ${
-                          app.status === s
-                            ? `${STATUS_CONFIG[s]?.color} cursor-default`
-                            : 'border-slate-200 text-slate-600 hover:bg-slate-50'
-                        } disabled:opacity-50`}
-                      >
-                        {STATUS_CONFIG[s]?.label}
-                      </button>
-                    ))}
-
-                    {app.resume && (
-                      <a href={app.resume} target="_blank" rel="noreferrer" className="ml-auto text-xs font-medium text-blue-600 hover:underline">📄 Voir le CV</a>
-                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -231,20 +241,14 @@ function EmployerApplications() {
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
 export default function ApplicationsPage() {
   const { user } = useAuthStore();
   const isEmployer = user?.role === 'employer';
-
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-800">
-          {isEmployer ? 'Gestion des candidatures' : 'Mes candidatures'}
-        </h1>
-        <p className="text-slate-500 text-sm mt-1">
-          {isEmployer ? 'Gérez les candidats pour vos offres d\'emploi.' : 'Suivez l\'état de vos candidatures en temps réel.'}
-        </p>
+        <h1 className="text-2xl font-bold text-slate-800">{isEmployer ? 'Gestion des candidatures' : 'Mes candidatures'}</h1>
+        <p className="text-slate-500 text-sm mt-1">{isEmployer ? "Gérez les candidats pour vos offres d'emploi." : "Suivez l'état de vos candidatures en temps réel."}</p>
       </div>
       {isEmployer ? <EmployerApplications /> : <JobseekerApplications />}
     </div>

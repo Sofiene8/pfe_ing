@@ -1,7 +1,8 @@
 """app/services/recommendation_service.py"""
 import re
+import logging
 import numpy as np
-from typing import List
+from typing import List, Optional
 from functools import lru_cache
 from datetime import datetime
 from sentence_transformers import SentenceTransformer
@@ -10,13 +11,143 @@ from sklearn.metrics.pairwise import cosine_similarity
 from app.dao.repositories.user_repository import UserRepository
 from app.dao.repositories.listing_repository import ListingRepository
 
+logger = logging.getLogger(__name__)
+
 MODEL_NAME = "paraphrase-multilingual-MiniLM-L12-v2"
 
+# ── Domaines métier ────────────────────────────────────────────────────────────
 
-@lru_cache(maxsize=1)
-def _get_model() -> SentenceTransformer:
-    return SentenceTransformer(MODEL_NAME)
+DOMAIN_KEYWORDS = {
+    "tech": {
+        "python", "javascript", "typescript", "react", "vue", "angular", "node",
+        "nodejs", "php", "java", "kotlin", "swift", "c++", "c#", "rust", "go",
+        "golang", "ruby", "scala", "r", "matlab", "sql", "nosql", "mongodb",
+        "postgresql", "mysql", "redis", "elasticsearch", "docker", "kubernetes",
+        "aws", "azure", "gcp", "git", "linux", "bash", "devops", "ci/cd",
+        "jenkins", "terraform", "ansible", "nginx", "api", "rest", "graphql",
+        "microservices", "machine learning", "deep learning", "tensorflow",
+        "pytorch", "pandas", "numpy", "spark", "hadoop", "data", "blockchain",
+        "web", "frontend", "backend", "fullstack", "full-stack", "mobile",
+        "android", "ios", "flutter", "react native", "développeur", "developer",
+        "ingénieur logiciel", "software engineer", "data scientist", "devops",
+        "sysadmin", "informatique", "numérique", "digital",
+    },
+    "finance": {
+        "comptabilité", "comptable", "finance", "financier", "audit", "auditeur",
+        "contrôle de gestion", "trésorerie", "fiscalité", "bilan", "excel",
+        "sage", "sap", "cegid", "erp financier", "reporting financier",
+    },
+    "rh": {
+        "ressources humaines", "rh", "recrutement", "paie", "formation rh",
+        "gestion du personnel", "sirh", "talent", "onboarding",
+    },
+    "admin": {
+        "assistante administrative", "assistant administratif", "secrétaire",
+        "secrétariat", "accueil", "accueil téléphonique", "gestion administrative",
+        "bureautique", "classement", "archivage", "courrier", "agenda",
+        "office manager", "assistanat", "polyvalent", "administration",
+        "chargé d'accueil", "réceptionniste", "back office",
+    },
+    "chimie": {
+        "chimiste", "chimie", "hplc", "spectroscopie", "microbiologie",
+        "analyses chimiques", "réactifs chimiques", "laboratoire chimie",
+        "technicien chimiste", "contrôle qualité chimie",
+    },
+    "industrie": {
+        "cnc", "usinage", "mécanique", "soudure", "automatisme", "plc", "scada",
+        "maintenance", "industrielle", "industrie", "électromécanique",
+        "électrotechnique", "fabrication", "atelier", "pneumatique", "hydraulique",
+        "mécatronique", "composants", "automobile", "production industrielle",
+    },
+    "agriculture": {
+        "agriculture", "agricole", "agronomie", "agroalimentaire",
+        "irrigation", "élevage", "technicien agricole", "cultures",
+        "semences", "zootechnie", "sylviculture",
+    },
+    "vente": {
+        "commercial", "commerciale", "vente", "vendeur", "key account",
+        "account manager", "business developer", "prospection", "crm",
+        "chargé de clientèle", "relation client", "technico-commercial",
+    },
+    "marketing": {
+        "marketing", "communication", "community manager", "seo", "sem",
+        "réseaux sociaux", "content manager", "brand manager", "digital marketing",
+        "chef de produit", "responsable marketing",
+    },
+}
 
+
+def _detect_user_domain(skills: List[str], experience_text: str) -> Optional[str]:
+    combined = " ".join(skills).lower() + " " + experience_text.lower()
+    domain_scores = {}
+    for domain, keywords in DOMAIN_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in combined)
+        if score > 0:
+            domain_scores[domain] = score
+    if not domain_scores:
+        return None
+    best_domain = max(domain_scores, key=domain_scores.get)
+    return best_domain if domain_scores[best_domain] >= 2 else None
+
+
+def _listing_domain_score(listing: dict) -> dict:
+    job   = listing.get("job") or {}
+    title = (listing.get("title") or listing.get("Title") or "").lower()
+    desc  = (listing.get("JobDescription") or job.get("description") or "").lower()
+    req   = (listing.get("JobRequirements") or job.get("requirements") or "").lower()
+    kw    = (listing.get("id_Job_MotsCls") or "").lower()
+    skills_str = " ".join(str(s).lower() for s in (job.get("skills") or []) if s)
+    combined = f"{title} {desc} {req} {kw} {skills_str}"
+    scores = {}
+    for domain, keywords in DOMAIN_KEYWORDS.items():
+        score = sum(1 for kw in keywords if kw in combined)
+        if score > 0:
+            scores[domain] = score
+    return scores
+
+
+def _is_domain_compatible(user_domain: Optional[str], listing: dict) -> bool:
+    if user_domain is None:
+        return True
+    listing_domains = _listing_domain_score(listing)
+    if not listing_domains:
+        return True
+    best_domain = max(listing_domains, key=listing_domains.get)
+    best_score  = listing_domains[best_domain]
+    if best_score >= 2 and best_domain != user_domain:
+        return False
+    return True
+
+
+# ── Normalisation des scores ───────────────────────────────────────────────────
+
+def _normalize_scores(scored: List[dict], target_max: float = 0.99) -> List[dict]:
+    """
+    Renormalise les _score pour que :
+      - le meilleur score → target_max  (99%)
+      - les autres → proportionnels au meilleur
+      - score minimum affiché : 20% (pour éviter 0% sur des offres gardées)
+
+    Formule : normalized = (score / max_score) * target_max
+    Plafond à target_max, plancher à 0.20.
+    """
+    if not scored:
+        return scored
+
+    max_score = max(item["_score"] for item in scored)
+    if max_score <= 0:
+        return scored
+
+    for item in scored:
+        raw        = item["_score"]
+        normalized = (raw / max_score) * target_max
+        normalized = max(0.20, min(target_max, normalized))
+        item["_score"] = round(normalized, 4)
+
+    return scored
+
+
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
 def _clean(text) -> str:
     if not text:
@@ -46,37 +177,24 @@ def _serialize(obj):
     return obj
 
 
+@lru_cache(maxsize=1)
+def _get_model() -> SentenceTransformer:
+    return SentenceTransformer(MODEL_NAME)
+
+
 # ── Extraction du profil utilisateur ──────────────────────────────────────────
 
 def _extract_user_profile(user: dict) -> dict:
-    """
-    Lit la structure réelle MongoDB persistée par users.py / user.py :
-      user.cv.skills          → List[str]
-      user.cv.experiences     → List[{title, company, start_date, end_date, description}]
-                                ⚠️  "experiences" avec s, pas "experience"
-      user.cv.education       → List[{degree, institution, year}]
-      user.cv.languages       → List[str]
-      user.profile.location   → {city, state, country}
-
-    Retourne un dict :
-      skills      → List[str]
-      experience  → str
-      education   → str
-      languages   → List[str]
-      location    → str
-    """
     cv      = user.get("cv") or {}
     profile = user.get("profile") or {}
 
-    # ── Skills ────────────────────────────────────────────────────────
-    # user.cv.skills (nouveau) → fallback user.skills / user.Skills (legacy)
+    # Skills
     skills = cv.get("skills") or user.get("skills") or user.get("Skills") or []
     if isinstance(skills, str):
         skills = [s.strip() for s in re.split(r"[,;|]", skills) if s.strip()]
     skills = [_clean(str(s)) for s in skills if s]
 
-    # ── Experiences ───────────────────────────────────────────────────
-    # ⚠️  Le champ s'appelle "experiences" (avec s) dans CVData
+    # Experiences (⚠️ "experiences" avec s)
     experiences = cv.get("experiences") or cv.get("experience") or []
     exp_parts = []
     if isinstance(experiences, list):
@@ -91,7 +209,6 @@ def _extract_user_profile(user: dict) -> dict:
                     exp_parts.append(text)
             elif exp:
                 exp_parts.append(_clean(str(exp)))
-    # Fallback champs legacy
     if not exp_parts:
         for field in ["Experience", "experience", "Objective", "objective", "Resume", "resume"]:
             v = _clean(user.get(field, ""))
@@ -100,7 +217,7 @@ def _extract_user_profile(user: dict) -> dict:
                 break
     experience_text = " | ".join(exp_parts)
 
-    # ── Education ─────────────────────────────────────────────────────
+    # Education
     education_list = cv.get("education") or []
     edu_parts = []
     if isinstance(education_list, list):
@@ -115,7 +232,6 @@ def _extract_user_profile(user: dict) -> dict:
                     edu_parts.append(text)
             elif edu:
                 edu_parts.append(_clean(str(edu)))
-    # Fallback champs legacy
     if not edu_parts:
         for field in ["Study", "study", "Education", "education"]:
             v = _clean(user.get(field, ""))
@@ -124,24 +240,26 @@ def _extract_user_profile(user: dict) -> dict:
                 break
     education_text = " | ".join(edu_parts)
 
-    # ── Languages ─────────────────────────────────────────────────────
+    # Languages
     languages = cv.get("languages") or []
     if isinstance(languages, str):
         languages = [l.strip() for l in languages.split(",") if l.strip()]
     languages = [_clean(str(l)) for l in languages if l]
 
-    # ── Location ──────────────────────────────────────────────────────
+    # Location
     loc = profile.get("location") or {}
     loc_parts = []
-    for v in [loc.get("city"), loc.get("state"), loc.get("country"),
-              user.get("Location_City"), user.get("Location_State"), user.get("Location_Country")]:
+    for v in [
+        loc.get("city"), loc.get("state"), loc.get("country"),
+        user.get("Location_City"), user.get("Location_State"), user.get("Location_Country"),
+    ]:
         c = _clean(v)
         if c and c not in loc_parts:
             loc_parts.append(c)
     location_text = " ".join(loc_parts)
 
     return {
-        "skills":    skills,
+        "skills":     skills,
         "experience": experience_text,
         "education":  education_text,
         "languages":  languages,
@@ -149,32 +267,19 @@ def _extract_user_profile(user: dict) -> dict:
     }
 
 
-def _build_cv_text(user: dict, apply_texts: list = None, query_texts: list = None) -> str:
-    """
-    Construit le texte de profil pondéré selon la stratégie :
-
-    Cold start (pas de candidatures ni de recherches) :
-      UserProfile = 0.50·skills + 0.25·exp + 0.15·edu + 0.10·loc
-      → répétition ×10 skills, ×5 exp, ×3 edu, ×2 loc
-
-    Warm start (candidatures OU recherches existent) :
-      UserProfile = 0.30·skills + 0.20·exp + 0.10·edu + 0.10·loc
-                  + 0.15·query + 0.15·apply
-      → répétition ×6 skills, ×4 exp, ×2 edu, ×2 loc, ×3 query, ×3 apply
-    """
+def _build_cv_text(
+    user: dict,
+    apply_texts: list = None,
+    query_texts: list = None,
+) -> str:
     p = _extract_user_profile(user)
 
     skills_str = ("Compétences : " + ", ".join(p["skills"])) if p["skills"] else ""
-
-    # Langues intégrées à l'expérience comme signal complémentaire
-    exp_str = p["experience"]
+    exp_str    = p["experience"]
     if p["languages"]:
-        lang_str = "Langues : " + ", ".join(p["languages"])
-        exp_str  = " ".join(filter(None, [exp_str, lang_str]))
-
-    edu_str = p["education"]
-    loc_str = ("Localisation : " + p["location"]) if p["location"] else ""
-
+        exp_str = " ".join(filter(None, [exp_str, "Langues : " + ", ".join(p["languages"])]))
+    edu_str   = p["education"]
+    loc_str   = ("Localisation : " + p["location"]) if p["location"] else ""
     apply_str = " ".join(apply_texts) if apply_texts else ""
     query_str = " ".join(query_texts) if query_texts else ""
     is_warm   = bool(apply_str or query_str)
@@ -188,6 +293,8 @@ def _build_cv_text(user: dict, apply_texts: list = None, query_texts: list = Non
             [query_str]  * 3 +
             [apply_str]  * 3
         )
+        logger.info("cv_text strategy=warm_start applies=%d queries=%d",
+                    len(apply_texts or []), len(query_texts or []))
     else:
         parts = (
             [skills_str] * 10 +
@@ -195,21 +302,22 @@ def _build_cv_text(user: dict, apply_texts: list = None, query_texts: list = Non
             [edu_str]    * 3  +
             [loc_str]    * 2
         )
+        logger.info("cv_text strategy=cold_start skills=%d exp=%s edu=%s",
+                    len(p["skills"]), bool(p["experience"]), bool(p["education"]))
 
-    result = " ".join(p for p in parts if p)
+    result = " ".join(seg for seg in parts if seg)
     return result or user.get("email", "utilisateur_inconnu")
 
 
 def _build_listing_text(listing: dict) -> str:
     job = listing.get("job", {}) or {}
-
     title = _clean(
         listing.get("title") or listing.get("Title") or
         listing.get("external_id") or ""
     )
-    category   = _clean(job.get("category") or listing.get("JobCategory") or "")
+    category   = _clean(job.get("category")       or listing.get("JobCategory")    or "")
     employment = _clean(job.get("employment_type") or listing.get("EmploymentType") or "")
-    desc = _clean(job.get("description") or listing.get("JobDescription") or "")
+    desc = _clean(job.get("description")  or listing.get("JobDescription") or "")
     req  = _clean(job.get("requirements") or listing.get("JobRequirements") or "")
 
     skills_list = job.get("skills") or []
@@ -221,11 +329,10 @@ def _build_listing_text(listing: dict) -> str:
     raw_kw = _clean(raw_kw)[:300] if isinstance(raw_kw, str) else ""
 
     loc   = job.get("location", {}) or {}
-    city  = _clean(loc.get("city") or listing.get("Location_City") or "")
+    city  = _clean(loc.get("city")  or listing.get("Location_City")  or "")
     state = _clean(loc.get("state") or listing.get("Location_State") or "")
-
-    study = _clean(job.get("study_level") or listing.get("Study") or "")
-    exp   = _clean(job.get("experience") or listing.get("Experience") or "")
+    study = _clean(job.get("study_level") or listing.get("Study")      or "")
+    exp   = _clean(job.get("experience")  or listing.get("Experience") or "")
 
     return (
         f"{title} {title} {title} "
@@ -238,7 +345,83 @@ def _build_listing_text(listing: dict) -> str:
     ).strip()
 
 
-# ── Service ────────────────────────────────────────────────────────────────────
+# ── Signaux comportementaux ────────────────────────────────────────────────────
+
+async def _fetch_behavioral_signals(user_id: str, user: dict) -> tuple:
+    apply_texts = []
+    query_texts = []
+    try:
+        from app.core.database import get_db
+        from bson import ObjectId
+
+        db = get_db()
+        if db is None:
+            logger.warning("DB non initialisée — signaux comportementaux ignorés.")
+            return apply_texts, query_texts
+
+        sid = user.get("sid")
+        conditions = [{"jobseeker_id": user_id}]
+        if sid is not None:
+            try:
+                conditions.append({"jobseeker_id": int(sid)})
+            except (TypeError, ValueError):
+                pass
+        try:
+            conditions.append({"jobseeker_id": ObjectId(user_id)})
+        except Exception:
+            pass
+
+        applications = await db["applications"].find(
+            {"$or": conditions}, {"listing_id": 1}
+        ).to_list(length=200)
+
+        if applications:
+            listing_ids = [a["listing_id"] for a in applications]
+            applied = await db["listings"].find(
+                {"$or": [
+                    {"_id": {"$in": listing_ids}},
+                    {"id": {"$in": listing_ids}},
+                ]},
+                {"Title": 1, "title": 1, "id_Job_MotsCls": 1,
+                 "JobDescription": 1, "JobRequirements": 1, "job": 1}
+            ).to_list(length=200)
+            for al in applied:
+                job  = al.get("job") or {}
+                text = " ".join(filter(None, [
+                    _clean(al.get("Title") or al.get("title", "")),
+                    _clean(al.get("id_Job_MotsCls", "")),
+                    _clean(al.get("JobDescription") or job.get("description", "")),
+                    _clean(al.get("JobRequirements") or job.get("requirements", "")),
+                ]))
+                if text:
+                    apply_texts.append(text)
+
+        searches = await db["search_users"].find(
+            {"user_id": user_id}, {"query": 1, "filters": 1}
+        ).sort("searched_at", -1).to_list(length=20)
+
+        for s in searches:
+            parts = [_clean(s.get("query", ""))]
+            for fk in ["category", "state", "employment_type", "experience", "study_level"]:
+                fv = (s.get("filters") or {}).get(fk)
+                if fv:
+                    parts.append(_clean(str(fv)))
+            text = " ".join(p for p in parts if p)
+            if text:
+                query_texts.append(text)
+
+    except Exception as e:
+        logger.warning("Behavioral signals error for user %s: %s", user_id, e)
+
+    logger.info(
+        "User %s — applies=%d, queries=%d → %s",
+        user_id, len(apply_texts), len(query_texts),
+        "warm_start" if (apply_texts or query_texts) else "cold_start",
+    )
+    return apply_texts, query_texts
+
+
+# ── Service principal ──────────────────────────────────────────────────────────
 
 class RecommendationService:
 
@@ -256,22 +439,39 @@ class RecommendationService:
         if not listings:
             return []
 
-        # Récupérer les signaux comportementaux
-        apply_texts, query_texts = await self._fetch_behavioral_signals(user_id, user)
+        apply_texts, query_texts = await _fetch_behavioral_signals(user_id, user)
+
+        # Filtre de domaine
+        profile     = _extract_user_profile(user)
+        user_domain = _detect_user_domain(profile["skills"], profile["experience"])
+        logger.info("User %s — detected domain: %s", user_id, user_domain)
+
+        if user_domain:
+            compatible = [l for l in listings if _is_domain_compatible(user_domain, l)]
+            logger.info("Domain filter: %d → %d listings", len(listings), len(compatible))
+            listings = compatible if len(compatible) >= limit else listings
 
         embedding_scores = self._compute_embedding_scores(
-            user, listings, apply_texts=apply_texts, query_texts=query_texts
+            user, listings,
+            apply_texts=apply_texts,
+            query_texts=query_texts,
         )
 
         scored = []
         for i, listing in enumerate(listings):
-            boost = self._business_boost(listing, user)
-            score = 0.85 * float(embedding_scores[i]) + 0.15 * boost
-            if score > 0.05:
-                scored.append({**listing, "_score": round(score, 4)})
+            sem_score   = float(embedding_scores[i])
+            boost       = 0.02 if listing.get("featured") else 0.0
+            final_score = sem_score + boost
+            if final_score > 0.10:
+                scored.append({**listing, "_score": round(final_score, 4)})
 
         scored.sort(key=lambda x: x["_score"], reverse=True)
-        return _serialize(scored[:limit])
+        top = scored[:limit]
+
+        # ── Renormalisation : meilleur score → 99%, autres proportionnels ──
+        top = _normalize_scores(top, target_max=0.99)
+
+        return _serialize(top)
 
     async def recommend_candidates_for_listing(self, listing_id: str, limit: int = 10) -> List[dict]:
         listing = await self.listing_repo.find_by_id(listing_id)
@@ -308,7 +508,10 @@ class RecommendationService:
             candidate["_score"] = round(float(scores[i]), 4)
 
         candidates.sort(key=lambda x: x["_score"], reverse=True)
-        return _serialize(candidates[:limit])
+
+        # Renormalisation candidats aussi
+        candidates = _normalize_scores(candidates[:limit], target_max=0.99)
+        return _serialize(candidates)
 
     async def recommend_from_cv_text(self, cv_text: str, limit: int = 10) -> List[dict]:
         results  = await self.listing_repo.search(listing_type="job_offer", limit=500)
@@ -320,86 +523,10 @@ class RecommendationService:
         scored = [
             {**listings[i], "_score": round(float(scores[i]), 4)}
             for i in np.argsort(scores)[::-1][:limit]
-            if scores[i] > 0.05
+            if scores[i] > 0.10
         ]
+        scored = _normalize_scores(scored, target_max=0.99)
         return _serialize(scored)
-
-    # ── Signaux comportementaux ────────────────────────────────────────────────
-
-    async def _fetch_behavioral_signals(self, user_id: str, user: dict) -> tuple:
-        """
-        Retourne (apply_texts, query_texts) depuis les collections
-        applications et search_users.
-        """
-        apply_texts = []
-        query_texts = []
-
-        try:
-            from app.core.database import get_db
-            db = get_db()
-
-            # ── Candidatures ──────────────────────────────────────────
-            from bson import ObjectId
-            sid = user.get("sid")
-            conditions = [{"jobseeker_id": user_id}]
-            if sid is not None:
-                try:
-                    conditions.append({"jobseeker_id": int(sid)})
-                except (TypeError, ValueError):
-                    pass
-            try:
-                conditions.append({"jobseeker_id": ObjectId(user_id)})
-            except Exception:
-                pass
-
-            applications = list(db["applications"].find(
-                {"$or": conditions}, {"listing_id": 1}
-            ))
-
-            if applications:
-                listing_ids = [a["listing_id"] for a in applications]
-                applied = list(db["listings"].find(
-                    {"$or": [
-                        {"_id": {"$in": listing_ids}},
-                        {"id": {"$in": listing_ids}},
-                    ]},
-                    {"Title": 1, "title": 1, "id_Job_MotsCls": 1,
-                     "JobDescription": 1, "JobRequirements": 1, "job": 1}
-                ))
-                for al in applied:
-                    job  = al.get("job") or {}
-                    text = " ".join(filter(None, [
-                        _clean(al.get("Title") or al.get("title", "")),
-                        _clean(al.get("id_Job_MotsCls", "")),
-                        _clean(al.get("JobDescription") or job.get("description", "")),
-                        _clean(al.get("JobRequirements") or job.get("requirements", "")),
-                    ]))
-                    if text:
-                        apply_texts.append(text)
-
-            # ── Recherches ────────────────────────────────────────────
-            searches = list(db["search_users"].find(
-                {"user_id": user_id},
-                {"query": 1, "filters": 1}
-            ).sort("searched_at", -1).limit(20))
-
-            for s in searches:
-                parts = [_clean(s.get("query", ""))]
-                for fk in ["category", "state", "employment_type", "experience", "study_level"]:
-                    fv = (s.get("filters") or {}).get(fk)
-                    if fv:
-                        parts.append(_clean(str(fv)))
-                text = " ".join(p for p in parts if p)
-                if text:
-                    query_texts.append(text)
-
-        except Exception as e:
-            import logging
-            logging.getLogger(__name__).warning("Behavioral signals error: %s", e)
-
-        return apply_texts, query_texts
-
-    # ── Scoring ────────────────────────────────────────────────────────────────
 
     def _compute_embedding_scores(
         self,
@@ -421,54 +548,3 @@ class RecommendationService:
         listing_texts = [_build_listing_text(l) for l in listings]
         listing_embs  = model.encode(listing_texts, normalize_embeddings=True, batch_size=32)
         return cosine_similarity(cv_emb, listing_embs)[0]
-
-    def _business_boost(self, listing: dict, user: dict) -> float:
-        score = 0.0
-
-        # ── Localisation ──────────────────────────────────────────────
-        profile       = user.get("profile", {}) or {}
-        user_loc      = profile.get("location", {}) or {}
-        user_state    = (user_loc.get("state") or "").lower()
-        user_city     = (user_loc.get("city") or "").lower()
-
-        job           = listing.get("job", {}) or {}
-        listing_loc   = job.get("location", {}) or {}
-        listing_state = (listing_loc.get("state") or listing.get("Location_State") or "").lower()
-        listing_city  = (listing_loc.get("city") or listing.get("Location_City") or "").lower()
-
-        if user_state and user_state == listing_state:
-            score += 0.3
-        elif user_city and user_city == listing_city:
-            score += 0.2
-
-        # ── Featured ──────────────────────────────────────────────────
-        if listing.get("featured"):
-            score += 0.1
-
-        # ── Popularité ────────────────────────────────────────────────
-        views = listing.get("views", 0) or 0
-        score += min(views / 1000, 0.1)
-
-        # ── Récence ───────────────────────────────────────────────────
-        date_val = (
-            listing.get("created_at") or
-            listing.get("date_add") or
-            listing.get("activation_date")
-        )
-        if date_val:
-            try:
-                if isinstance(date_val, str):
-                    date_val = datetime.strptime(date_val[:19], "%Y-%m-%d %H:%M:%S")
-                days_old = (datetime.utcnow() - date_val).days
-                if days_old <= 1:
-                    score += 0.5
-                elif days_old <= 3:
-                    score += 0.4
-                elif days_old <= 7:
-                    score += 0.25
-                elif days_old <= 30:
-                    score += 0.1
-            except Exception:
-                pass
-
-        return score

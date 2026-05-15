@@ -164,29 +164,7 @@ export default function ProfilePage() {
             </div>
           )}
 
-          {/* AI CV Analysis */}
-          {!isEmployer && (
-            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-indigo-100 p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-slate-800 text-sm flex items-center gap-2">
-                  <span className="text-lg">🤖</span> Analyse IA de votre profil
-                </h3>
-                <button
-                  onClick={handleAnalyzeCV}
-                  disabled={analyzing}
-                  className="text-xs font-medium px-3 py-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-60 transition"
-                >
-                  {analyzing ? 'Analyse...' : 'Analyser mon CV'}
-                </button>
-              </div>
-              {analysis ? (
-                <div className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap bg-white rounded-lg p-4 border border-indigo-100">{analysis}</div>
-              ) : (
-                <p className="text-sm text-slate-500">Obtenez des conseils personnalisés pour améliorer votre employabilité.</p>
-              )}
-            </div>
-          )}
-
+          
           {/* Employer quick actions */}
           {isEmployer && (
             <div className="bg-white rounded-xl border border-slate-200 p-5">

@@ -1,4 +1,4 @@
-// src/App.jsx — Router complet
+// src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Layout from './components/layout/Layout';
@@ -15,8 +15,12 @@ import PostJobPage        from './pages/PostJobPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import NotFoundPage       from './pages/NotFoundPage';
 import useAuthStore       from './store/authStore';
-import CVRecommendPage from "./pages/CVRecommendPage";
-
+import CVRecommendPage    from './pages/CVRecommendPage';
+import SkillGapPage       from './pages/SkillGapPage';
+import ChatbotWidget      from './components/ui/ChatbotWidget';
+import VideoUploadPage     from "./pages/VideoUploadPage";
+import VideoStatusPage     from "./pages/VideoStatusPage";
+import CandidateReportPage from "./pages/CandidateReportPage";
 function ProtectedRoute({ children, roles }) {
   const { isAuthenticated, user } = useAuthStore();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
@@ -31,6 +35,8 @@ function GuestRoute({ children }) {
 }
 
 export default function App() {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <BrowserRouter>
       <Toaster
@@ -44,22 +50,32 @@ export default function App() {
       />
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index             element={<HomePage />} />
-          <Route path="jobs"       element={<JobsPage />} />
-          <Route path="jobs/:id"   element={<JobDetailPage />} />
-          <Route path="login"      element={<GuestRoute><LoginPage /></GuestRoute>} />
-          <Route path="register"   element={<GuestRoute><RegisterPage /></GuestRoute>} />
-          <Route path="cv"         element={<ProtectedRoute roles={['jobseeker']}><CVDepotPage /></ProtectedRoute>} />
-          <Route path="post-job"   element={<ProtectedRoute roles={['employer']}><PostJobPage /></ProtectedRoute>} />
+          <Route index                    element={<HomePage />} />
+          <Route path="jobs"              element={<JobsPage />} />
+          <Route path="jobs/:id"          element={<JobDetailPage />} />
+          <Route path="login"             element={<GuestRoute><LoginPage /></GuestRoute>} />
+          <Route path="register"          element={<GuestRoute><RegisterPage /></GuestRoute>} />
+          <Route path="cv"                element={<ProtectedRoute roles={['jobseeker']}><CVDepotPage /></ProtectedRoute>} />
+          <Route path="post-job"          element={<ProtectedRoute roles={['employer']}><PostJobPage /></ProtectedRoute>} />
           <Route path="post-job/edit/:id" element={<ProtectedRoute roles={['employer']}><PostJobPage /></ProtectedRoute>} />
-          <Route path="profile"    element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-          <Route path="profile/edit" element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
-          <Route path="applications" element={<ProtectedRoute><ApplicationsPage /></ProtectedRoute>} />
-          <Route path="admin"      element={<ProtectedRoute roles={['admin']}><AdminDashboardPage /></ProtectedRoute>} />
-          <Route path="*"          element={<NotFoundPage />} />
-          <Route path="/recommend" element={<CVRecommendPage />} /> 
+          <Route path="profile"           element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="profile/edit"      element={<ProtectedRoute><EditProfilePage /></ProtectedRoute>} />
+          <Route path="applications"      element={<ProtectedRoute><ApplicationsPage /></ProtectedRoute>} />
+          <Route path="admin"             element={<ProtectedRoute roles={['admin']}><AdminDashboardPage /></ProtectedRoute>} />
+          <Route path="recommend"         element={<CVRecommendPage />} />
+          <Route path="skill-gap/:listingId" element={<SkillGapPage />} />
+          <Route path="*"                 element={<NotFoundPage />} />
+          <Route path="video-upload"                element={ <VideoUploadPage /> }/>
+          <Route path="video-status/:submissionId"  element= {<VideoStatusPage /> }/>
+          <Route path="report/:applicationId"   element={ <CandidateReportPage /> }/>
         </Route>
       </Routes>
+
+      {/* Widget flottant — visible uniquement si connecté */}
+      {isAuthenticated && <ChatbotWidget />}
+
     </BrowserRouter>
   );
 }
+
+

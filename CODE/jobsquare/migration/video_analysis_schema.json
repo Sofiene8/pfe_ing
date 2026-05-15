@@ -1,0 +1,69 @@
+{
+  "collections": [
+    {
+      "name": "video_submissions",
+      "description": "Soumissions vidéo des candidats",
+      "indexes": [
+        { "key": { "user_id": 1 }, "name": "idx_user" },
+        { "key": { "application_id": 1 }, "unique": true, "name": "idx_application_unique" },
+        { "key": { "listing_id": 1 }, "name": "idx_listing" },
+        { "key": { "status": 1, "created_at": 1 }, "name": "idx_status_created" }
+      ],
+      "schema": {
+        "_id": "ObjectId",
+        "user_id": "string (ref: users._id)",
+        "listing_id": "string (ref: listings._id)",
+        "application_id": "string (ref: applications._id)",
+        "filename": "string",
+        "file_path": "string",
+        "file_size": "int (bytes)",
+        "duration_seconds": "float",
+        "mime_type": "string",
+        "status": "enum: pending|processing|completed|failed",
+        "error_message": "string|null",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "name": "analysis_reports",
+      "description": "Rapports d'analyse IA complets",
+      "indexes": [
+        { "key": { "submission_id": 1 }, "unique": true, "name": "idx_submission_unique" },
+        { "key": { "application_id": 1 }, "name": "idx_application" },
+        { "key": { "listing_id": 1, "global_score": -1 }, "name": "idx_listing_score" },
+        { "key": { "user_id": 1 }, "name": "idx_user" }
+      ],
+      "schema": {
+        "_id": "ObjectId",
+        "submission_id": "string (ref: video_submissions._id)",
+        "user_id": "string",
+        "listing_id": "string",
+        "application_id": "string",
+        "global_score": "float (0-100)",
+        "technical_score": "float (0-100)",
+        "soft_score": "float (0-100)",
+        "hire_classification": "enum: Strong Hire|Hire|Lean Hire|No Hire",
+        "phase_scores": [
+          {
+            "phase": "string",
+            "label": "string",
+            "score": "float (0-100)",
+            "kpi_scores": "object {kpi_name: float}",
+            "transcript_excerpt": "string",
+            "nlp_insights": "string",
+            "vision_insights": "string",
+            "red_flags": "string[]",
+            "timestamp_start": "float (seconds)",
+            "timestamp_end": "float (seconds)"
+          }
+        ],
+        "full_transcript": "string",
+        "global_red_flags": "string[]",
+        "global_insights": "string",
+        "processing_duration_seconds": "float",
+        "created_at": "datetime"
+      }
+    }
+  ]
+}

@@ -65,14 +65,14 @@ async def verify_email(key: str):
 
 @router.put("/change-password")
 async def change_password(body: ChangePasswordRequest, current_user=Depends(get_current_user)):
-    return await auth_service.change_password(current_user["sub"], body.old_password, body.new_password)
+    return await auth_service.change_password(current_user.get("id") or str(current_user.get("_id", "")), body.old_password, body.new_password)
 
 
 @router.get("/me")
 async def me(current_user=Depends(get_current_user)):
     from app.dao.repositories.user_repository import UserRepository
     repo = UserRepository()
-    user = await repo.find_by_id(current_user["sub"])
+    user = await repo.find_by_id(current_user.get("id") or str(current_user.get("_id", "")))
     if user:
         user.pop("password", None)
         user.pop("verification_key", None)

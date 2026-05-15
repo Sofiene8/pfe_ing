@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     # MongoDB
     MONGODB_URL: str = "mongodb://localhost:27017"
-    MONGODB_DB: str = "jobsquare"
+    MONGODB_DB: str = "jobsquaremadb"
 
     # JWT
     JWT_ALGORITHM: str = "HS256"
@@ -28,7 +28,10 @@ class Settings(BaseSettings):
     # AI (recommandations + chatbot)
     OPENAI_API_KEY: str = ""
     ANTHROPIC_API_KEY: str = ""
-
+    GROQ_API_KEY: str = ""  
+    video_upload_dir: str = "uploads/videos"
+    yolo_model_path: str = "yolov8n-pose.pt"
+    
     class Config:
         env_file = ".env"
 
